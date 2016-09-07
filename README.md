@@ -1,1 +1,1 @@
-# libgdx-smarts
+# libgdx-ingenuity
