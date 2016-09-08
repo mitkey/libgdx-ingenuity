@@ -13,4 +13,12 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new IngenuityGdx(), config);
 	}
+	
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		super.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
 }

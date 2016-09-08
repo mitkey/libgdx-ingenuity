@@ -51,13 +51,16 @@ public class IngenuityScreen extends GeneralScreen {
 		};
 
 		Table table = new Table();
+		table.defaults().width(150).left();
 		table.add(labFps).left().row();
 		table.add(labHeap).row();
 		table.add(labNative).row();
-		table.layout();
 		table.pack();
+		table.layout();
 		table.setPosition(50, 100);
 		stage().addActor(table);
+		table.clipBegin();
+		table.clipEnd();
 
 		Image image = new Image(new Texture("badlogic.jpg"));
 		image.setPosition(250, 150);
