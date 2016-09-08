@@ -13,15 +13,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 
 public class RHelper {
-
+	private static final String TAG = RHelper.class.getSimpleName();
 	private static HashMap<String, String> resMap = new HashMap<String, String>();
 
 	/** 自动读写资源路径 */
-	public static void autoWriteRes() {
-		loadRes("");// FIXME 为什么要在这调用
+	public static void generated() {
+		// 加载 assets 资源下所有文件的 name 和 path。
+		loadResNames("");
 
 		// 读取模板
-		String rPath = RHelper.class.getName().replaceAll("\\.", "/") + "R.template";
+		String rPath = RHelper.class.getName().replaceAll("\\.", "/").replace(RHelper.class.getSimpleName(), "") + "R.template";
 		FileHandle resFileHandle = Gdx.files.classpath(rPath);
 		String line = null;
 		StringBuffer contentBuffer = new StringBuffer();
@@ -44,7 +45,7 @@ public class RHelper {
 				}
 			}
 		} catch (IOException e) {
-			Gdx.app.error(RHelper.class.getSimpleName(), "", e);
+			Gdx.app.error(TAG, "读取操作模板文件错误", e);
 		}
 
 		if (contentBuffer.length() > 0) {
@@ -62,6 +63,8 @@ public class RHelper {
 			FileHandle fileHandle = new FileHandle(resFile + "/GdxR.java");
 			fileHandle.writeBytes(contentBuffer.toString().getBytes(), false);
 		}
+
+		Gdx.app.debug(TAG, "generated GdxR.java finished");
 	}
 
 	/** 读取文件下所有文件 */
@@ -81,7 +84,7 @@ public class RHelper {
 				}
 				return handles;
 			} catch (IOException ioException) {
-				Gdx.app.error("CHFileHandler", "load assets error :" + ioException.getLocalizedMessage());
+				Gdx.app.error(TAG, "load assets error :" + ioException.getLocalizedMessage());
 			}
 		}
 
@@ -98,30 +101,36 @@ public class RHelper {
 	}
 
 	/** 读取assets目录下全部资源 */
-	private static void loadRes(String path) {
-		// 处理path
+	private static void loadResNames(String path) {
+		// 处理 path 为 C:\development\git-repository\company-project\libgdx-ingenuity\android\assets 这种路径，转换为 assets 目录下相对 path
 		int idxAssetEnd = path.contains("assets") ? path.lastIndexOf("assets") + 7 : -1;
 		if (idxAssetEnd > 6) {
 			path = path.substring(idxAssetEnd);
 		}
-		FileHandle[] fileHandles = RHelper.getFileHandles(path);
+		// 获取该相对 path 下的所有 file handle
+		FileHandle[] fileHandles = getFileHandles(path);
 		for (FileHandle fileHandle : fileHandles) {
-			if (fileHandle.isDirectory()) {
-				// 是目录，继续遍历
-				loadRes(fileHandle.path());
-			} else {
-				// 是文件
+			if (fileHandle.isDirectory()) { // 是目录，继续遍历
+
+				loadResNames(fileHandle.path());
+			} else {// 是文件
+				// 处理文件名中包含 【.】 的字符替换为 【_】
 				String key = fileHandle.name().replaceAll("\\.", "_");
+				// 若是 mac 下生成的 .DS_Store 文件则跳过
 				if (key.contains("DS_Store")) {
 					continue;
 				}
+				// 数字打头的文件，需要处理下
 				if (Character.isDigit(key.toCharArray()[0])) {
-					// 数字打头的文件，需要处理下
 					key = "_" + key;
 				}
+
 				String value = fileHandle.path();
+				// 路径转换为 assets 目录下的相对 path
 				int assetEnd = value.lastIndexOf("assets");
-				resMap.put(key, value.substring(assetEnd + 7));
+				value = value.substring(assetEnd + 7);
+
+				resMap.put(key, value);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ public class IngenuityGdx extends Game {
 
 		// 生成 R.java 文件
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			RHelper.autoWriteRes();
+			RHelper.generated();
 		}
 
 		ingenuityScreen = new IngenuityScreen();
