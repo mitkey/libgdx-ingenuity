@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils;
+package com.badlogic.gdx.ingenuity.utils.common;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils;
+package com.badlogic.gdx.ingenuity.utils.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
