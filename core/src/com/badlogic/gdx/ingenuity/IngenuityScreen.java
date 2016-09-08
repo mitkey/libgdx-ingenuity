@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
+import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.scene2d.GeneralScreen;
 import com.badlogic.gdx.ingenuity.utils.scene2d.NumberLabel;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * @作者 Mitkey
@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class IngenuityScreen extends GeneralScreen {
 
 	BitmapFont font;
+	Texture texture;
 
 	@Override
 	public void show() {
@@ -62,13 +63,11 @@ public class IngenuityScreen extends GeneralScreen {
 		table.clipBegin();
 		table.clipEnd();
 
-		Image image = new Image(new Texture("badlogic.jpg"));
+		texture = new Texture("badlogic.jpg");
+		Image image = new Image(texture);
 		image.setPosition(250, 150);
 		stage().addActor(image);
-
-		image.addListener(new ClickListener() {
-			// TODO
-		});
+		image.addListener(new MoveListener(image));
 
 		InputProcessor processor = new InputMultiplexer(stage());
 		Gdx.input.setInputProcessor(processor);
@@ -91,7 +90,7 @@ public class IngenuityScreen extends GeneralScreen {
 		// TODO Auto-generated method stub
 		super.dispose();
 		font.dispose();
-		font = null;
+		texture.dispose();
 	}
 
 }
