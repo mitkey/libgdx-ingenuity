@@ -49,9 +49,10 @@ public class MoveListener extends DragListener {
 	}
 
 	@Override
-	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 		// 在该 actor 获取到焦点时，通知 stage 该 actor 需要处理“键盘点击”事件
 		actor.getStage().setKeyboardFocus(actor);
+		return super.touchDown(event, x, y, pointer, button);
 	}
 
 	@Override
@@ -100,6 +101,7 @@ public class MoveListener extends DragListener {
 			case N :// 重新设置初始位置
 				x = actor.getX();
 				y = actor.getY();
+				break;
 			case O :
 				actor.setPosition(0, 0);
 				break;
