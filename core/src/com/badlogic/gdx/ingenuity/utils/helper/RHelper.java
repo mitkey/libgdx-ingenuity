@@ -14,6 +14,7 @@ import com.badlogic.gdx.ingenuity.IngenuityGdx;
 
 public class RHelper {
 	private static final String TAG = RHelper.class.getSimpleName();
+	private static final String ResRoot = "assets";
 	private static HashMap<String, String> resMap = new HashMap<String, String>();
 
 	/** 自动读写资源路径 */
@@ -67,6 +68,40 @@ public class RHelper {
 		Gdx.app.debug(TAG, "generated GdxR.java finished");
 	}
 
+	/** 读取assets目录下全部资源 */
+	private static void loadResNames(String path) {
+		// 处理 path 为 C:\development\git-repository\company-project\libgdx-ingenuity\android\assets 这种路径，转换为 assets 目录下相对 path
+		int idxAssetEnd = path.contains(ResRoot) ? (path.lastIndexOf(ResRoot) + ResRoot.length() + 1) : -1;
+		if (idxAssetEnd > 6) {
+			path = path.substring(idxAssetEnd);
+		}
+		// 获取该相对 path 下的所有 file handle
+		FileHandle[] fileHandles = getFileHandles(path);
+		for (FileHandle fileHandle : fileHandles) {
+			if (fileHandle.isDirectory()) { // 是目录，继续遍历
+				loadResNames(fileHandle.path());
+			} else {// 是文件
+				// 处理文件名中包含 【.】 的字符替换为 【_】
+				String key = fileHandle.name().replaceAll("[\\.\\-]", "_");
+				// 若是 mac 下生成的 .DS_Store 文件则跳过
+				if (key.contains("DS_Store")) {
+					continue;
+				}
+				// 数字打头的文件，需要处理下
+				if (Character.isDigit(key.toCharArray()[0])) {
+					key = "_" + key;
+				}
+
+				String value = fileHandle.path();
+				// 路径转换为 assets 目录下的相对 path
+				int assetEnd = value.lastIndexOf(ResRoot);
+				value = value.substring(assetEnd + (ResRoot.length() + 1));
+
+				resMap.put(key, value);
+			}
+		}
+	}
+
 	/** 读取文件下所有文件 */
 	private static FileHandle[] getFileHandles(String fileName) {
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
@@ -74,7 +109,7 @@ public class RHelper {
 				File directory = new File("");// 参数为空
 				String courseFile = directory.getCanonicalPath();
 				courseFile = courseFile.replace("desktop", "android");
-				File assetFile = new File(courseFile + File.separator + "assets/" + fileName);
+				File assetFile = new File(courseFile + File.separator + ResRoot + File.separator + fileName);
 				File[] files = assetFile.listFiles();
 				if (files == null)
 					return new FileHandle[]{};
@@ -98,40 +133,5 @@ public class RHelper {
 		String gameClassPath = gameclass.getName().replaceAll("\\.", "/");
 		gameClassPath = gameClassPath.substring(0, gameClassPath.lastIndexOf("/"));
 		return gameClassPath;
-	}
-
-	/** 读取assets目录下全部资源 */
-	private static void loadResNames(String path) {
-		// 处理 path 为 C:\development\git-repository\company-project\libgdx-ingenuity\android\assets 这种路径，转换为 assets 目录下相对 path
-		int idxAssetEnd = path.contains("assets") ? path.lastIndexOf("assets") + 7 : -1;
-		if (idxAssetEnd > 6) {
-			path = path.substring(idxAssetEnd);
-		}
-		// 获取该相对 path 下的所有 file handle
-		FileHandle[] fileHandles = getFileHandles(path);
-		for (FileHandle fileHandle : fileHandles) {
-			if (fileHandle.isDirectory()) { // 是目录，继续遍历
-
-				loadResNames(fileHandle.path());
-			} else {// 是文件
-				// 处理文件名中包含 【.】 的字符替换为 【_】
-				String key = fileHandle.name().replaceAll("\\.", "_");
-				// 若是 mac 下生成的 .DS_Store 文件则跳过
-				if (key.contains("DS_Store")) {
-					continue;
-				}
-				// 数字打头的文件，需要处理下
-				if (Character.isDigit(key.toCharArray()[0])) {
-					key = "_" + key;
-				}
-
-				String value = fileHandle.path();
-				// 路径转换为 assets 目录下的相对 path
-				int assetEnd = value.lastIndexOf("assets");
-				value = value.substring(assetEnd + 7);
-
-				resMap.put(key, value);
-			}
-		}
 	}
 }
