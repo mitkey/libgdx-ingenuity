@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  * @类说明:
  * @版本 xx
  */
-public abstract class GeneralScreen extends ScreenAdapter {
+public abstract class SimpleScreen extends ScreenAdapter {
 
 	public static int GameWidth = 1280;
 	public static int GameHeight = 720;
@@ -65,15 +65,12 @@ public abstract class GeneralScreen extends ScreenAdapter {
 	}
 
 	@Override
-	public final void render(float delta) {
+	public void render(float delta) {
 		super.render(delta = Math.min(delta, 1.0f / 30.0f));
 		Gdx.gl20.glClearColor(.5f, .5f, .5f, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.draw();
 		stage.act(delta);
-
-		update(delta);
-		draw(delta);
 	}
 
 	@Override
@@ -98,9 +95,5 @@ public abstract class GeneralScreen extends ScreenAdapter {
 	public final Stage stage() {
 		return stage;
 	}
-
-	protected abstract void update(float delta);
-
-	protected abstract void draw(float delta);
 
 }

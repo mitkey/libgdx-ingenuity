@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.utils.AssetsMgr;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
-import com.badlogic.gdx.ingenuity.utils.scene2d.GeneralScreen;
+import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 public class IngenuityGdx extends Game {
 
 	FreeTypeFontGenerator fontGenerator;
 	AssetManager assetManager;
-	GeneralScreen ingenuityScreen;
+	SimpleScreen ingenuityScreen;
 
 	@Override
 	public void create() {
