@@ -1,5 +1,7 @@
 package com.badlogic.gdx.ingenuity.desktop;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
@@ -15,5 +17,6 @@ public class DesktopLauncher {
 		config.height = Math.round(height / scale);
 		config.resizable = false;
 		new LwjglApplication(new IngenuityGdx(), config);
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
 }
