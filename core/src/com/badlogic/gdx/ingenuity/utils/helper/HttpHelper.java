@@ -16,16 +16,15 @@ import com.badlogic.gdx.net.HttpStatus;
  * @类说明:
  * @版本 xx
  */
-public class HttpHelper {
+public final class HttpHelper {
 	private static final HttpRequestBuilder Builder = new HttpRequestBuilder();
 	private static final String URL = "http://127.0.0.1:9090/bill";
 	private static final String TAG = HttpHelper.class.getSimpleName();
 
-	public static void post(Object content, final OnHttpCall onCall) {
+	public static HttpRequest post(Object content, final OnHttpCall onCall) {
 		Gdx.app.log("发送网络请求", content.toString());
 
-		HttpRequest httpRequest = Builder.newRequest().url(URL).method(POST).//
-				timeout(5000).content(content.toString()).build();
+		HttpRequest httpRequest = Builder.newRequest().url(URL).method(POST).timeout(5000).content(content.toString()).build();
 		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
 			@Override
 			public void handleHttpResponse(HttpResponse httpResponse) {
@@ -53,6 +52,7 @@ public class HttpHelper {
 				onCall.cancelled();
 			}
 		});
+		return httpRequest;
 	}
 
 	public static abstract class OnHttpCall {
