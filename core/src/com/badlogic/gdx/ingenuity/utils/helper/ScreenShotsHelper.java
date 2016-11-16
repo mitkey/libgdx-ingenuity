@@ -2,6 +2,9 @@
 package com.badlogic.gdx.ingenuity.utils.helper;
 
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -17,7 +20,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 public class ScreenShotsHelper {
 
-	private static int counter = 1;
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS");
+	private static final AtomicInteger Atommic_Counter = new AtomicInteger(0);
+	private static final String File_Name_Format = "screenshot-%s-%s.png";
 
 	public static void saveScreenShot(String fileName, int x, int y, int w, int h) {
 		try {
@@ -34,7 +39,8 @@ public class ScreenShotsHelper {
 	}
 
 	public static void saveScreenShot() {
-		saveScreenShot("screenshot" + counter++ + ".png", 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		String fileName = String.format(File_Name_Format, DATE_FORMAT.format(new Date()), Atommic_Counter.getAndIncrement());
+		saveScreenShot(fileName, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	private static Pixmap getScreenshot(int x, int y, int w, int h, boolean yDown) {

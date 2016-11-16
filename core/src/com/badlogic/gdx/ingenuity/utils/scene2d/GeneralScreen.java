@@ -30,11 +30,6 @@ public abstract class GeneralScreen extends ScreenAdapter {
 		super.show();
 		this.stage = new Stage(new StretchViewport(GameWidth, GameHeight));
 
-		initMonitor();
-
-	}
-
-	private void initMonitor() {
 		this.font = new LazyBitmapFont(18);
 		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
 
@@ -90,8 +85,14 @@ public abstract class GeneralScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-		stage.dispose();
-		font.dispose();
+		if (stage != null) {
+			stage.dispose();
+			stage = null;
+		}
+		if (font != null) {
+			font.dispose();
+			font = null;
+		}
 	}
 
 	public final Stage stage() {
