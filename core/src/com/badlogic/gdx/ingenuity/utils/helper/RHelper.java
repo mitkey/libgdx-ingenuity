@@ -11,6 +11,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
 
 public class RHelper {
 	private static final String TAG = RHelper.class.getSimpleName();
@@ -78,25 +79,30 @@ public class RHelper {
 		// 获取该相对 path 下的所有 file handle
 		FileHandle[] fileHandles = getFileHandles(path);
 		for (FileHandle fileHandle : fileHandles) {
+			String pathAbsolute = fileHandle.path();
 			if (fileHandle.isDirectory()) { // 是目录，继续遍历
-				loadResNames(fileHandle.path());
+				loadResNames(pathAbsolute);
 			} else {// 是文件
 				// 处理文件名中包含 【.】 的字符替换为 【_】
-				String key = fileHandle.name().replaceAll("[\\.\\-]", "_");
+				String fileName = fileHandle.name().replaceAll("[\\.\\-]", "_");
 				// 若是 mac 下生成的 .DS_Store 文件则跳过
-				if (key.contains("DS_Store")) {
+				if (fileName.contains("DS_Store")) {
 					continue;
 				}
 				// 数字打头的文件，需要处理下
-				if (Character.isDigit(key.toCharArray()[0])) {
-					key = "_" + key;
+				if (Character.isDigit(fileName.toCharArray()[0])) {
+					fileName = "_" + fileName;
 				}
 
-				String value = fileHandle.path();
 				// 路径转换为 assets 目录下的相对 path
-				int assetEnd = value.lastIndexOf(ResRoot);
-				value = value.substring(assetEnd + (ResRoot.length() + 1));
+				int assetEnd = pathAbsolute.lastIndexOf(ResRoot);
 
+				// 文件夹路径基于 assets
+				String folderPath = pathAbsolute.substring(assetEnd + ResRoot.length() + 1, pathAbsolute.indexOf(fileHandle.name()));
+				folderPath = folderPath.replaceAll("/", "");
+
+				String key = folderPath + (StrUtil.isBlank(folderPath) ? "" : "_") + fileName;
+				String value = pathAbsolute.substring(assetEnd + ResRoot.length() + 1);
 				resMap.put(key, value);
 			}
 		}
