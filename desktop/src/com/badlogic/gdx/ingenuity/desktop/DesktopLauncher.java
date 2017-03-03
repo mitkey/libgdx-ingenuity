@@ -7,15 +7,19 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 
 public class DesktopLauncher {
-	static int width = 1280;
-	static int height = 720;
-	static float scale = 1.02f;
+
+	private static final int WIDTH = 1280;
+	private static final int HEIGHT = 720;
+	private static final float SCALE = 1.02f;
+
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = Math.round(WIDTH / SCALE);
+		config.height = Math.round(HEIGHT / SCALE);
 		config.y = 0;
-		config.width = Math.round(width / scale);
-		config.height = Math.round(height / scale);
 		config.resizable = false;
+		config.vSyncEnabled = true;// 垂直同步
+		config.samples = 8;// 抗锯齿
 		new LwjglApplication(new IngenuityGdx(), config);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
