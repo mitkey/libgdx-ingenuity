@@ -65,9 +65,10 @@ public class IngenuityGdx extends Game {
 		setScreen(loadingScreen);
 		loadingScreen.loadAssets(AssetsCategory.common, new ILoadingComplete() {
 			@Override
-			public void complete() {
+			public boolean complete() {
 				// 加载完资源后，切换到登录场景
 				updateScreen(new LoginScreen());
+				return true;
 			}
 		});
 	}
@@ -77,9 +78,10 @@ public class IngenuityGdx extends Game {
 		setScreen(loadingScreen);
 		loadingScreen.loadAssets(AssetsCategory.login, new ILoadingComplete() {
 			@Override
-			public void complete() {
+			public boolean complete() {
 				// 加载完资源后，切换到登录场景
 				updateScreen(new LoginScreen());
+				return true;
 			}
 		});
 	}
@@ -89,9 +91,10 @@ public class IngenuityGdx extends Game {
 		setScreen(loadingScreen);
 		loadingScreen.loadAssets(AssetsCategory.hall, new ILoadingComplete() {
 			@Override
-			public void complete() {
+			public boolean complete() {
 				// 加载完资源后，切换到大厅场景
 				updateScreen(new HallScreen());
+				return true;
 			}
 		});
 	}
@@ -101,9 +104,10 @@ public class IngenuityGdx extends Game {
 		setScreen(loadingScreen);
 		loadingScreen.loadAssets(AssetsCategory.room, new ILoadingComplete() {
 			@Override
-			public void complete() {
+			public boolean complete() {
 				// 加载完资源后，切换到房间场景
 				updateScreen(new RoomScreen());
+				return true;
 			}
 		});
 	}

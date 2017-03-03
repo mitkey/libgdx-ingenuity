@@ -78,10 +78,11 @@ public class LoadingScreen extends SimpleScreen {
 
 			} else {
 				if (isLoaded && !isProgressFinished) {
-					isProgressFinished = true;
 					if (loadingComplete != null) {
-						loadingComplete.complete();
-						System.gc();
+						if (loadingComplete.complete()) {
+							isProgressFinished = true;
+							System.gc();
+						}
 					}
 				}
 			}
@@ -199,7 +200,7 @@ public class LoadingScreen extends SimpleScreen {
 	}
 
 	public static interface ILoadingComplete {
-		void complete();
+		boolean complete();
 	}
 
 }
