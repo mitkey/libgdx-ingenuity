@@ -1,5 +1,6 @@
 package com.badlogic.gdx.ingenuity.utils.helper;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -10,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectMap.Values;
+import com.badlogic.gdx.utils.ObjectMap.Entries;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 /**
  * @作者 Mitkey
@@ -19,6 +21,9 @@ import com.badlogic.gdx.utils.ObjectMap.Values;
  * @版本 xx
  */
 public class PixmapHelper implements Disposable {
+
+	private static final String tag = PixmapHelper.class.getSimpleName();
+
 	private static PixmapHelper ourInstance = new PixmapHelper();
 
 	ObjectMap<String, Texture> textureObjectMap = new ObjectMap<String, Texture>();
@@ -62,6 +67,7 @@ public class PixmapHelper implements Disposable {
 		pixmap.dispose();
 		// 缓存
 		textureObjectMap.put(parameter2Key, texture);
+		Gdx.app.log(tag, "创建矩形纯色纹理 --> " + parameter2Key);
 		return texture;
 	}
 
@@ -80,16 +86,18 @@ public class PixmapHelper implements Disposable {
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		// 缓存
 		textureObjectMap.put(parameter2Key, texture);
+		Gdx.app.log(tag, "创建圆形纯色纹理 --> " + parameter2Key);
 		return texture;
 	}
 
 	@Override
 	public void dispose() {
-		Values<Texture> iterator = textureObjectMap.values().iterator();
+		Entries<String, Texture> iterator = textureObjectMap.entries().iterator();
 		while (iterator.hasNext()) {
-			Texture texture = iterator.next();
-			texture.dispose();
+			Entry<String, Texture> entry = iterator.next();
+			entry.value.dispose();
 			iterator.remove();
+			Gdx.app.log(tag, "释放资源 --> " + entry.key);
 		}
 	}
 

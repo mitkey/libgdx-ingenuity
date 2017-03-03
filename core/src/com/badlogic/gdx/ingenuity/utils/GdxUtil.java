@@ -1,5 +1,7 @@
 package com.badlogic.gdx.ingenuity.utils;
 
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,6 +11,16 @@ import com.badlogic.gdx.utils.Align;
 
 public enum GdxUtil {
 	;
+
+	@SuppressWarnings("unchecked")
+	public static <T extends ApplicationListener> T getAppGame() {
+		return (T) Gdx.app.getApplicationListener();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends ApplicationListener> T getAppGame(Class<T> clazz) {
+		return (T) Gdx.app.getApplicationListener();
+	}
 
 	public static Rectangle getTextBounds(String text, BitmapFont bitmapFont) {
 		GlyphLayout glyphLayout = new GlyphLayout();

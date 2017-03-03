@@ -5,11 +5,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 
 /**
  * @作者 Mitkey
@@ -22,12 +25,14 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	public static int GameWidth = 1280;
 	public static int GameHeight = 720;
 
+	IngenuityGdx game;
 	Stage stage;
 	BitmapFont font;
 
 	@Override
 	public void show() {
 		super.show();
+		this.game = GdxUtil.getAppGame();
 		this.stage = new Stage(new StretchViewport(GameWidth, GameHeight));
 
 		this.font = new LazyBitmapFont(18);
@@ -62,6 +67,8 @@ public abstract class SimpleScreen extends ScreenAdapter {
 		table.layout();
 		stage.addActor(table);
 		table.toFront();
+
+		GdxUtilities.setMultipleInputProcessors(stage);
 	}
 
 	@Override
@@ -94,6 +101,10 @@ public abstract class SimpleScreen extends ScreenAdapter {
 
 	public final Stage stage() {
 		return stage;
+	}
+
+	public final IngenuityGdx game() {
+		return game;
 	}
 
 }

@@ -21,7 +21,7 @@ public final class HttpHelper {
 	private static final String URL = "http://127.0.0.1:9090/bill";
 	private static final String TAG = HttpHelper.class.getSimpleName();
 
-	public static HttpRequest post(Object content, final OnHttpCall onCall) {
+	public static HttpRequest post(final Object content, final OnHttpCall onCall) {
 		Gdx.app.log("发送网络请求", content.toString());
 
 		HttpRequest httpRequest = Builder.newRequest().url(URL).method(POST).timeout(5000).content(content.toString()).build();
