@@ -14,10 +14,8 @@ public class GdxApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
-		ExceptionCaughHandler caughHandler = ExceptionCaughHandler.getInstance();
-		caughHandler.init(getApplicationContext());
+		ExceptionCaughHandler.getInstance().init(getApplicationContext());
 	}
 
 }
