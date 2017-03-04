@@ -27,12 +27,15 @@ import com.badlogic.gdx.utils.Disposable;
 public class RemoteImage extends Image implements Disposable {
 
 	private static final String tag = RemoteImage.class.getSimpleName();
+	private static final int ReCount = 5;
 
 	public static final String saveRemoteImage2lDir = "abcsResource";
 
 	String url;
 	Texture texture;
 	HttpRequest httpRequest;
+
+	int count;
 
 	public RemoteImage(Texture defaultTexture, String url) {
 		this(new TextureRegion(defaultTexture), url);
@@ -68,8 +71,12 @@ public class RemoteImage extends Image implements Disposable {
 			public void handleHttpResponse(HttpResponse httpResponse) {
 				int statusCode = httpResponse.getStatus().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK) {
-					handleDownloadRemoteImage();
-					Gdx.app.error(tag, "download remote image response statusCode no is 200,try again!(" + url + ")");
+					// 最多尝试 ReCount 次
+					if (count++ < ReCount) {
+						handleDownloadRemoteImage();
+					} else {
+						Gdx.app.error(tag, "download remote image response statusCode no is 200,try again!(" + url + ")");
+					}
 					return;
 				}
 				final byte[] rawImageBytes = httpResponse.getResult();
