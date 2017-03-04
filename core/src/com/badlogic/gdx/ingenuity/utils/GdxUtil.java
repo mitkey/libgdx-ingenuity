@@ -34,6 +34,16 @@ public enum GdxUtil {
 		return new Rectangle().setSize(glyphLayout.width, glyphLayout.height);
 	}
 
+	public static void center(Stage stage, Actor actor, boolean horizontal) {
+		if (horizontal) {
+			float wd = stage.getWidth() - actor.getWidth();
+			actor.setX(wd / 2);
+		} else {
+			float ht = stage.getHeight() - actor.getHeight();
+			actor.setY(ht / 2);
+		}
+	}
+
 	public static void center(Stage stage, Actor actor) {
 		float wd = stage.getWidth() - actor.getWidth();
 		float ht = stage.getHeight() - actor.getHeight();

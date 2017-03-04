@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 
@@ -97,6 +101,22 @@ public abstract class SimpleScreen extends ScreenAdapter {
 			font.dispose();
 			font = null;
 		}
+	}
+
+	public void showDialog(Group group) {
+		stage.addActor(group);
+		group.addAction(Actions.alpha(0));
+		group.addAction(Actions.scaleTo(.8f, .8f));
+		group.addAction(Actions.alpha(1, .2f));
+		group.addAction(Actions.scaleTo(1f, 1f, .2f));
+	}
+
+	public Image newImage(String fileName) {
+		return game.getAssetManager().newImage(fileName);
+	}
+
+	public Drawable newDrawable(String fileName) {
+		return game.getAssetManager().newDrawable(fileName);
 	}
 
 	public final Stage stage() {
