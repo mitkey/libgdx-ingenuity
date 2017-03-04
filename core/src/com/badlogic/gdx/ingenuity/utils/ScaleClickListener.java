@@ -17,7 +17,7 @@ public class ScaleClickListener extends ClickListener {
 	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 		Actor listenerActor = event.getListenerActor();
 		listenerActor.setOrigin(Align.center);
-		listenerActor.setScale(1.1f);
+		listenerActor.setScale(0.96f);
 		return super.touchDown(event, x, y, pointer, button);
 	}
 
