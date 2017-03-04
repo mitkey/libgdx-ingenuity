@@ -30,6 +30,9 @@ public final class FnAssetManager implements Disposable {
 
 	private static final String tag = FnAssetManager.class.getSimpleName();
 
+	/** 是否开启资源监控日志 */
+	public static boolean enableAssetMonitorLog = false;
+
 	AssetManager manager;
 
 	public FnAssetManager() {
@@ -37,12 +40,16 @@ public final class FnAssetManager implements Disposable {
 			@Override
 			public synchronized <T> void load(String fileName, Class<T> type, AssetLoaderParameters<T> parameter) {
 				super.load(fileName, type, parameter);
-				Gdx.app.log(tag, type.getSimpleName() + " 加载资源 " + fileName);
+				if (enableAssetMonitorLog) {
+					Gdx.app.log(tag, type.getSimpleName() + " 加载资源 " + fileName);
+				}
 			}
 			@Override
 			public synchronized void unload(String fileName) {
 				super.unload(fileName);
-				Gdx.app.log(tag, "卸载资源 " + fileName);
+				if (enableAssetMonitorLog) {
+					Gdx.app.log(tag, "卸载资源 " + fileName);
+				}
 			}
 		};
 	}

@@ -8,6 +8,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxR;
+import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
@@ -81,6 +82,11 @@ public class LoadingScreen extends SimpleScreen {
 					if (loadingComplete != null) {
 						if (loadingComplete.complete()) {
 							isProgressFinished = true;
+							if (FnAssetManager.enableAssetMonitorLog) {
+								Gdx.app.log(tag, "已加载的资源数量：" + game().getAssetManager().getManager().getLoadedAssets());
+								Gdx.app.log(tag, "已加载的资源列表：" + game().getAssetManager().getManager().getAssetNames());
+								Gdx.app.log(tag, "资源依赖：" + game().getAssetManager().getManager().getDiagnostics());
+							}
 							System.gc();
 						}
 					}
