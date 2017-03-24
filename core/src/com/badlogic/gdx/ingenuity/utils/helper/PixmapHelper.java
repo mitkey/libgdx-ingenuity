@@ -53,7 +53,7 @@ public class PixmapHelper implements Disposable {
 	}
 
 	public Texture getRectangleTexture(Color color, int width, int height) {
-		String parameter2Key = parameter2Key(color, width, height);
+		String parameter2Key = parameter2Key("rectangle", color, width, height);
 		if (textureObjectMap.containsKey(parameter2Key)) {
 			return textureObjectMap.get(parameter2Key);
 		}
@@ -72,7 +72,7 @@ public class PixmapHelper implements Disposable {
 	}
 
 	public Texture getCircleTexture(Color color, int radius) {
-		String parameter2Key = parameter2Key(color, radius);
+		String parameter2Key = parameter2Key("circle", color, radius);
 		if (textureObjectMap.containsKey(parameter2Key)) {
 			return textureObjectMap.get(parameter2Key);
 		}
