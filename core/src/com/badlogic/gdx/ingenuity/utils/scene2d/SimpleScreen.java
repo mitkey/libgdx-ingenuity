@@ -1,15 +1,18 @@
 package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -33,6 +36,11 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	Stage stage;
 	BitmapFont font;
 
+	Loading loading;
+	SimpleToast simpleToast;
+
+	Table tableMontitor;
+
 	@Override
 	public void show() {
 		super.show();
@@ -40,8 +48,23 @@ public abstract class SimpleScreen extends ScreenAdapter {
 		this.stage = new Stage(new StretchViewport(GameWidth, GameHeight));
 
 		this.font = new LazyBitmapFont(18);
-		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
 
+		this.loading = new Loading(this);
+		this.simpleToast = new SimpleToast();
+
+		initMontitorWidget();
+
+		GdxUtilities.setMultipleInputProcessors(stage, new InputAdapter() {
+			@Override
+			public boolean keyUp(int keycode) {
+				// TODO Auto-generated method stub
+				return super.keyUp(keycode);
+			}
+		});
+	}
+
+	private void initMontitorWidget() {
+		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
 		NumberLabel<Integer> labFps = new NumberLabel<Integer>("Fps: ", -1, labelStyle) {
 			@Override
 			public Integer getValue() {
@@ -61,18 +84,14 @@ public abstract class SimpleScreen extends ScreenAdapter {
 			}
 		};
 
-		Table table = new Table();
-		table.defaults().width(110).left().pad(5);
-		table.add(labFps).row();
-		table.add(labHeap).row();
-		table.add(labNative).row();
-		table.setPosition(10, 10);
-		table.pack();
-		table.layout();
-		stage.addActor(table);
-		table.toFront();
-
-		GdxUtilities.setMultipleInputProcessors(stage);
+		tableMontitor = new Table();
+		tableMontitor.defaults().width(110).left().pad(5);
+		tableMontitor.add(labFps).row();
+		tableMontitor.add(labHeap).row();
+		tableMontitor.add(labNative).row();
+		tableMontitor.setPosition(10, 10);
+		tableMontitor.pack();
+		tableMontitor.setTouchable(Touchable.disabled);
 	}
 
 	@Override
@@ -82,6 +101,14 @@ public abstract class SimpleScreen extends ScreenAdapter {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.draw();
 		stage.act(delta);
+
+		Batch batch = this.stage.getBatch();
+		if (batch != null) {
+			batch.begin();
+			tableMontitor.draw(batch, 1f);
+			tableMontitor.act(delta);
+			batch.end();
+		}
 	}
 
 	@Override
@@ -101,6 +128,22 @@ public abstract class SimpleScreen extends ScreenAdapter {
 			font.dispose();
 			font = null;
 		}
+		if (loading != null) {
+			loading.dispose();
+			loading = null;
+		}
+	}
+
+	public void showLoading() {
+		loading.show(stage);
+	}
+
+	public void hideLoading() {
+		loading.hide();
+	}
+
+	public void showMesssage(String content) {
+		simpleToast.showToast(stage, content);
 	}
 
 	public void showDialog(Group group) {
