@@ -1,5 +1,6 @@
 package com.badlogic.gdx.ingenuity;
 
+import com.badlogic.gdx.ingenuity.extend.AndroidCoreHelper;
 import com.badlogic.gdx.ingenuity.helper.ExceptionCaughHandler;
 
 import android.app.Application;
@@ -15,6 +16,7 @@ public class GdxApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		GlobalData.getInstance().initRuntime(new AndroidCoreHelper(getApplicationContext()));
 		ExceptionCaughHandler.getInstance().init(getApplicationContext());
 	}
 

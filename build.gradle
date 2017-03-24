@@ -108,7 +108,7 @@ project(":core") {
 		compile "com.alibaba:fastjson:1.2.6"
 		
         // 依赖本地的 jar
-		//compile fileTree(include:['*.jar'], dir:'libs')
+		compile fileTree(include:['*.jar'], dir:'libs')
     }
 }
 
