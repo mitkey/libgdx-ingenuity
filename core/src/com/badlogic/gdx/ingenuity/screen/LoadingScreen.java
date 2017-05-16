@@ -74,7 +74,7 @@ public class LoadingScreen extends SimpleScreen {
 			float maxValue = progressBar.getMaxValue();
 			if (curValue < maxValue) {
 				float stepSize = progressBar.getStepSize();
-				curValue += isLoaded ? stepSize * 10 : stepSize;
+				curValue += isLoaded ? stepSize * 7 : stepSize;
 				progressBar.setValue(curValue);
 
 			} else {
