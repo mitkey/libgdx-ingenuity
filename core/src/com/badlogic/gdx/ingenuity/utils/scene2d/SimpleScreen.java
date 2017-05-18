@@ -5,8 +5,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
@@ -32,7 +34,7 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	public static int GameWidth = 1280;
 	public static int GameHeight = 720;
 
-	IngenuityGdx game;
+	IngenuityGdx game = GdxUtil.getAppGame();
 	Stage stage;
 	BitmapFont font;
 
@@ -65,30 +67,41 @@ public abstract class SimpleScreen extends ScreenAdapter {
 
 	private void initMontitorWidget() {
 		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
-		NumberLabel<Integer> labFps = new NumberLabel<Integer>("Fps: ", -1, labelStyle) {
+
+		tableMontitor = new Table();
+		tableMontitor.defaults().width(110).left().pad(5);
+
+		tableMontitor.add(new NumberLabel<Integer>("Fps: ", -1, labelStyle) {
 			@Override
 			public Integer getValue() {
 				return Gdx.graphics.getFramesPerSecond();
 			}
-		};
-		NumberLabel<Float> labHeap = new NumberLabel<Float>("Heap: ", -1f, labelStyle) {
+		}).row();
+		tableMontitor.add(new NumberLabel<Float>("Heap: ", -1f, labelStyle) {
 			@Override
 			public Float getValue() {
 				return Gdx.app.getJavaHeap() * 1f / 1024 / 1024;
 			}
-		};
-		NumberLabel<Float> labNative = new NumberLabel<Float>("Native: ", -1f, labelStyle) {
+		}).row();
+		tableMontitor.add(new NumberLabel<Float>("Native: ", -1f, labelStyle) {
 			@Override
 			public Float getValue() {
 				return Gdx.app.getNativeHeap() * 1f / 1024 / 1024;
 			}
-		};
+		}).row();
+		tableMontitor.add(new NumberLabel<Integer>("ManagedTextures:", -1, labelStyle) {
+			@Override
+			public Integer getValue() {
+				return Texture.getNumManagedTextures();
+			}
+		}).row();
+		tableMontitor.add(new NumberLabel<Integer>("RenderCalls:", -1, labelStyle) {
+			@Override
+			public Integer getValue() {
+				return ((SpriteBatch) stage.getBatch()).renderCalls;
+			}
+		}).row();
 
-		tableMontitor = new Table();
-		tableMontitor.defaults().width(110).left().pad(5);
-		tableMontitor.add(labFps).row();
-		tableMontitor.add(labHeap).row();
-		tableMontitor.add(labNative).row();
 		tableMontitor.setPosition(10, 10);
 		tableMontitor.pack();
 		tableMontitor.setTouchable(Touchable.disabled);
@@ -131,6 +144,10 @@ public abstract class SimpleScreen extends ScreenAdapter {
 		if (loading != null) {
 			loading.dispose();
 			loading = null;
+		}
+		if (simpleToast != null) {
+			simpleToast.dispose();
+			simpleToast = null;
 		}
 	}
 
