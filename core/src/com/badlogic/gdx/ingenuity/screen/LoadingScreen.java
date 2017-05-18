@@ -11,6 +11,7 @@ import com.badlogic.gdx.ingenuity.GdxR;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
+import com.badlogic.gdx.ingenuity.utils.Utils;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -40,9 +41,27 @@ public class LoadingScreen extends SimpleScreen {
 
 	private ProgressBar progressBar;
 
+	public LoadingScreen(AssetsCategory category, ILoadingComplete loadingComplete) {
+		Gdx.app.log(tag, "加载场景资源" + category);
+
+		this.loadingComplete = loadingComplete;
+		this.isLoaded = false;
+		this.isProgressFinished = false;
+
+		try {
+			// 卸载除了当前类别之外的所有资源
+			game().getAssetManager().unload(generalOtherAssetsNames(category));
+			// 加载当前类别的资源
+			game().getAssetManager().load(generalAssetsNames(category));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			Gdx.app.error(tag, "加载 " + category + " 类别的资源异常", e);
+		}
+	}
+
 	@Override
 	public void show() {
 		super.show();
+
 		bitmapFont = new LazyBitmapFont(35);
 
 		Label label = new Label("我是加载界面", new LabelStyle(bitmapFont, Color.WHITE));
@@ -86,6 +105,8 @@ public class LoadingScreen extends SimpleScreen {
 								Gdx.app.log(tag, "已加载的资源数量：" + game().getAssetManager().getManager().getLoadedAssets());
 								Gdx.app.log(tag, "已加载的资源列表：" + game().getAssetManager().getManager().getAssetNames());
 								Gdx.app.log(tag, "资源依赖：" + game().getAssetManager().getManager().getDiagnostics());
+
+								Utils.printManagedTextures();
 							}
 							System.gc();
 						}
@@ -102,23 +123,6 @@ public class LoadingScreen extends SimpleScreen {
 			bitmapFont.dispose();
 			bitmapFont = null;
 		}
-	}
-
-	public void loadAssets(AssetsCategory category, ILoadingComplete loadingComplete) {
-		Gdx.app.log(tag, "加载场景资源" + category);
-
-		this.loadingComplete = loadingComplete;
-		try {
-			// 卸载除了当前类别之外的所有资源
-			game().getAssetManager().unload(generalOtherAssetsNames(category));
-
-			// 加载当前类别的资源
-			game().getAssetManager().load(generalAssetsNames(category));
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			Gdx.app.error(tag, "加载 " + category + " 类别的资源异常", e);
-		}
-		this.isLoaded = false;
-		this.isProgressFinished = false;
 	}
 
 	Set<String> generalOtherAssetsNames(AssetsCategory target) throws IllegalArgumentException, IllegalAccessException {
