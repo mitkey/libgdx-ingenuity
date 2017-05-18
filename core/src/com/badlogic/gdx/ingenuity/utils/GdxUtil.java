@@ -4,9 +4,9 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.ingenuity.GlobalData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 
 public enum GdxUtil {
@@ -14,11 +14,6 @@ public enum GdxUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends ApplicationListener> T getAppGame() {
-		return (T) Gdx.app.getApplicationListener();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends ApplicationListener> T getAppGame(Class<T> clazz) {
 		return (T) Gdx.app.getApplicationListener();
 	}
 
@@ -34,19 +29,19 @@ public enum GdxUtil {
 		return new Rectangle().setSize(glyphLayout.width, glyphLayout.height);
 	}
 
-	public static void center(Stage stage, Actor actor, boolean horizontal) {
+	public static void center(Actor actor, boolean horizontal) {
 		if (horizontal) {
-			float wd = stage.getWidth() - actor.getWidth();
+			float wd = GlobalData.WIDTH - actor.getWidth();
 			actor.setX(wd / 2);
 		} else {
-			float ht = stage.getHeight() - actor.getHeight();
+			float ht = GlobalData.HEIGHT - actor.getHeight();
 			actor.setY(ht / 2);
 		}
 	}
 
-	public static void center(Stage stage, Actor actor) {
-		float wd = stage.getWidth() - actor.getWidth();
-		float ht = stage.getHeight() - actor.getHeight();
+	public static void center(Actor actor) {
+		float wd = GlobalData.WIDTH - actor.getWidth();
+		float ht = GlobalData.HEIGHT - actor.getHeight();
 		actor.setPosition(wd / 2, ht / 2);
 	}
 

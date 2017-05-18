@@ -13,6 +13,11 @@ public class GlobalData {
 	/** 是否自动生成 R 文件 */
 	public static boolean AUTO_GENERATE_GDX_R = false;
 
+	/** 素材宽比例 */
+	public static final int WIDTH = 1280;
+	/** 素材高比例 */
+	public static final int HEIGHT = 720;
+
 	private static GlobalData ourInstance = new GlobalData();
 
 	private ICoreHelper coreHelper;
