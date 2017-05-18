@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -52,7 +54,7 @@ public class DebugMonitor extends Table implements Disposable {
 		add(new NumberLabel<Integer>("RenderCalls:", -1, labelStyle) {
 			@Override
 			public Integer getValue() {
-				return SimpleStage.SPRITE_BATCH.renderCalls;
+				return ((IngenuityGdx) GdxUtil.getAppGame()).getSpriteBatch().renderCalls;
 			}
 		}).row();
 

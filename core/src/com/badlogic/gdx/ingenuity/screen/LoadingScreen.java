@@ -8,6 +8,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxR;
+import com.badlogic.gdx.ingenuity.GlobalData;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
@@ -65,7 +66,7 @@ public class LoadingScreen extends SimpleScreen {
 		bitmapFont = new LazyBitmapFont(35);
 
 		Label label = new Label("我是加载界面", new LabelStyle(bitmapFont, Color.WHITE));
-		GdxUtil.center(stage(), label);
+		GdxUtil.center(label);
 		stage().addActor(label);
 
 		ProgressBarStyle style = new ProgressBarStyle();
@@ -74,7 +75,7 @@ public class LoadingScreen extends SimpleScreen {
 
 		progressBar = new ProgressBar(0, 1000, 5f, false, style);
 		progressBar.setSize(600, 20);
-		GdxUtil.center(stage(), progressBar);
+		GdxUtil.center(progressBar);
 		progressBar.setY(120);
 		stage().addActor(progressBar);
 	}
@@ -106,7 +107,9 @@ public class LoadingScreen extends SimpleScreen {
 								Gdx.app.log(tag, "已加载的资源列表：" + game().getAssetManager().getManager().getAssetNames());
 								Gdx.app.log(tag, "资源依赖：" + game().getAssetManager().getManager().getDiagnostics());
 
-								Utils.printManagedTextures();
+								if (GlobalData.DEBUG_MANAGED_TEXTURES) {
+									Utils.printManagedTextures();
+								}
 							}
 							System.gc();
 						}

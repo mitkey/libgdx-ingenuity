@@ -33,7 +33,7 @@ public class RoomScreen extends SimpleScreen {
 		bitmapFont = new LazyBitmapFont(30);
 
 		Label label = new Label("我是房间界面", new LabelStyle(bitmapFont, Color.WHITE));
-		GdxUtil.center(stage(), label);
+		GdxUtil.center(label);
 		stage().addActor(label);
 
 		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
@@ -49,7 +49,7 @@ public class RoomScreen extends SimpleScreen {
 				game().loading2Hall();
 			}
 		});
-		GdxUtil.center(stage(), btnExitRoom);
+		GdxUtil.center(btnExitRoom);
 		btnExitRoom.setY(label.getY() - btnExitRoom.getHeight() - 10);
 		stage().addActor(btnExitRoom);
 	}

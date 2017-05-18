@@ -1,24 +1,16 @@
 package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.ingenuity.GlobalData;
 import com.badlogic.gdx.ingenuity.IngenuityGdx;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
@@ -29,82 +21,20 @@ import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
  * @类说明:
  * @版本 xx
  */
-public abstract class SimpleScreen extends ScreenAdapter {
+public abstract class SimpleScreen extends ScreenAdapter implements InputProcessor {
 
-	public static int GameWidth = 1280;
-	public static int GameHeight = 720;
-
-	IngenuityGdx game = GdxUtil.getAppGame();
 	Stage stage;
-	BitmapFont font;
-
 	Loading loading;
 	SimpleToast simpleToast;
-
-	Table tableMontitor;
 
 	@Override
 	public void show() {
 		super.show();
-		this.game = GdxUtil.getAppGame();
-		this.stage = new Stage(new StretchViewport(GameWidth, GameHeight));
-
-		this.font = new LazyBitmapFont(18);
-
-		this.loading = new Loading(this);
+		this.stage = new Stage(new StretchViewport(GlobalData.WIDTH, GlobalData.HEIGHT), game().getSpriteBatch());
+		this.loading = new Loading();
 		this.simpleToast = new SimpleToast();
 
-		initMontitorWidget();
-
-		GdxUtilities.setMultipleInputProcessors(stage, new InputAdapter() {
-			@Override
-			public boolean keyUp(int keycode) {
-				// TODO Auto-generated method stub
-				return super.keyUp(keycode);
-			}
-		});
-	}
-
-	private void initMontitorWidget() {
-		LabelStyle labelStyle = new LabelStyle(font, Color.WHITE);
-
-		tableMontitor = new Table();
-		tableMontitor.defaults().width(110).left().pad(5);
-
-		tableMontitor.add(new NumberLabel<Integer>("Fps: ", -1, labelStyle) {
-			@Override
-			public Integer getValue() {
-				return Gdx.graphics.getFramesPerSecond();
-			}
-		}).row();
-		tableMontitor.add(new NumberLabel<Float>("Heap: ", -1f, labelStyle) {
-			@Override
-			public Float getValue() {
-				return Gdx.app.getJavaHeap() * 1f / 1024 / 1024;
-			}
-		}).row();
-		tableMontitor.add(new NumberLabel<Float>("Native: ", -1f, labelStyle) {
-			@Override
-			public Float getValue() {
-				return Gdx.app.getNativeHeap() * 1f / 1024 / 1024;
-			}
-		}).row();
-		tableMontitor.add(new NumberLabel<Integer>("ManagedTextures:", -1, labelStyle) {
-			@Override
-			public Integer getValue() {
-				return Texture.getNumManagedTextures();
-			}
-		}).row();
-		tableMontitor.add(new NumberLabel<Integer>("RenderCalls:", -1, labelStyle) {
-			@Override
-			public Integer getValue() {
-				return ((SpriteBatch) stage.getBatch()).renderCalls;
-			}
-		}).row();
-
-		tableMontitor.setPosition(10, 10);
-		tableMontitor.pack();
-		tableMontitor.setTouchable(Touchable.disabled);
+		GdxUtilities.setMultipleInputProcessors(stage, this);
 	}
 
 	@Override
@@ -114,14 +44,6 @@ public abstract class SimpleScreen extends ScreenAdapter {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.draw();
 		stage.act(delta);
-
-		Batch batch = this.stage.getBatch();
-		if (batch != null) {
-			batch.begin();
-			tableMontitor.draw(batch, 1f);
-			tableMontitor.act(delta);
-			batch.end();
-		}
 	}
 
 	@Override
@@ -133,22 +55,49 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (stage != null) {
-			stage.dispose();
-			stage = null;
-		}
-		if (font != null) {
-			font.dispose();
-			font = null;
-		}
-		if (loading != null) {
-			loading.dispose();
-			loading = null;
-		}
-		if (simpleToast != null) {
-			simpleToast.dispose();
-			simpleToast = null;
-		}
+		stage.dispose();
+		loading.dispose();
+		simpleToast.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 
 	public void showLoading() {
@@ -172,11 +121,11 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	}
 
 	public Image newImage(String fileName) {
-		return game.getAssetManager().newImage(fileName);
+		return game().getAssetManager().newImage(fileName);
 	}
 
 	public Drawable newDrawable(String fileName) {
-		return game.getAssetManager().newDrawable(fileName);
+		return game().getAssetManager().newDrawable(fileName);
 	}
 
 	public final Stage stage() {
@@ -184,7 +133,7 @@ public abstract class SimpleScreen extends ScreenAdapter {
 	}
 
 	public final IngenuityGdx game() {
-		return game;
+		return GdxUtil.getAppGame();
 	}
 
 }

@@ -3,6 +3,7 @@ package com.badlogic.gdx.ingenuity;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.screen.HallScreen;
 import com.badlogic.gdx.ingenuity.screen.LoadingScreen;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
+import com.badlogic.gdx.ingenuity.utils.scene2d.DebugMonitor;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 public class IngenuityGdx extends Game {
@@ -22,12 +24,18 @@ public class IngenuityGdx extends Game {
 
 	private FnAssetManager assetManager;
 
+	private SpriteBatch spriteBatch;
+
+	private DebugMonitor debugMonitor;
+
 	private SimpleScreen chessScreen;
 
 	@Override
 	public void create() {
 		LazyBitmapFont.setGlobalGenerator(fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf")));
-		assetManager = new FnAssetManager();
+		this.spriteBatch = new SpriteBatch();
+		this.assetManager = new FnAssetManager();
+		this.debugMonitor = new DebugMonitor();
 
 		if (Gdx.app.getType() == ApplicationType.Desktop && GlobalData.AUTO_GENERATE_GDX_R) {
 			RHelper.generated();
@@ -38,12 +46,28 @@ public class IngenuityGdx extends Game {
 	}
 
 	@Override
+	public void render() {
+		super.render();
+
+		spriteBatch.begin();
+		debugMonitor.draw(spriteBatch, 1);
+		debugMonitor.act(Gdx.graphics.getDeltaTime());
+		spriteBatch.end();
+	}
+
+	@Override
 	public void dispose() {
 		super.dispose();
 		fontGenerator.dispose();
 		assetManager.dispose();
 		chessScreen.dispose();
+		debugMonitor.dispose();
+		spriteBatch.dispose();
 		PixmapHelper.getInstance().dispose();
+	}
+
+	public SpriteBatch getSpriteBatch() {
+		return spriteBatch;
 	}
 
 	public FnAssetManager getAssetManager() {

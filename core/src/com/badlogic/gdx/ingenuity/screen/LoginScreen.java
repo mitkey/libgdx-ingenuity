@@ -44,7 +44,7 @@ public class LoginScreen extends SimpleScreen {
 		stage().addActor(image);
 
 		Label label = new Label("我是登录界面", new LabelStyle(bitmapFont, Color.WHITE));
-		GdxUtil.center(stage(), label);
+		GdxUtil.center(label);
 		stage().addActor(label);
 
 		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
@@ -60,7 +60,7 @@ public class LoginScreen extends SimpleScreen {
 				game().loading2Hall();
 			}
 		});
-		GdxUtil.center(stage(), btnLogin);
+		GdxUtil.center(btnLogin);
 		btnLogin.setY(label.getY() - btnLogin.getHeight() - 10);
 		stage().addActor(btnLogin);
 	}

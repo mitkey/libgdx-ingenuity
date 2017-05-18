@@ -34,9 +34,9 @@ public class HallScreen extends SimpleScreen {
 		bitmapFont = new LazyBitmapFont(30);
 
 		Label label = new Label("我是大厅界面", new LabelStyle(bitmapFont, Color.WHITE));
-		GdxUtil.center(stage(), label);
+		GdxUtil.center(label);
 		stage().addActor(label);
-		
+
 		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
 		Drawable down = PixmapHelper.getInstance().newRectangleDrawable(Color.MAROON, 120, 60);
 
@@ -66,7 +66,7 @@ public class HallScreen extends SimpleScreen {
 		horizontalGroup.addActor(btnEnterRoom);
 		horizontalGroup.pack();
 		horizontalGroup.addListener(new MoveListener(horizontalGroup));
-		GdxUtil.center(stage(), horizontalGroup);
+		GdxUtil.center(horizontalGroup);
 		horizontalGroup.setY(label.getY() - horizontalGroup.getHeight() - 10);
 		stage().addActor(horizontalGroup);
 	}
