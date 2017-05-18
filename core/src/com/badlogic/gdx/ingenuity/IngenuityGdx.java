@@ -19,8 +19,8 @@ import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 public class IngenuityGdx extends Game {
 
 	private FreeTypeFontGenerator fontGenerator;
+
 	private FnAssetManager assetManager;
-	private LoadingScreen loadingScreen;
 
 	private SimpleScreen chessScreen;
 
@@ -28,7 +28,6 @@ public class IngenuityGdx extends Game {
 	public void create() {
 		LazyBitmapFont.setGlobalGenerator(fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf")));
 		assetManager = new FnAssetManager();
-		loadingScreen = new LoadingScreen();
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			RHelper.generated();
@@ -41,88 +40,66 @@ public class IngenuityGdx extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (fontGenerator != null) {
-			fontGenerator.dispose();
-			fontGenerator = null;
-		}
-		if (assetManager != null) {
-			assetManager.dispose();
-			assetManager = null;
-		}
-		if (loadingScreen != null) {
-			loadingScreen.dispose();
-			loadingScreen = null;
-		}
-		if (chessScreen != null) {
-			chessScreen.dispose();
-			chessScreen = null;
-		}
+		fontGenerator.dispose();
+		assetManager.dispose();
+		chessScreen.dispose();
 		PixmapHelper.getInstance().dispose();
-	}
-
-	public void loading2Welcome() {
-		// 切换到加载场景
-		setScreen(loadingScreen);
-		loadingScreen.loadAssets(AssetsCategory.common, new ILoadingComplete() {
-			@Override
-			public boolean complete() {
-				// 加载完资源后，切换到登录场景
-				updateScreen(new LoginScreen());
-				return true;
-			}
-		});
-	}
-
-	public void loading2Login() {
-		// 切换到加载场景
-		setScreen(loadingScreen);
-		loadingScreen.loadAssets(AssetsCategory.login, new ILoadingComplete() {
-			@Override
-			public boolean complete() {
-				// 加载完资源后，切换到登录场景
-				updateScreen(new LoginScreen());
-				return true;
-			}
-		});
-	}
-
-	public void loading2Hall() {
-		// 切换到加载场景
-		setScreen(loadingScreen);
-		loadingScreen.loadAssets(AssetsCategory.hall, new ILoadingComplete() {
-			@Override
-			public boolean complete() {
-				// 加载完资源后，切换到大厅场景
-				updateScreen(new HallScreen());
-				return true;
-			}
-		});
-	}
-
-	public void loading2Room() {
-		// 切换到加载场景
-		setScreen(loadingScreen);
-		loadingScreen.loadAssets(AssetsCategory.room, new ILoadingComplete() {
-			@Override
-			public boolean complete() {
-				// 加载完资源后，切换到房间场景
-				updateScreen(new RoomScreen());
-				return true;
-			}
-		});
 	}
 
 	public FnAssetManager getAssetManager() {
 		return assetManager;
 	}
 
-	void updateScreen(SimpleScreen simpleScreen) {
+	public void loading2Hall() {
+		updateScreen(new LoadingScreen(AssetsCategory.hall, new ILoadingComplete() {
+			@Override
+			public boolean complete() {
+				// 加载完资源后，切换到大厅场景
+				updateScreen(new HallScreen());
+				return true;
+			}
+		}));
+	}
+
+	public void loading2Login() {
+		updateScreen(new LoadingScreen(AssetsCategory.login, new ILoadingComplete() {
+			@Override
+			public boolean complete() {
+				// 加载完资源后，切换到登录场景
+				updateScreen(new LoginScreen());
+				return true;
+			}
+		}));
+	}
+
+	public void loading2Room() {
+		updateScreen(new LoadingScreen(AssetsCategory.room, new ILoadingComplete() {
+			@Override
+			public boolean complete() {
+				// 加载完资源后，切换到房间场景
+				updateScreen(new RoomScreen());
+				return true;
+			}
+		}));
+	}
+
+	public void loading2Welcome() {
+		updateScreen(new LoadingScreen(AssetsCategory.common, new ILoadingComplete() {
+			@Override
+			public boolean complete() {
+				// 加载完资源后，切换到登录场景
+				updateScreen(new LoginScreen());
+				return true;
+			}
+		}));
+	}
+
+	private void updateScreen(SimpleScreen simpleScreen) {
 		if (chessScreen != null) {
 			chessScreen.dispose();
 			chessScreen = null;
 		}
-		chessScreen = simpleScreen;
-		setScreen(chessScreen);
+		setScreen(chessScreen = simpleScreen);
 	}
 
 }
