@@ -64,7 +64,7 @@ public class RHelper {
 			}
 			FileHandle fileHandle = new FileHandle(resFile + "/GdxR.java");
 			fileHandle.writeBytes(contentBuffer.toString().getBytes(), false);
-			
+
 			Gdx.app.debug(TAG, "write GdxR.java --> " + fileHandle);
 		}
 
@@ -120,7 +120,7 @@ public class RHelper {
 				File assetFile = new File(courseFile + File.separator + ResRoot + File.separator + fileName);
 				File[] files = assetFile.listFiles();
 				if (files == null)
-					return new FileHandle[]{};
+					return new FileHandle[] {};
 				FileHandle[] handles = new FileHandle[files.length];
 				for (int i = 0, l = files.length; i < l; i++) {
 					handles[i] = new FileHandle(files[i]);
