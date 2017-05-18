@@ -64,6 +64,8 @@ public class RHelper {
 			}
 			FileHandle fileHandle = new FileHandle(resFile + "/GdxR.java");
 			fileHandle.writeBytes(contentBuffer.toString().getBytes(), false);
+			
+			Gdx.app.debug(TAG, "write GdxR.java --> " + fileHandle);
 		}
 
 		Gdx.app.debug(TAG, "generated GdxR.java finished");
