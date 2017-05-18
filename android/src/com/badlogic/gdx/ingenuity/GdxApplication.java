@@ -16,7 +16,7 @@ public class GdxApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		GlobalData.getInstance().initRuntime(new AndroidCoreHelper(getApplicationContext()));
+		GdxData.getInstance().initRuntime(new AndroidCoreHelper(getApplicationContext()));
 		ExceptionCaughHandler.getInstance().init(getApplicationContext());
 	}
 

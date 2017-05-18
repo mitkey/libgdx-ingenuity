@@ -8,7 +8,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxR;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
@@ -107,7 +107,7 @@ public class LoadingScreen extends SimpleScreen {
 								Gdx.app.log(tag, "已加载的资源列表：" + game().getAssetManager().getManager().getAssetNames());
 								Gdx.app.log(tag, "资源依赖：" + game().getAssetManager().getManager().getDiagnostics());
 
-								if (GlobalData.DEBUG_MANAGED_TEXTURES) {
+								if (GdxData.DEBUG_MANAGED_TEXTURES) {
 									Utils.printManagedTextures();
 								}
 							}

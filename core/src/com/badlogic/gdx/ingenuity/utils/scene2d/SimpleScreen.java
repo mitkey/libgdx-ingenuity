@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -30,7 +30,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	@Override
 	public void show() {
 		super.show();
-		this.stage = new Stage(new StretchViewport(GlobalData.WIDTH, GlobalData.HEIGHT), game().getSpriteBatch());
+		this.stage = new Stage(new StretchViewport(GdxData.WIDTH, GdxData.HEIGHT), game().getSpriteBatch());
 		this.loading = new Loading();
 		this.simpleToast = new SimpleToast();
 

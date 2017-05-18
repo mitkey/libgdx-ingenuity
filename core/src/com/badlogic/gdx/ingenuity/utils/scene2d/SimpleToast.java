@@ -2,7 +2,7 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
@@ -50,7 +50,7 @@ public class SimpleToast implements Disposable {
 		window.addActor(labContent);
 		window.setMovable(false);
 		window.setResizable(false);
-		window.setY(GlobalData.HEIGHT + window.getHeight() * 2);
+		window.setY(GdxData.HEIGHT + window.getHeight() * 2);
 		GdxUtil.center(window, true);
 		// 该 window(包括子 actor) 忽略所有监听
 		window.addCaptureListener(new EventListener() {
@@ -60,7 +60,7 @@ public class SimpleToast implements Disposable {
 				return false;
 			}
 		});
-		window.addAction(Actions.sequence(Actions.moveTo(window.getX(), GlobalData.HEIGHT / 2 - window.getHeight() / 2, .2f), Actions.delay(2), Actions.run(new Runnable() {
+		window.addAction(Actions.sequence(Actions.moveTo(window.getX(), GdxData.HEIGHT / 2 - window.getHeight() / 2, .2f), Actions.delay(2), Actions.run(new Runnable() {
 			@Override
 			public void run() {
 				window.remove();

@@ -1,7 +1,7 @@
 package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -24,7 +24,7 @@ public class Loading implements Disposable {
 	private Image imgInner;
 
 	public Loading() {
-		root.setSize(GlobalData.WIDTH, GlobalData.HEIGHT);
+		root.setSize(GdxData.WIDTH, GdxData.HEIGHT);
 
 		Image imgBg = new Image(PixmapHelper.getInstance().newTranslucentDrawable(5, 5));
 		imgBg.setFillParent(true);

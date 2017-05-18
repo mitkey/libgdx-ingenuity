@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
@@ -31,17 +31,17 @@ public enum GdxUtil {
 
 	public static void center(Actor actor, boolean horizontal) {
 		if (horizontal) {
-			float wd = GlobalData.WIDTH - actor.getWidth();
+			float wd = GdxData.WIDTH - actor.getWidth();
 			actor.setX(wd / 2);
 		} else {
-			float ht = GlobalData.HEIGHT - actor.getHeight();
+			float ht = GdxData.HEIGHT - actor.getHeight();
 			actor.setY(ht / 2);
 		}
 	}
 
 	public static void center(Actor actor) {
-		float wd = GlobalData.WIDTH - actor.getWidth();
-		float ht = GlobalData.HEIGHT - actor.getHeight();
+		float wd = GdxData.WIDTH - actor.getWidth();
+		float ht = GdxData.HEIGHT - actor.getHeight();
 		actor.setPosition(wd / 2, ht / 2);
 	}
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.ingenuity.GlobalData;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.desktop.extend.DesktopCoreHelper;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
@@ -17,7 +17,7 @@ public class DesktopLauncher {
 
 	public static void main(String[] arg) {
 		// 初始化运行环境
-		GlobalData.getInstance().initRuntime(new DesktopCoreHelper());
+		GdxData.getInstance().initRuntime(new DesktopCoreHelper());
 
 		FnAssetManager.enableAssetMonitorLog = true;// 桌面版开启资源监控日志
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

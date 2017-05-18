@@ -37,7 +37,7 @@ public class GdxGame extends Game {
 		this.assetManager = new FnAssetManager();
 		this.debugMonitor = new DebugMonitor();
 
-		if (Gdx.app.getType() == ApplicationType.Desktop && GlobalData.AUTO_GENERATE_GDX_R) {
+		if (Gdx.app.getType() == ApplicationType.Desktop && GdxData.AUTO_GENERATE_GDX_R) {
 			RHelper.generated();
 		}
 
