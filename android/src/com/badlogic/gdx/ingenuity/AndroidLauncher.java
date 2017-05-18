@@ -4,14 +4,14 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.GdxGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new IngenuityGdx(), config);
+		initialize(new GdxGame(), config);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.ingenuity.GlobalData;
-import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -132,7 +132,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return stage;
 	}
 
-	public final IngenuityGdx game() {
+	public final GdxGame game() {
 		return GdxUtil.getAppGame();
 	}
 

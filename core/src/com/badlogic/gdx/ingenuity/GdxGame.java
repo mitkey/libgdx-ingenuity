@@ -18,7 +18,7 @@ import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.DebugMonitor;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
-public class IngenuityGdx extends Game {
+public class GdxGame extends Game {
 
 	private FreeTypeFontGenerator fontGenerator;
 

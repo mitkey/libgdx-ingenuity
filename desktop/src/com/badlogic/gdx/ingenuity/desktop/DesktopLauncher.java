@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.ingenuity.GlobalData;
-import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.desktop.extend.DesktopCoreHelper;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 
@@ -27,7 +27,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.vSyncEnabled = true;// 垂直同步
 		config.samples = 8;// 抗锯齿
-		new LwjglApplication(new IngenuityGdx(), config);
+		new LwjglApplication(new GdxGame(), config);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
 }

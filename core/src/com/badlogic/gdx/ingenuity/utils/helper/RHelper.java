@@ -10,7 +10,7 @@ import java.util.Map;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.ingenuity.IngenuityGdx;
+import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
 
 public class RHelper {
@@ -137,7 +137,7 @@ public class RHelper {
 
 	/** 获取 game 类的继续类所在包路径 */
 	private static String getGameClassPath() {
-		Class<?> gameclass = IngenuityGdx.class;
+		Class<?> gameclass = GdxGame.class;
 		String gameClassPath = gameclass.getName().replaceAll("\\.", "/");
 		gameClassPath = gameClassPath.substring(0, gameClassPath.lastIndexOf("/"));
 		return gameClassPath;
