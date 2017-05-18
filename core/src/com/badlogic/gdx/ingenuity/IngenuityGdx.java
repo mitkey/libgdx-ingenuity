@@ -29,7 +29,7 @@ public class IngenuityGdx extends Game {
 		LazyBitmapFont.setGlobalGenerator(fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf")));
 		assetManager = new FnAssetManager();
 
-		if (Gdx.app.getType() == ApplicationType.Desktop) {
+		if (Gdx.app.getType() == ApplicationType.Desktop && GlobalData.AUTO_GENERATE_GDX_R) {
 			RHelper.generated();
 		}
 

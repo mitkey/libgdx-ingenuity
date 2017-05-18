@@ -9,6 +9,10 @@ import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
  * @版本 xx
  */
 public class GlobalData {
+
+	/** 是否自动生成 R 文件 */
+	public static boolean AUTO_GENERATE_GDX_R = false;
+
 	private static GlobalData ourInstance = new GlobalData();
 
 	private ICoreHelper coreHelper;
