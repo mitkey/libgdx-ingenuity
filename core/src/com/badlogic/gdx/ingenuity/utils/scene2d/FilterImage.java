@@ -221,7 +221,7 @@ public class FilterImage extends Image {
 		erode(3),
 		/** 8.灰度 */
 		gray(4),
-		/** 9.泛黄 */
+		/** 9.泛黄，即黑白照，与灰度类型类似，但是可调整响应数值 */
 		sepia(4),
 		/** 10.反色 */
 		negative(5);
