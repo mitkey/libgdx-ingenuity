@@ -1,22 +1,21 @@
 package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -28,15 +27,14 @@ public class SimpleToast implements Disposable {
 
 	private Array<Window> arrayShowMessage = new Array<Window>(true, 50);
 
-	private BitmapFont bitmapFont = new LazyBitmapFont(25);
-
 	public void showToast(Stage stage, String content) {
 		for (Window window : arrayShowMessage) {
 			window.addAction(Actions.moveBy(0, window.getHeight(), .2f));
 		}
 
+		NativeFont nativeFont = GdxData.getInstance().getFont(25);
 		// 文本内容
-		Label labContent = new Label(content, new LabelStyle(bitmapFont, Color.YELLOW));
+		NativeLabel labContent = new NativeLabel(content, nativeFont, Color.YELLOW);
 
 		// 背景
 		Image imgContentBg = new Image(PixmapHelper.getInstance().newRectangleDrawable(Color.BLACK, 10, 10));
@@ -44,7 +42,7 @@ public class SimpleToast implements Disposable {
 		GdxUtil.center(imgContentBg, labContent);
 
 		// window 层显示的
-		final Window window = new Window("", new WindowStyle(bitmapFont, Color.WHITE, null));
+		final Window window = new Window("", new WindowStyle(nativeFont, Color.WHITE, null));
 		window.setSize(imgContentBg.getWidth(), imgContentBg.getHeight());
 		window.addActor(imgContentBg);
 		window.addActor(labContent);
@@ -73,10 +71,6 @@ public class SimpleToast implements Disposable {
 
 	@Override
 	public void dispose() {
-		if (bitmapFont != null) {
-			bitmapFont.dispose();
-			bitmapFont = null;
-		}
 		for (Window window : arrayShowMessage) {
 			window.clear();
 		}

@@ -3,14 +3,12 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Disposable;
 
 /**
  * @作者 mitkey
@@ -18,12 +16,10 @@ import com.badlogic.gdx.utils.Disposable;
  * @类说明 DebugMonitor.java <br/>
  * @版本 0.0.1
  */
-public class DebugMonitor extends Table implements Disposable {
-
-	private BitmapFont bitmapFont = new LazyBitmapFont(18);
+public class DebugMonitor extends Table {
 
 	public DebugMonitor() {
-		LabelStyle labelStyle = new Label.LabelStyle(bitmapFont, Color.WHITE);
+		LabelStyle labelStyle = new Label.LabelStyle(GdxData.getInstance().getFont(18), Color.WHITE);
 
 		defaults().left().pad(10);
 
@@ -60,11 +56,6 @@ public class DebugMonitor extends Table implements Disposable {
 
 		setPosition(10, 10);
 		pack();
-	}
-
-	@Override
-	public void dispose() {
-		bitmapFont.dispose();
 	}
 
 }
