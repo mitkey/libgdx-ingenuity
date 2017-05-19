@@ -30,7 +30,7 @@ public class RHelper {
 	private static final String STR_FORMAT_PACKAGE = "package %s;\n\n";
 
 	// 类声明格式化字符
-	private static final String STR_FORMAT_CLASS = "public static final class %s {\n\n";
+	private static final String STR_FORMAT_CLASS = "public final class %s {\n\n";
 
 	// 资源映射字段格式化字符
 	private static final String STR_FORMAT_FIELD = "public static final String %s = \"%s\";\n";
@@ -121,9 +121,9 @@ public class RHelper {
 
 				// 资源对应的字段名
 				String name = strFolderName + "_" + fileName;
-				// E:\git-repository\libgdx-ingenuity\android\assets\asdasd\xxx.txt 替换为 asdasd\xxx.txt
-				String filePath = temp.getAbsolutePath().replace(parseAssetsRootPath() + "\\", "");
-				filePath = filePath.replaceAll("\\\\", "/");
+				// \ 符号转换为 /
+				String filePath = temp.getAbsolutePath().replaceAll("\\\\", "/");
+				filePath = filePath.replace(parseAssetsRootPath() + "/", "");
 				list.add(new AssetsNames(name, filePath));
 			}
 		}
@@ -139,6 +139,8 @@ public class RHelper {
 		absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("\\"));
 		// E:\git-repository\libgdx-ingenuity\android\assets
 		absolutePath = absolutePath + "/android/assets";
+		// E:/git-repository/libgdx-ingenuity/android/assets
+		absolutePath = absolutePath.replaceAll("\\\\", "/");
 		return absolutePath;
 	}
 
