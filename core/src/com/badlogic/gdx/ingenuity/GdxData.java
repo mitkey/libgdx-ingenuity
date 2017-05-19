@@ -10,9 +10,6 @@ import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
  */
 public class GdxData {
 
-	/** 是否自动生成 R 文件 */
-	public static boolean AUTO_GENERATE_GDX_R = false;
-
 	/** 开启调试已加载纹理 */
 	public static boolean DEBUG_MANAGED_TEXTURES = true;
 
