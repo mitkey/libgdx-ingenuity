@@ -1,5 +1,0 @@
-package #%s;
-
-public class GdxR {
-	$public final static String %s = "%s";
-}
