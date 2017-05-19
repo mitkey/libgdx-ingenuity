@@ -1,6 +1,13 @@
 package com.badlogic.gdx.ingenuity;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
+
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeFontPaint;
 
 /**
  * @作者 Mitkey
@@ -22,6 +29,9 @@ public class GdxData {
 
 	private ICoreHelper coreHelper;
 
+	/** 默认的字体 */
+	private Map<Integer, NativeFont> DEFAULT_FONTS = new HashMap<Integer, NativeFont>();
+
 	private GdxData() {
 	}
 
@@ -31,6 +41,14 @@ public class GdxData {
 
 	public void initRuntime(ICoreHelper coreHelper) {
 		this.coreHelper = coreHelper;
+	}
+
+	public NativeFont getFont(int size) {
+		if (DEFAULT_FONTS.containsKey(size)) {
+			return DEFAULT_FONTS.get(size);
+		} else {
+			return DEFAULT_FONTS.put(size, new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS));
+		}
 	}
 
 	public ICoreHelper getCoreHelper() {
