@@ -51,7 +51,9 @@ public class GdxData {
 		if (defaultFonts.containsKey(size)) {
 			return defaultFonts.get(size);
 		} else {
-			return defaultFonts.put(size, new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS));
+			NativeFont nativeFont = new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS);
+			defaultFonts.put(size, nativeFont);
+			return nativeFont;
 		}
 	}
 
