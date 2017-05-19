@@ -12,7 +12,6 @@ import com.badlogic.gdx.ingenuity.screen.LoadingScreen.ILoadingComplete;
 import com.badlogic.gdx.ingenuity.screen.LoginScreen;
 import com.badlogic.gdx.ingenuity.screen.RoomScreen;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.DebugMonitor;
@@ -32,7 +31,6 @@ public class GdxGame extends Game {
 
 	@Override
 	public void create() {
-		LazyBitmapFont.setGlobalGenerator(fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf")));
 		this.spriteBatch = new SpriteBatch();
 		this.assetManager = new FnAssetManager();
 		this.debugMonitor = new DebugMonitor();
@@ -61,8 +59,8 @@ public class GdxGame extends Game {
 		fontGenerator.dispose();
 		assetManager.dispose();
 		chessScreen.dispose();
-		debugMonitor.dispose();
 		spriteBatch.dispose();
+		GdxData.getInstance().disposeFont();
 		PixmapHelper.getInstance().dispose();
 	}
 

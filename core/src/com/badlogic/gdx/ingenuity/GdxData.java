@@ -1,8 +1,10 @@
 package com.badlogic.gdx.ingenuity;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
 
@@ -17,6 +19,8 @@ import net.mwplay.nativefont.NativeFontPaint;
  */
 public class GdxData {
 
+	private static final String tag = GdxData.class.getName();
+
 	/** 开启调试已加载纹理 */
 	public static boolean DEBUG_MANAGED_TEXTURES = true;
 
@@ -30,7 +34,7 @@ public class GdxData {
 	private ICoreHelper coreHelper;
 
 	/** 默认的字体 */
-	private Map<Integer, NativeFont> DEFAULT_FONTS = new HashMap<Integer, NativeFont>();
+	private Map<Integer, NativeFont> defaultFonts = new HashMap<Integer, NativeFont>();
 
 	private GdxData() {
 	}
@@ -44,11 +48,22 @@ public class GdxData {
 	}
 
 	public NativeFont getFont(int size) {
-		if (DEFAULT_FONTS.containsKey(size)) {
-			return DEFAULT_FONTS.get(size);
+		if (defaultFonts.containsKey(size)) {
+			return defaultFonts.get(size);
 		} else {
-			return DEFAULT_FONTS.put(size, new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS));
+			return defaultFonts.put(size, new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS));
 		}
+	}
+
+	public void disposeFont() {
+		Gdx.app.log(tag, "释放 NativeFont 数量:" + defaultFonts.size());
+		Iterator<NativeFont> iterator = defaultFonts.values().iterator();
+		while (iterator.hasNext()) {
+			NativeFont font = iterator.next();
+			font.dispose();
+			iterator.remove();
+		}
+		defaultFonts.clear();
 	}
 
 	public ICoreHelper getCoreHelper() {
