@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
-import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -19,7 +18,7 @@ import net.mwplay.nativefont.NativeLabel;
  * @类说明:
  * @版本 xx
  */
-public class RoomScreen extends SimpleScreen {
+public class RoomScreen extends BaseTestScreen {
 
 	private static final String tag = RoomScreen.class.getSimpleName();
 

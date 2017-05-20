@@ -10,7 +10,6 @@ import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
-import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -26,7 +25,7 @@ import net.mwplay.nativefont.NativeLabel;
  * @类说明:
  * @版本 xx
  */
-public class LoginScreen extends SimpleScreen {
+public class LoginScreen extends BaseTestScreen {
 
 	private static final String tag = LoginScreen.class.getSimpleName();
 
