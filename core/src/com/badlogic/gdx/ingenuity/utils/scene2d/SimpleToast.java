@@ -6,7 +6,6 @@ import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -27,14 +26,15 @@ public class SimpleToast implements Disposable {
 
 	private Array<Window> arrayShowMessage = new Array<Window>(true, 50);
 
-	public void showToast(Stage stage, String content) {
+	public void showToast(SimpleScreen simpleScreen, String content) {
 		for (Window window : arrayShowMessage) {
 			window.addAction(Actions.moveBy(0, window.getHeight(), .2f));
 		}
 
-		NativeFont nativeFont = GdxData.getInstance().getFont(25);
+		NativeFont nativeFont = simpleScreen.newNativeFont(25);
+
 		// 文本内容
-		NativeLabel labContent = new NativeLabel(content, nativeFont, Color.YELLOW);
+		NativeLabel labContent = simpleScreen.newNativeLabel(content, nativeFont, Color.YELLOW);
 
 		// 背景
 		Image imgContentBg = new Image(PixmapHelper.getInstance().newRectangleDrawable(Color.BLACK, 10, 10));
@@ -66,7 +66,7 @@ public class SimpleToast implements Disposable {
 			}
 		})));
 		arrayShowMessage.add(window);
-		stage.addActor(window);
+		simpleScreen.stage().addActor(window);
 	}
 
 	@Override

@@ -122,7 +122,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	}
 
 	public void showMesssage(String content) {
-		simpleToast.showToast(stage, content);
+		simpleToast.showToast(this, content);
 	}
 
 	public void showDialog(Group group) {
