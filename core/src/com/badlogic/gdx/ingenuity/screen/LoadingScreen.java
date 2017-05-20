@@ -1,14 +1,12 @@
 package com.badlogic.gdx.ingenuity.screen;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.ingenuity.Asset;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.GdxR;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.Utils;
@@ -39,35 +37,30 @@ public class LoadingScreen extends SimpleScreen {
 
 	private ProgressBar progressBar;
 
-	public LoadingScreen(AssetsCategory category, ILoadingComplete loadingComplete) {
-		Gdx.app.log(tag, "加载场景资源" + category);
-
+	public LoadingScreen(ILoadingComplete loadingComplete, Asset... assets) {
 		this.loadingComplete = loadingComplete;
 		this.isLoaded = false;
 		this.isProgressFinished = false;
 
-		try {
-			// 卸载除了当前类别之外的所有资源
-			assetManager().unload(generalOtherAssetsNames(category));
-			// 加载当前类别的资源
-			assetManager().load(generalAssetsNames(category));
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			Gdx.app.error(tag, "加载 " + category + " 类别的资源异常", e);
-		}
+		// 卸载除了当前类别之外的所有资源
+		assetManager().unload(parseUnloadAssets(assets));
+		// 加载当前类别的资源
+		assetManager().load(parseLoadAssets(assets));
 	}
 
 	@Override
 	public void show() {
 		super.show();
-
+		// 文字标识
 		NativeLabel label = newNativeLabel("我是加载界面", 35, Color.WHITE);
 		GdxUtil.center(label);
 		stage().addActor(label);
 
+		// 进度条样式
 		ProgressBarStyle style = new ProgressBarStyle();
 		style.background = PixmapHelper.getInstance().newRectangleDrawable(Color.WHITE, 20, 20);
 		style.knobBefore = PixmapHelper.getInstance().newRectangleDrawable(Color.BLACK, 10, 20);
-
+		// 进度条
 		progressBar = new ProgressBar(0, 1000, 5f, false, style);
 		progressBar.setSize(600, 20);
 		GdxUtil.center(progressBar);
@@ -119,92 +112,29 @@ public class LoadingScreen extends SimpleScreen {
 		super.dispose();
 	}
 
-	Set<String> generalOtherAssetsNames(AssetsCategory target) throws IllegalArgumentException, IllegalAccessException {
-		Set<String> assetsNames = new HashSet<String>();
-		for (AssetsCategory category : target.generalOtherCategorty()) {
-			assetsNames.addAll(generalAssetsNames(category));
+	/** 解析需要卸载的资源 */
+	Set<String> parseUnloadAssets(Asset... assets) {
+		Set<String> result = new HashSet<String>();
+		for (Asset all : Asset.values()) {
+			result.addAll(all.names());
 		}
-		return assetsNames;
+		for (Asset not : assets) {
+			result.removeAll(not.names());
+		}
+		// 每次卸载都排除 common
+		result.removeAll(Asset.common.names());
+		return result;
 	}
 
-	Set<String> generalAssetsNames(AssetsCategory category) throws IllegalArgumentException, IllegalAccessException {
-		Set<String> assetsNames = new HashSet<String>();
-		Field[] fields = GdxR.class.getFields();
-		for (String folderName : category.folderNames) {
-			for (Field field : fields) {
-				if (field.getName().startsWith(folderName)) {
-					if (field.getType() == String.class) {
-						assetsNames.add(field.get(null).toString());
-					} else {
-						Gdx.app.log(tag, "获取 " + category + " 类的资源名字时，" + folderName + " 开头的字段对应的类型不是 String");
-					}
-				}
-			}
+	/** 解析需要加载的资源 */
+	Set<String> parseLoadAssets(Asset... assets) {
+		Set<String> result = new HashSet<String>();
+		for (Asset item : assets) {
+			result.addAll(item.names());
 		}
-		assetsNames.addAll(category.assetNames);
-		return assetsNames;
-	}
-
-	public enum AssetsCategory {
-		login() {
-			@Override
-			public void initAssetNames() {
-				// TODO
-				// 类似 folderNames.add("login");
-				// 类似 folderNames.add("data/login");
-				// 类似 assetNames.add("data/xxx.png");
-				// 类似 assetNames.add("data/xxxaa.jpg");
-				// 类似 assetNames.add("data/xxx.ogg");
-			}
-		},
-		hall() {
-			@Override
-			public void initAssetNames() {
-				// TODO
-				// 类似 folderNames.add("hall");
-				// 类似 folderNames.add("data/hall");
-				// 类似 assetNames.add("data/xxx.png");
-				// 类似 assetNames.add("data/xxxaa.jpg");
-				// 类似 assetNames.add("data/xxx.ogg");
-			}
-		},
-		room() {
-			@Override
-			public void initAssetNames() {
-				// TODO
-				// 类似 folderNames.add("room");
-				// 类似 folderNames.add("data/room");
-				// 类似 assetNames.add("data/xxx.png");
-				// 类似 assetNames.add("data/xxxaa.jpg");
-				// 类似 assetNames.add("data/xxx.ogg");
-			}
-		},
-		common() {
-			@Override
-			public void initAssetNames() {
-				// TODO
-				// 类似 folderNames.add("common");
-				// 类似 folderNames.add("data/hall/common");
-				// 类似 assetNames.add("data/xxx.png");
-				// 类似 assetNames.add("data/xxxaa.jpg");
-				// 类似 assetNames.add("data/xxx.ogg");
-			}
-		};
-
-		// 资源文件夹名（该文件名是基于 GdxR.java 中的字段名。如 dataroom 对应的真实路径为 data/room）
-		public Set<String> folderNames = new HashSet<String>();
-		// 资源名（包含路径如：data/loading.bg）
-		public Set<String> assetNames = new HashSet<String>();
-
-		/** 获取除了当前类别外的其他资源类。common 除外 */
-		public Set<AssetsCategory> generalOtherCategorty() {
-			Set<AssetsCategory> categories = new HashSet<AssetsCategory>(Arrays.asList(AssetsCategory.values()));
-			categories.remove(this);
-			categories.remove(common);
-			return categories;
-		}
-
-		public abstract void initAssetNames();
+		// 每次都包含 common
+		result.addAll(Asset.common.names());
+		return result;
 	}
 
 	public static interface ILoadingComplete {

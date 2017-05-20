@@ -5,11 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.ingenuity.Asset;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.screen.LoadingScreen.ILoadingComplete;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -40,10 +44,27 @@ public abstract class BaseTestScreen extends SimpleScreen {
 		// 垂直容器
 		Table table = new Table();
 		table.pad(5).center().defaults().align(Align.center).top().space(10);
-		for (Class<? extends SimpleScreen> clazz : tests) {
+		for (final Class<? extends SimpleScreen> clazz : tests) {
 			NativeButton button = newNativeButton(clazz.getSimpleName(), up, down, checked, 20);
 			table.add(button).size(130, 35).row();
 			buttonGroup.add(button);
+			button.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					super.clicked(event, x, y);
+					game().updateScreen(new LoadingScreen(new ILoadingComplete() {
+						@Override
+						public boolean complete() {
+							try {
+								game().updateScreen(clazz.newInstance());
+							} catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
+							}
+							return true;
+						}
+					}, Asset.none));
+				}
+			});
 		}
 		table.pack();
 		table.setPosition(0, GdxData.HEIGHT - table.getHeight());
