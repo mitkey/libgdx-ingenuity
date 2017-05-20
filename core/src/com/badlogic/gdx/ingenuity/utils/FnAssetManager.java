@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -44,6 +43,7 @@ public final class FnAssetManager implements Disposable {
 					Gdx.app.log(tag, type.getSimpleName() + " 加载资源 " + fileName);
 				}
 			}
+
 			@Override
 			public synchronized void unload(String fileName) {
 				super.unload(fileName);
@@ -121,10 +121,6 @@ public final class FnAssetManager implements Disposable {
 
 	public NinePatchDrawable new9Drawable(Texture texture, int left, int right, int top, int bottom) {
 		return new NinePatchDrawable(new NinePatch(texture, left, right, top, bottom));
-	}
-
-	public Image newImage(String fileName) {
-		return new Image(getTexture(fileName));
 	}
 
 	<T extends Disposable> T getAssets(String fileName, Class<T> clazz) {
