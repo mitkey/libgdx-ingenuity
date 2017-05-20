@@ -165,11 +165,14 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return new NativeButton(text, style);
 	}
 
+	public NativeButton newNativeButton(String text, Drawable up, Drawable down, Drawable checked, int fontSize) {
+		return new NativeButton(text, new TextButtonStyle(up, down, checked, newNativeFont(fontSize)));
+	}
+
 	public NativeButton newNativeButton(String text, String upFileName, String downFileName, String checkedFileName, int fontSize) {
-		return newNativeButton(text,
-				new TextButtonStyle(newDrawable(upFileName), //
-						StrUtil.isBlank(downFileName) ? null : newDrawable(downFileName), //
-						StrUtil.isBlank(checkedFileName) ? null : newDrawable(checkedFileName), newNativeFont(fontSize)));
+		return newNativeButton(text, newDrawable(upFileName), //
+				StrUtil.isBlank(downFileName) ? null : newDrawable(downFileName), //
+				StrUtil.isBlank(checkedFileName) ? null : newDrawable(checkedFileName), fontSize);
 	}
 
 	public NativeButton newNativeButton(String text, String upFileName, String downFileName, String checkedFileName, NativeFont font) {
