@@ -3,6 +3,7 @@ package com.badlogic.gdx.ingenuity;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.screen.LoadingScreen;
 import com.badlogic.gdx.ingenuity.screen.LoadingScreen.ILoadingComplete;
@@ -28,6 +29,7 @@ public class GdxGame extends Game {
 		this.spriteBatch = new SpriteBatch();
 		this.assetManager = new FnAssetManager();
 		this.debugMonitor = new DebugMonitor();
+		Texture.setAssetManager(assetManager.getManager());
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			RHelper.generated();

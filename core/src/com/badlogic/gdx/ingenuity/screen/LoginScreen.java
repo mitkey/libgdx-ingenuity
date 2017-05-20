@@ -3,6 +3,7 @@ package com.badlogic.gdx.ingenuity.screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.GdxR;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
@@ -21,14 +22,13 @@ import net.mwplay.nativefont.NativeLabel;
  */
 public class LoginScreen extends BaseTestScreen {
 
-	Texture texture;
 	RemoteImage image;
 
 	@Override
 	public void show() {
 		super.show();
+		Texture texture = assetManager().getTexture(GdxR.def_badlogic_jpg);
 
-		texture = new Texture("badlogic.jpg");
 		image = new RemoteImage(texture, "http://img.lanrentuku.com/img/allimg/1605/14647058959840.jpg");
 		image.setPosition(250, 256);
 		image.addListener(new MoveListener(image));
@@ -60,10 +60,6 @@ public class LoginScreen extends BaseTestScreen {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (texture != null) {
-			texture.dispose();
-			texture = null;
-		}
 		if (image != null) {
 			image.dispose();
 			image = null;
