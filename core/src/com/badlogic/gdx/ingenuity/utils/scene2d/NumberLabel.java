@@ -1,7 +1,10 @@
 package com.badlogic.gdx.ingenuity.utils.scene2d;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.StringBuilder;
+
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -11,13 +14,19 @@ import com.badlogic.gdx.utils.StringBuilder;
  *      进行比较时类型不一致
  * @版本 xx
  */
-public abstract class NumberLabel<T extends Number> extends Label {
+public abstract class NumberLabel<T extends Number> extends NativeLabel {
 
 	T oldValue;
 	int appendIndex;
 
-	public NumberLabel(CharSequence text, T initValue, LabelStyle style) {
-		super(text.toString() + initValue, style);
+	public NumberLabel(CharSequence text, T initValue, NativeFont font, Color color) {
+		super(text.toString() + initValue, font, color);
+		this.oldValue = initValue;
+		this.appendIndex = text.length();
+	}
+
+	public NumberLabel(CharSequence text, T initValue, LabelStyle labelStyle) {
+		super(text.toString() + initValue, labelStyle);
 		this.oldValue = initValue;
 		this.appendIndex = text.length();
 	}
