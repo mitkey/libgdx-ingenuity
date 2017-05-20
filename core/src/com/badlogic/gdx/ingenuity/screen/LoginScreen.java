@@ -1,22 +1,16 @@
 package com.badlogic.gdx.ingenuity.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.MoveListener;
-import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-import net.mwplay.nativefont.NativeButton;
 import net.mwplay.nativefont.NativeLabel;
 
 /**
@@ -26,8 +20,6 @@ import net.mwplay.nativefont.NativeLabel;
  * @版本 xx
  */
 public class LoginScreen extends BaseTestScreen {
-
-	private static final String tag = LoginScreen.class.getSimpleName();
 
 	Texture texture;
 	RemoteImage image;
@@ -43,27 +35,10 @@ public class LoginScreen extends BaseTestScreen {
 		stage().addActor(image);
 
 		NativeLabel label = newNativeLabel("我是登录界面", 30, Color.YELLOW);
-
 		GdxUtil.center(label);
 		stage().addActor(label);
 
-		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
-		Drawable down = PixmapHelper.getInstance().newRectangleDrawable(Color.MAROON, 120, 60);
-
-		NativeButton btnLogin = newNativeButton("登录", up, down, null, 25);
-		btnLogin.addListener(new MoveListener(btnLogin));
-		btnLogin.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				Gdx.app.log(tag, "点击登录按钮");
-				game().loading2Hall();
-			}
-		});
-		GdxUtil.center(btnLogin);
-		btnLogin.setY(label.getY() - btnLogin.getHeight() - 10);
-		stage().addActor(btnLogin);
-
+		// 滤镜 image 测试
 		VerticalGroup verticalGroup = new VerticalGroup();
 		for (FilterType type : FilterType.values()) {
 			FilterImage filterImage = new FilterImage(texture);
