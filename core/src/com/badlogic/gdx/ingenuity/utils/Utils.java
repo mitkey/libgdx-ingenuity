@@ -4,11 +4,14 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.ETC1TextureData;
@@ -32,6 +35,8 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 public class Utils {
 
 	private static final String tag = Utils.class.getName();
+
+	private static final boolean savePng = false;
 
 	/** 打开某个文件或目录，若是文件则 pc 必须有关联打开的程序 */
 	public static void openFileExplorer(FileHandle startDirectory) throws IOException {
@@ -76,6 +81,12 @@ public class Utils {
 							Gdx.app.log(tag, "managedTexture MipMapTextureData --> " + textureData);
 						} else if (textureData instanceof PixmapTextureData) {
 							Gdx.app.log(tag, "managedTexture PixmapTextureData --> " + textureData);
+
+							if (savePng) {
+								PixmapTextureData textureData2 = (PixmapTextureData) textureData;
+								Pixmap consumePixmap = textureData2.consumePixmap();
+								PixmapIO.writePNG(Gdx.files.external("gdxTest/" + System.currentTimeMillis() + new Random().nextInt(15) + ".png"), consumePixmap);
+							}
 						} else {
 							Gdx.app.log(tag, "managedTexture --> unkonw type " + textureData);
 						}
