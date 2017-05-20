@@ -132,8 +132,6 @@ public class LoadingScreen extends SimpleScreen {
 		for (Asset item : assets) {
 			result.addAll(item.names());
 		}
-		// 每次都包含 common
-		result.addAll(Asset.common.names());
 		return result;
 	}
 
