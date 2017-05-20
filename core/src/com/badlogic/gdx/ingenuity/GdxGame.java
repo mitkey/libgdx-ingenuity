@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.screen.HallScreen;
 import com.badlogic.gdx.ingenuity.screen.LoadingScreen;
 import com.badlogic.gdx.ingenuity.screen.LoadingScreen.AssetsCategory;
@@ -18,8 +17,6 @@ import com.badlogic.gdx.ingenuity.utils.scene2d.DebugMonitor;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 public class GdxGame extends Game {
-
-	private FreeTypeFontGenerator fontGenerator;
 
 	private FnAssetManager assetManager;
 
@@ -56,7 +53,6 @@ public class GdxGame extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		fontGenerator.dispose();
 		assetManager.dispose();
 		chessScreen.dispose();
 		spriteBatch.dispose();

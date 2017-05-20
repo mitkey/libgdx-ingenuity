@@ -7,18 +7,19 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.ingenuity.GdxR;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.GdxR;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.Utils;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
+
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -29,8 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 public class LoadingScreen extends SimpleScreen {
 
 	private static final String tag = LoadingScreen.class.getSimpleName();
-
-	private LazyBitmapFont bitmapFont;
 
 	// 加载资源完成后的回调
 	private ILoadingComplete loadingComplete;
@@ -63,9 +62,9 @@ public class LoadingScreen extends SimpleScreen {
 	public void show() {
 		super.show();
 
-		bitmapFont = new LazyBitmapFont(35);
+		NativeFont nativeFont = GdxData.getInstance().getFont(35);
 
-		Label label = new Label("我是加载界面", new LabelStyle(bitmapFont, Color.WHITE));
+		NativeLabel label = new NativeLabel("我是加载界面", new LabelStyle(nativeFont, Color.WHITE));
 		GdxUtil.center(label);
 		stage().addActor(label);
 
@@ -122,10 +121,6 @@ public class LoadingScreen extends SimpleScreen {
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (bitmapFont != null) {
-			bitmapFont.dispose();
-			bitmapFont = null;
-		}
 	}
 
 	Set<String> generalOtherAssetsNames(AssetsCategory target) throws IllegalArgumentException, IllegalAccessException {

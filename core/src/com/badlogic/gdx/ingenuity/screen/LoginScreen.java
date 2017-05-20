@@ -3,19 +3,25 @@ package com.badlogic.gdx.ingenuity.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-import com.badlogic.gdx.ingenuity.utils.LazyBitmapFont;
 import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
+import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
+import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+
+import net.mwplay.nativefont.NativeButton;
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -27,15 +33,13 @@ public class LoginScreen extends SimpleScreen {
 
 	private static final String tag = LoginScreen.class.getSimpleName();
 
-	private LazyBitmapFont bitmapFont;
-
 	Texture texture;
 	RemoteImage image;
 
 	@Override
 	public void show() {
 		super.show();
-		bitmapFont = new LazyBitmapFont(30);
+		NativeFont nativeFont = GdxData.getInstance().getFont(25);
 
 		texture = new Texture("badlogic.jpg");
 		image = new RemoteImage(texture, "http://img.lanrentuku.com/img/allimg/1605/14647058959840.jpg");
@@ -43,14 +47,16 @@ public class LoginScreen extends SimpleScreen {
 		image.addListener(new MoveListener(image));
 		stage().addActor(image);
 
-		Label label = new Label("我是登录界面", new LabelStyle(bitmapFont, Color.WHITE));
+		LabelStyle style = new LabelStyle(nativeFont, Color.YELLOW);
+		NativeLabel label = new NativeLabel("我是登录界面", style);
+
 		GdxUtil.center(label);
 		stage().addActor(label);
 
 		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
 		Drawable down = PixmapHelper.getInstance().newRectangleDrawable(Color.MAROON, 120, 60);
 
-		TextButton btnLogin = new TextButton("登录", new TextButtonStyle(up, down, null, bitmapFont));
+		NativeButton btnLogin = new NativeButton("登录", new TextButtonStyle(up, down, null, nativeFont));
 		btnLogin.addListener(new MoveListener(btnLogin));
 		btnLogin.addListener(new ClickListener() {
 			@Override
@@ -63,15 +69,28 @@ public class LoginScreen extends SimpleScreen {
 		GdxUtil.center(btnLogin);
 		btnLogin.setY(label.getY() - btnLogin.getHeight() - 10);
 		stage().addActor(btnLogin);
+
+		VerticalGroup verticalGroup = new VerticalGroup();
+		for (FilterType type : FilterType.values()) {
+			FilterImage filterImage = new FilterImage(texture);
+			filterImage.setType(type);
+			filterImage.setRadius(5);
+			filterImage.setSigma(5);
+			filterImage.setSepiaTone(.5f, .5f, .1f);
+			filterImage.invalidate();
+			filterImage.validate();
+			verticalGroup.addActor(filterImage);
+		}
+		verticalGroup.pack();
+		ScrollPane scrollPane = new ScrollPane(verticalGroup);
+		scrollPane.setSize(image.getWidth() + 50, GdxData.HEIGHT);
+		scrollPane.setX(GdxData.WIDTH - scrollPane.getWidth());
+		stage().addActor(scrollPane);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (bitmapFont != null) {
-			bitmapFont.dispose();
-			bitmapFont = null;
-		}
 		if (texture != null) {
 			texture.dispose();
 			texture = null;
