@@ -12,15 +12,12 @@ import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.mwplay.nativefont.NativeButton;
-import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeLabel;
 
 /**
@@ -39,7 +36,6 @@ public class LoginScreen extends SimpleScreen {
 	@Override
 	public void show() {
 		super.show();
-		NativeFont nativeFont = GdxData.getInstance().getFont(25);
 
 		texture = new Texture("badlogic.jpg");
 		image = new RemoteImage(texture, "http://img.lanrentuku.com/img/allimg/1605/14647058959840.jpg");
@@ -47,8 +43,7 @@ public class LoginScreen extends SimpleScreen {
 		image.addListener(new MoveListener(image));
 		stage().addActor(image);
 
-		LabelStyle style = new LabelStyle(nativeFont, Color.YELLOW);
-		NativeLabel label = new NativeLabel("我是登录界面", style);
+		NativeLabel label = newNativeLabel("我是登录界面", 30, Color.YELLOW);
 
 		GdxUtil.center(label);
 		stage().addActor(label);
@@ -56,7 +51,7 @@ public class LoginScreen extends SimpleScreen {
 		Drawable up = PixmapHelper.getInstance().newRectangleDrawable(Color.CORAL, 120, 60);
 		Drawable down = PixmapHelper.getInstance().newRectangleDrawable(Color.MAROON, 120, 60);
 
-		NativeButton btnLogin = new NativeButton("登录", new TextButtonStyle(up, down, null, nativeFont));
+		NativeButton btnLogin = newNativeButton("登录", up, down, null, 25);
 		btnLogin.addListener(new MoveListener(btnLogin));
 		btnLogin.addListener(new ClickListener() {
 			@Override

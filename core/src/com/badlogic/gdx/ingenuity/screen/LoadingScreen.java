@@ -14,11 +14,9 @@ import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.Utils;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 
-import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeLabel;
 
 /**
@@ -50,9 +48,9 @@ public class LoadingScreen extends SimpleScreen {
 
 		try {
 			// 卸载除了当前类别之外的所有资源
-			game().getAssetManager().unload(generalOtherAssetsNames(category));
+			assetManager().unload(generalOtherAssetsNames(category));
 			// 加载当前类别的资源
-			game().getAssetManager().load(generalAssetsNames(category));
+			assetManager().load(generalAssetsNames(category));
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			Gdx.app.error(tag, "加载 " + category + " 类别的资源异常", e);
 		}
@@ -62,9 +60,7 @@ public class LoadingScreen extends SimpleScreen {
 	public void show() {
 		super.show();
 
-		NativeFont nativeFont = GdxData.getInstance().getFont(35);
-
-		NativeLabel label = new NativeLabel("我是加载界面", new LabelStyle(nativeFont, Color.WHITE));
+		NativeLabel label = newNativeLabel("我是加载界面", 35, Color.WHITE);
 		GdxUtil.center(label);
 		stage().addActor(label);
 
@@ -83,7 +79,7 @@ public class LoadingScreen extends SimpleScreen {
 	public void render(float delta) {
 		super.render(delta);
 		if (!isLoaded) {
-			if (game().getAssetManager().getManager().update()) {
+			if (assetManager().getManager().update()) {
 				isLoaded = true;
 			}
 		}
@@ -102,9 +98,9 @@ public class LoadingScreen extends SimpleScreen {
 						if (loadingComplete.complete()) {
 							isProgressFinished = true;
 							if (FnAssetManager.enableAssetMonitorLog) {
-								Gdx.app.log(tag, "已加载的资源数量：" + game().getAssetManager().getManager().getLoadedAssets());
-								Gdx.app.log(tag, "已加载的资源列表：" + game().getAssetManager().getManager().getAssetNames());
-								Gdx.app.log(tag, "资源依赖：" + game().getAssetManager().getManager().getDiagnostics());
+								Gdx.app.log(tag, "已加载的资源数量：" + assetManager().getManager().getLoadedAssets());
+								Gdx.app.log(tag, "已加载的资源列表：" + assetManager().getManager().getAssetNames());
+								Gdx.app.log(tag, "资源依赖：" + assetManager().getManager().getDiagnostics());
 
 								if (GdxData.DEBUG_MANAGED_TEXTURES) {
 									Utils.printManagedTextures();
@@ -150,28 +146,34 @@ public class LoadingScreen extends SimpleScreen {
 	}
 
 	public enum AssetsCategory {
-		login("datalogin") {
+		login() {
 			@Override
 			public void initAssetNames() {
 				// TODO
+				// 类似 folderNames.add("login");
+				// 类似 folderNames.add("data/login");
 				// 类似 assetNames.add("data/xxx.png");
 				// 类似 assetNames.add("data/xxxaa.jpg");
 				// 类似 assetNames.add("data/xxx.ogg");
 			}
 		},
-		hall("datahall", "dataroom_list") {
+		hall() {
 			@Override
 			public void initAssetNames() {
 				// TODO
+				// 类似 folderNames.add("hall");
+				// 类似 folderNames.add("data/hall");
 				// 类似 assetNames.add("data/xxx.png");
 				// 类似 assetNames.add("data/xxxaa.jpg");
 				// 类似 assetNames.add("data/xxx.ogg");
 			}
 		},
-		room("dataroom") {
+		room() {
 			@Override
 			public void initAssetNames() {
 				// TODO
+				// 类似 folderNames.add("room");
+				// 类似 folderNames.add("data/room");
 				// 类似 assetNames.add("data/xxx.png");
 				// 类似 assetNames.add("data/xxxaa.jpg");
 				// 类似 assetNames.add("data/xxx.ogg");
@@ -181,6 +183,8 @@ public class LoadingScreen extends SimpleScreen {
 			@Override
 			public void initAssetNames() {
 				// TODO
+				// 类似 folderNames.add("common");
+				// 类似 folderNames.add("data/hall/common");
 				// 类似 assetNames.add("data/xxx.png");
 				// 类似 assetNames.add("data/xxxaa.jpg");
 				// 类似 assetNames.add("data/xxx.ogg");
@@ -191,10 +195,6 @@ public class LoadingScreen extends SimpleScreen {
 		public Set<String> folderNames = new HashSet<String>();
 		// 资源名（包含路径如：data/loading.bg）
 		public Set<String> assetNames = new HashSet<String>();
-
-		private AssetsCategory(String... folderNames) {
-			this.folderNames.addAll(Arrays.asList(folderNames));
-		}
 
 		/** 获取除了当前类别外的其他资源类。common 除外 */
 		public Set<AssetsCategory> generalOtherCategorty() {
