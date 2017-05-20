@@ -113,6 +113,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return false;
 	}
 
+	// utils =============== start
 	public void showLoading() {
 		loading.show(stage);
 	}
@@ -132,15 +133,9 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		group.addAction(Actions.alpha(1, .2f));
 		group.addAction(Actions.scaleTo(1f, 1f, .2f));
 	}
-
-	/** ====================================== */
-
-	public FnAssetManager assetManager() {
-		return game().getAssetManager();
-	}
+	// utils =============== end
 
 	// native ============== start
-
 	public NativeFont newNativeFont(int size) {
 		return GdxData.getInstance().getFont(size);
 	}
@@ -197,9 +192,9 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 						StrUtil.isBlank(selectionFileName) ? null : newDrawable(selectionFileName), //
 						StrUtil.isBlank(backgroundFileName) ? null : newDrawable(backgroundFileName)));
 	}
-
 	// native ============== end
 
+	// other ============== start
 	public ImageButton newImageButton(String upFileName, String downFileName, String checkedFileName) {
 		return newImageButton(newDrawable(upFileName), //
 				StrUtil.isBlank(downFileName) ? null : newDrawable(downFileName), //
@@ -214,11 +209,18 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return new Image(newDrawable(fileName));
 	}
 
+	public Image newImage(Drawable drawable) {
+		return new Image(drawable);
+	}
+
 	public Drawable newDrawable(String fileName) {
 		return assetManager().newDrawable(fileName);
 	}
 
-	/** ====================================== */
+	public FnAssetManager assetManager() {
+		return game().getAssetManager();
+	}
+	// other ============== end
 
 	public final Stage stage() {
 		return stage;
