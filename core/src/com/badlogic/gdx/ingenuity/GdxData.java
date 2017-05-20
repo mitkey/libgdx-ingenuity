@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
 
 import net.mwplay.nativefont.NativeFont;
@@ -51,7 +50,7 @@ public class GdxData {
 		if (defaultFonts.containsKey(size)) {
 			return defaultFonts.get(size);
 		} else {
-			NativeFont nativeFont = new NativeFont(new NativeFontPaint(size)).appendText(FreeTypeFontGenerator.DEFAULT_CHARS);
+			NativeFont nativeFont = new NativeFont(new NativeFontPaint(size));
 			defaultFonts.put(size, nativeFont);
 			return nativeFont;
 		}

@@ -42,7 +42,8 @@ public abstract class NumberLabel<T extends Number> extends NativeLabel {
 			StringBuilder builder = this.getText();
 			builder.setLength(appendIndex);
 			builder.append(oldValue);
-			this.invalidateHierarchy();
+			setText(builder.toString());
+			invalidateHierarchy();
 		}
 		super.act(delta);
 	}
