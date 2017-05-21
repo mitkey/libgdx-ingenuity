@@ -29,16 +29,15 @@ import net.mwplay.nativefont.NativeButton;
 public abstract class BaseTestScreen extends SimpleScreen {
 
 	public static final List<Class<? extends SimpleScreen>> tests = new ArrayList<Class<? extends SimpleScreen>>(
-			Arrays.asList(LoginScreen.class, HallScreen.class, RoomScreen.class));
+			Arrays.asList(LoginScreen.class, HallScreen.class, RoomScreen.class, TestScreen.class));
+
+	protected Drawable dabUp = PixmapHelper.getInstance().newRectangleDrawable(new Color(51 / 255f, 122 / 255f, 183 / 255f, 1), 150, 50);
+	protected Drawable dabDown = PixmapHelper.getInstance().newRectangleDrawable(new Color(40 / 255f, 96 / 255f, 144 / 255f, 1), 150, 50);
+	protected Drawable dabChecked = PixmapHelper.getInstance().newRectangleDrawable(new Color(39 / 255f, 72 / 255f, 100 / 255f, 1), 150, 50);
 
 	@Override
 	public void show() {
 		super.show();
-
-		// 纹理
-		Drawable up = changeSpace(PixmapHelper.getInstance().newRectangleDrawable(Color.DARK_GRAY, 20, 20));
-		Drawable down = changeSpace(PixmapHelper.getInstance().newRectangleDrawable(Color.GRAY, 20, 20));
-		Drawable checked = changeSpace(PixmapHelper.getInstance().newRectangleDrawable(Color.LIGHT_GRAY, 20, 20));
 
 		// 按钮组
 		final ButtonGroup<NativeButton> buttonGroup = new ButtonGroup<NativeButton>();
@@ -46,7 +45,7 @@ public abstract class BaseTestScreen extends SimpleScreen {
 		Table table = new Table();
 		table.pad(10).center().defaults().align(Align.center).top().space(10);
 		for (final Class<? extends SimpleScreen> clazz : tests) {
-			NativeButton button = newNativeButton(clazz.getSimpleName(), up, down, checked, 20);
+			NativeButton button = newNativeButton(clazz.getSimpleName(), dabUp, dabDown, dabChecked, 20);
 			table.add(button).size(150, 50).row();
 			boolean checkCurChecked = checkCurChecked(button);
 			if (checkCurChecked) {
@@ -96,14 +95,6 @@ public abstract class BaseTestScreen extends SimpleScreen {
 
 	private boolean checkCurChecked(NativeButton temp) {
 		return getCurScreenClazz().getSimpleName().equals(temp.getText().toString());
-	}
-
-	private Drawable changeSpace(Drawable drawable) {
-		drawable.setTopHeight(20);
-		drawable.setRightWidth(20);
-		drawable.setBottomHeight(20);
-		drawable.setLeftWidth(20);
-		return drawable;
 	}
 
 }
