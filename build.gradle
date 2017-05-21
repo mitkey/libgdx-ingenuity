@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
@@ -24,8 +24,7 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
 		maven { url "https://jitpack.io" }
     }
 }
@@ -110,6 +109,12 @@ project(":core") {
 		
         // fastjson 包依赖
 		compile "com.alibaba:fastjson:1.2.6"
+		
+		// socket io 依赖
+		compile ('io.socket:socket.io-client:0.8.3') {
+		  // excluding org.json which is provided by Android
+		  // exclude group: 'org.json', module: 'json'
+		}
 		
         // 依赖本地的 jar
 		compile fileTree(include:['*.jar'], dir:'libs')
