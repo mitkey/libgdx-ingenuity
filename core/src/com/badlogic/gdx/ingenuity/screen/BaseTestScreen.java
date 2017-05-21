@@ -11,6 +11,7 @@ import com.badlogic.gdx.ingenuity.screen.LoadingScreen.ILoadingComplete;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -40,13 +41,18 @@ public abstract class BaseTestScreen extends SimpleScreen {
 		Drawable checked = changeSpace(PixmapHelper.getInstance().newRectangleDrawable(Color.LIGHT_GRAY, 20, 20));
 
 		// 按钮组
-		ButtonGroup<NativeButton> buttonGroup = new ButtonGroup<NativeButton>();
+		final ButtonGroup<NativeButton> buttonGroup = new ButtonGroup<NativeButton>();
 		// 垂直容器
 		Table table = new Table();
-		table.pad(5).center().defaults().align(Align.center).top().space(10);
+		table.pad(10).center().defaults().align(Align.center).top().space(10);
 		for (final Class<? extends SimpleScreen> clazz : tests) {
 			NativeButton button = newNativeButton(clazz.getSimpleName(), up, down, checked, 20);
-			table.add(button).size(130, 35).row();
+			table.add(button).size(150, 50).row();
+			boolean checkCurChecked = checkCurChecked(button);
+			if (checkCurChecked) {
+				button.setDisabled(true);
+				button.setTouchable(Touchable.disabled);
+			}
 			buttonGroup.add(button);
 			button.addListener(new ClickListener() {
 				@Override
@@ -73,7 +79,7 @@ public abstract class BaseTestScreen extends SimpleScreen {
 		// 选中当前的
 		buttonGroup.uncheckAll();
 		for (NativeButton temp : buttonGroup.getButtons()) {
-			if (getCurScreenClazz().getSimpleName().equals(temp.getText().toString())) {
+			if (checkCurChecked(temp)) {
 				temp.setChecked(true);
 			}
 		}
@@ -86,6 +92,10 @@ public abstract class BaseTestScreen extends SimpleScreen {
 
 	public Class<? extends SimpleScreen> getCurScreenClazz() {
 		return getClass();
+	}
+
+	private boolean checkCurChecked(NativeButton temp) {
+		return getCurScreenClazz().getSimpleName().equals(temp.getText().toString());
 	}
 
 	private Drawable changeSpace(Drawable drawable) {
