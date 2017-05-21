@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -51,13 +50,8 @@ public class SimpleToast implements Disposable {
 		window.setY(GdxData.HEIGHT + window.getHeight() * 2);
 		GdxUtil.center(window, true);
 		// 该 window(包括子 actor) 忽略所有监听
-		window.addCaptureListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-				event.cancel();
-				return false;
-			}
-		});
+		window.setTouchable(Touchable.disabled);
+		simpleScreen.stage().unfocus(window);
 		window.addAction(Actions.sequence(Actions.moveTo(window.getX(), GdxData.HEIGHT / 2 - window.getHeight() / 2, .2f), Actions.delay(2), Actions.run(new Runnable() {
 			@Override
 			public void run() {
