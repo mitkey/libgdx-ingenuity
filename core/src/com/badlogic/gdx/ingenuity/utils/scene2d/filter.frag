@@ -25,7 +25,7 @@ void main()
         int index = 0;
         for (int i = -radius; i <= radius; i++){
             for (int j = -radius; j <= radius; j++){
-                rgb += texture2D(u_texture, v_texCoords + (i, j)/size).rgb * weights[index++];
+                rgb += texture2D(u_texture, v_texCoords + float((i, j))/size).rgb * weights[index++];
             }
         }
     }
@@ -34,7 +34,7 @@ void main()
         rgb = vec3(0.0);
         for (int i = -radius; i <= radius; i++){
             for (int j = -radius; j <= radius; j++){
-                rgb = max(texture2D(u_texture, v_texCoords + (i, j)/size).rgb, rgb);
+                rgb = max(texture2D(u_texture, v_texCoords + float((i, j))/size).rgb, rgb);
             }
         }
     }
@@ -43,7 +43,7 @@ void main()
         rgb = vec3(1.0);
         for (int i = -radius; i <= radius; i++){
             for (int j = -radius; j <= radius; j++){
-                rgb = min(texture2D(u_texture, v_texCoords + (i, j)/size).rgb, rgb);
+                rgb = min(texture2D(u_texture, v_texCoords + float((i, j))/size).rgb, rgb);
             }
         }
     }
