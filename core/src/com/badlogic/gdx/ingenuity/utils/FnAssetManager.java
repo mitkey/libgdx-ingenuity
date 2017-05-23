@@ -127,7 +127,7 @@ public final class FnAssetManager implements Disposable {
 		if (!manager.isLoaded(fileName, clazz)) {
 			Gdx.app.log(tag, clazz.getSimpleName() + " 资源未加载 " + fileName);
 			manager.load(fileName, clazz);
-			manager.finishLoading();
+			manager.finishLoadingAsset(fileName);
 		}
 		return manager.get(fileName, clazz);
 	}
