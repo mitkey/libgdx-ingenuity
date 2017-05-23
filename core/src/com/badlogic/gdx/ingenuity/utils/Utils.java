@@ -9,6 +9,7 @@ import java.util.function.BiConsumer;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
@@ -36,6 +37,9 @@ public class Utils {
 
 	private static final String tag = Utils.class.getName();
 
+	/** 尝试播放次数 */
+	private static final int TRY_PLAY_COUNT = 5;
+
 	private static final boolean savePng = false;
 
 	/** 打开某个文件或目录，若是文件则 pc 必须有关联打开的程序 */
@@ -45,6 +49,16 @@ public class Utils {
 			Desktop.getDesktop().open(startDirectory.file());
 		} else {
 			throw new IOException("Directory doesn't exist: " + startDirectory.path());
+		}
+	}
+
+	/** 苛刻的播放 */
+	public static void harshPlay(Sound sound) {
+		if (sound != null) {
+			int count = 0;
+			while (sound.play() == -1 && count <= TRY_PLAY_COUNT) {
+				count++;
+			}
 		}
 	}
 
