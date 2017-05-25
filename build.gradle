@@ -108,13 +108,9 @@ project(":core") {
 		compile 'com.github.tianqiujie:nativefont:2.5.1'
 		
         // fastjson 包依赖
-		compile "com.alibaba:fastjson:1.2.6"
+		// compile "com.alibaba:fastjson:1.2.6"
 		
-		// socket io 依赖
-		compile ('io.socket:socket.io-client:0.8.3') {
-		  // excluding org.json which is provided by Android
-		  // exclude group: 'org.json', module: 'json'
-		}
+		compile 'com.github.mitkey:native-socket.io-client-java:0.0.1'
 		
         // 依赖本地的 jar
 		compile fileTree(include:['*.jar'], dir:'libs')
