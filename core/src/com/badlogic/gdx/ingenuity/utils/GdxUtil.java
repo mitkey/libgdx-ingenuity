@@ -29,7 +29,7 @@ public enum GdxUtil {
 		return new Rectangle().setSize(glyphLayout.width, glyphLayout.height);
 	}
 
-	public static void center(Actor actor, boolean horizontal) {
+	public static <T extends Actor> T center(T actor, boolean horizontal) {
 		if (horizontal) {
 			float wd = GdxData.WIDTH - actor.getWidth();
 			actor.setX(wd / 2);
@@ -37,12 +37,14 @@ public enum GdxUtil {
 			float ht = GdxData.HEIGHT - actor.getHeight();
 			actor.setY(ht / 2);
 		}
+		return actor;
 	}
 
-	public static void center(Actor actor) {
+	public static <T extends Actor> T center(T actor) {
 		float wd = GdxData.WIDTH - actor.getWidth();
 		float ht = GdxData.HEIGHT - actor.getHeight();
 		actor.setPosition(wd / 2, ht / 2);
+		return actor;
 	}
 
 	public static void center(Actor staticActhor, Actor actor) {
