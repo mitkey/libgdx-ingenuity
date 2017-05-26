@@ -108,9 +108,10 @@ project(":core") {
 		compile 'com.github.tianqiujie:nativefont:2.5.1'
 		
         // fastjson 包依赖
-		// compile "com.alibaba:fastjson:1.2.6"
+		compile "com.alibaba:fastjson:1.2.6"
 		
 		compile 'com.github.mitkey:native-socket.io-client-java:0.0.1'
+		// compile 'com.github.mitkey:socket.io-realize-xhr-and-websocket:0.0.2'
 		
         // 依赖本地的 jar
 		compile fileTree(include:['*.jar'], dir:'libs')
