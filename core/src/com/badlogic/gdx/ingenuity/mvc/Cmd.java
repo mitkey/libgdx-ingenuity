@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.protocol;
+package com.badlogic.gdx.ingenuity.mvc;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -13,10 +13,10 @@ import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 /**
- * @作者 Mitkey
- * @时间 2017年3月24日 下午2:18:51
- * @类说明:
- * @版本 xx
+ * @作者 mitkey
+ * @时间 2017年5月26日 上午11:39:52
+ * @类说明 Cmd.java <br/>
+ * @版本 0.0.1
  */
 public class Cmd {
 
@@ -34,16 +34,18 @@ public class Cmd {
 	static {
 		try {
 			for (Field field : ClassReflection.getFields(Cmd.class)) {
-				if (field.isAnnotationPresent(FieldMeta.class)) {
-					FieldMeta fieldMeta = field.getDeclaredAnnotation(FieldMeta.class).getAnnotation(FieldMeta.class);
-					if (fieldMeta != null) {
-						Integer cmd = (Integer) field.get(null);
-						if (cmd2Names.containsKey(cmd)) {
-							throw new RuntimeException("cmd 重复 " + cmd);
-						} else {
-							cmd2Names.put(cmd, fieldMeta.value());
-						}
-					}
+				if (!field.isAnnotationPresent(FieldMeta.class)) {
+					continue;
+				}
+				FieldMeta fieldMeta = field.getDeclaredAnnotation(FieldMeta.class).getAnnotation(FieldMeta.class);
+				if (fieldMeta == null) {
+					continue;
+				}
+				Integer cmd = (Integer) field.get(null);
+				if (cmd2Names.containsKey(cmd)) {
+					throw new RuntimeException("cmd 重复 " + cmd);
+				} else {
+					cmd2Names.put(cmd, fieldMeta.value());
 				}
 			}
 		} catch (ReflectionException e) {
@@ -56,16 +58,12 @@ public class Cmd {
 		return name != null ? name : ("未定义指令 " + cmd);
 	}
 
-	// =====================================
-
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.FIELD, ElementType.METHOD})
+	@Target({ ElementType.FIELD, ElementType.METHOD })
 	@Documented
 	public @interface FieldMeta {
 		/** 字段描述 */
 		String value();
 	}
-
-	// =====================================
 
 }
