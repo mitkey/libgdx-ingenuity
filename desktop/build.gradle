@@ -1,7 +1,10 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["src/"]
 
 project.ext.mainClassName = "com.badlogic.gdx.ingenuity.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
