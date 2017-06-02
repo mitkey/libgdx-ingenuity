@@ -1,10 +1,11 @@
-package com.badlogic.gdx.ingenuity;
+package com.badlogic.gdx.ingenuity.test;
 
-import android.os.Bundle;
-
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.ingenuity.GdxGame;
+import com.badlogic.gdx.ingenuity.test.GdxGame;
+
+import android.os.Bundle;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -12,5 +13,14 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new GdxGame(), config);
+		Gdx.app.setLogLevel(LOG_DEBUG);
 	}
+	
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		super.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
 }

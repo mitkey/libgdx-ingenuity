@@ -19,6 +19,14 @@ android {
         minSdkVersion 8
         targetSdkVersion 25
     }
+    
+    lintOptions {
+        abortOnError false
+    }
+	compileOptions {
+		sourceCompatibility 1.7
+		targetCompatibility 1.7
+    }
 }
 
 
@@ -82,8 +90,8 @@ eclipse {
     }
 
     jdt {
-        sourceCompatibility = 1.6
-        targetCompatibility = 1.6
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
     }
 
     classpath {
@@ -92,7 +100,7 @@ eclipse {
     }
 
     project {
-        name = appName + "-android"
+        name = appName + "-test-android"
         natures 'com.android.ide.eclipse.adt.AndroidNature'
         buildCommands.clear();
         buildCommand "com.android.ide.eclipse.adt.ResourceManagerBuilder"
