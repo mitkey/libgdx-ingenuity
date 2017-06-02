@@ -3,9 +3,8 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.GdxGame;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -50,7 +49,8 @@ public class DebugMonitor extends Table {
 		add(new NumberLabel<Integer>("RenderCalls:", -1, labelStyle) {
 			@Override
 			public Integer getValue() {
-				return ((GdxGame) GdxUtil.getAppGame()).getSpriteBatch().renderCalls;
+				SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
+				return spriteBatch == null ? -1 : spriteBatch.renderCalls;
 			}
 		}).row();
 

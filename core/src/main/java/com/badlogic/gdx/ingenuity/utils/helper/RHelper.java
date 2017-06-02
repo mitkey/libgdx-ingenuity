@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.ingenuity.GdxGame;
 
 /**
  * @作者 mitkey
@@ -36,10 +36,10 @@ public class RHelper {
 	private static final String STR_FORMAT_FIELD = "public static final String %s = \"%s\";\n";
 
 	/** 自动读写资源路径 */
-	public static void generated() {
+	public static void generated(Class<? extends Game> clazz) {
 		if (checkCanCreateGdxR()) {
-			String content = generateRjavaContent();
-			writeRjava(content);
+			String content = generateRjavaContent(clazz);
+			writeRjava(clazz, content);
 			Gdx.app.debug(TAG, "generated GdxR.java finished");
 		}
 	}
@@ -57,10 +57,10 @@ public class RHelper {
 		return false;
 	}
 
-	private static String generateRjavaContent() {
+	private static String generateRjavaContent(Class<? extends Game> clazz) {
 		StringBuffer stringBuffer = new StringBuffer();
 		// 包名
-		stringBuffer.append(String.format(STR_FORMAT_PACKAGE, GdxGame.class.getPackage().getName()));
+		stringBuffer.append(String.format(STR_FORMAT_PACKAGE, clazz.getPackage().getName()));
 		// 类声明
 		stringBuffer.append(String.format(STR_FORMAT_CLASS, R_JAVA_NAME));
 
@@ -144,7 +144,7 @@ public class RHelper {
 		return absolutePath;
 	}
 
-	private static String parseGdxRjavaPath() {
+	private static String parseGdxRjavaPath(Class<? extends Game> clazz) {
 		// core 中启动调用 E:\git-repository\libgdx-ingenuity\core
 		// desktop 中启动调用 E:\git-repository\libgdx-ingenuity\desktop
 		String srcPath = new File("").getAbsolutePath();
@@ -156,14 +156,14 @@ public class RHelper {
 		srcPath = srcPath.replaceAll("\\\\", "/");
 
 		// com.badlogic.gdx.ingenuity 转换为 com/badlogic/gdx/ingenuity
-		String packPath = GdxGame.class.getPackage().getName().replaceAll("\\.", "/");
+		String packPath = clazz.getPackage().getName().replaceAll("\\.", "/");
 		// E:/git-repository/libgdx-ingenuity/core/src/com/badlogic/gdx/ingenuity/GdxR.java
 		return srcPath + "/" + packPath + "/" + R_JAVA_NAME + ".java";
 	}
 
-	private static void writeRjava(String content) {
+	private static void writeRjava(Class<? extends Game> clazz, String content) {
 		// 写入
-		FileHandle fileHandle = new FileHandle(new File(parseGdxRjavaPath()));
+		FileHandle fileHandle = new FileHandle(new File(parseGdxRjavaPath(clazz)));
 		if (fileHandle.exists() && content.equals(fileHandle.readString())) {
 			Gdx.app.debug(TAG, "write cancel(content the same) " + R_JAVA_NAME + " --> " + fileHandle);
 		} else {

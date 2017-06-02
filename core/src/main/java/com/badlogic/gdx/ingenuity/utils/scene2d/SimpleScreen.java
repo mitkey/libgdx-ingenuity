@@ -6,10 +6,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,14 +35,26 @@ import net.mwplay.nativefont.NativeTextField;
  */
 public abstract class SimpleScreen extends ScreenAdapter implements InputProcessor {
 
+	private static FnAssetManager ASSET_MANAGER;
+	private static SpriteBatch SPRITE_BATCH;
+
 	Stage stage;
 	Loading loading;
 	SimpleToast simpleToast;
 
+	static {
+		if (SPRITE_BATCH == null) {
+			SPRITE_BATCH = new SpriteBatch();
+		}
+		if (ASSET_MANAGER == null) {
+			ASSET_MANAGER = new FnAssetManager();
+		}
+	}
+
 	@Override
 	public void show() {
 		super.show();
-		this.stage = new Stage(new StretchViewport(GdxData.WIDTH, GdxData.HEIGHT), game().getSpriteBatch());
+		this.stage = new Stage(new StretchViewport(GdxData.WIDTH, GdxData.HEIGHT), SPRITE_BATCH);
 		this.loading = new Loading();
 		this.simpleToast = new SimpleToast();
 
@@ -111,6 +122,25 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
+	}
+
+	public static SpriteBatch spriteBatch() {
+		return SPRITE_BATCH;
+	}
+
+	public static FnAssetManager assetManager() {
+		return ASSET_MANAGER;
+	}
+
+	public static void disposeStatic() {
+		if (SPRITE_BATCH != null) {
+			SPRITE_BATCH.dispose();
+			SPRITE_BATCH = null;
+		}
+		if (ASSET_MANAGER != null) {
+			ASSET_MANAGER.dispose();
+			ASSET_MANAGER = null;
+		}
 	}
 
 	// utils =============== start
@@ -217,17 +247,10 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return assetManager().newDrawable(fileName);
 	}
 
-	public FnAssetManager assetManager() {
-		return game().getAssetManager();
-	}
 	// other ============== end
 
 	public final Stage stage() {
 		return stage;
-	}
-
-	public final GdxGame game() {
-		return GdxUtil.getAppGame();
 	}
 
 }
