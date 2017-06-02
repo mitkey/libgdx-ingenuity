@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils;
+package com.badlogic.gdx.ingenuity.extend.android;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -21,11 +21,12 @@ import android.telephony.TelephonyManager;
  *     desc  : 设备相关工具类
  * </pre>
  */
-public class DeviceUtils {
+class DeviceUtils {
 
 	private static final String prefs_file = "device_id.xml";
 	private static final String key = "deviceId";
 	private static String device_id = null;
+
 	private DeviceUtils() {
 		throw new UnsupportedOperationException("u can't instantiate me...");
 	}

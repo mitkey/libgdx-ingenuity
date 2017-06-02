@@ -1,9 +1,9 @@
-package com.badlogic.gdx.ingenuity.extend;
+package com.badlogic.gdx.ingenuity.extend.android;
 
 import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ingenuity.utils.DeviceUtils;
+import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
 
 import android.content.Context;
 
@@ -47,8 +47,8 @@ public class AndroidCoreHelper implements ICoreHelper {
 	public void existApp() {
 		Gdx.app.exit();
 		System.exit(0);
-		System.gc();
 		android.os.Process.killProcess(android.os.Process.myPid());
+		System.gc();
 	}
 
 }

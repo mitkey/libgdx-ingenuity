@@ -1,5 +1,5 @@
 
-package com.badlogic.gdx.ingenuity.helper;
+package com.badlogic.gdx.ingenuity.extend.android;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,11 +13,9 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 
 /**
  * @作者 Mitkey
@@ -25,14 +23,15 @@ import android.util.Log;
  * @类说明:自定义的 异常处理类 , 实现了 UncaughtExceptionHandler接口
  * @版本 xx
  */
-public class ExceptionCaughHandler implements UncaughtExceptionHandler {
+class ExceptionCaughHandler implements UncaughtExceptionHandler {
 	static final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM dd-HH-mm-ss", Locale.getDefault());
 
 	private static ExceptionCaughHandler handler;
 
 	// 系统默认的UncaughtException处理类
 	Thread.UncaughtExceptionHandler defaultHandler;
-	Context context;
+
+	GdxApplication gdxApplication;
 
 	// 1.私有化构造方法
 	private ExceptionCaughHandler() {
@@ -45,8 +44,8 @@ public class ExceptionCaughHandler implements UncaughtExceptionHandler {
 		return handler;
 	}
 
-	public void init(Context context) {
-		this.context = context;
+	public void init(GdxApplication gdxApplication) {
+		this.gdxApplication = gdxApplication;
 		defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
 	}
@@ -69,9 +68,7 @@ public class ExceptionCaughHandler implements UncaughtExceptionHandler {
 			object.put("versioninfo", versioninfo);
 			object.put("mobileInfo", mobileInfo);
 			object.put("errorinfo", errorinfo);
-			// FIXME 自己处理数据，发送到 服务器、保存到本地、发邮件通知等...
-			Log.e("捕获到异常", "################## UncaughtException ################## " + ex.getMessage());
-			ex.printStackTrace();
+			gdxApplication.handlerCaughtException(ex);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -119,12 +116,13 @@ public class ExceptionCaughHandler implements UncaughtExceptionHandler {
 	/** 获取手机的版本信息 */
 	private String getVersionInfo() {
 		try {
-			PackageManager pm = context.getPackageManager();
-			PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
+			PackageManager pm = gdxApplication.getApplicationContext().getPackageManager();
+			PackageInfo info = pm.getPackageInfo(gdxApplication.getApplicationContext().getPackageName(), 0);
 			return info.versionName;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "版本号未知";
 		}
 	}
+
 }
