@@ -11,7 +11,7 @@ import android.util.Log;
  * @类说明 GdxApplication.java <br/>
  * @版本 0.0.1
  */
-public abstract class GdxApplication extends Application {
+public class GdxApplication extends Application {
 
 	@Override
 	public void onCreate() {
