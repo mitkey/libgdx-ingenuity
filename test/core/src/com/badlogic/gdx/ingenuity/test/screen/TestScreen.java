@@ -1,7 +1,10 @@
 package com.badlogic.gdx.ingenuity.test.screen;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.ingenuity.test.protocol.PacketBuffer;
 import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
@@ -11,10 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Pools;
 
 import io.socket.nativeclient.IO;
+import io.socket.nativeclient.IO.Options;
 import io.socket.nativeclient.OnSocketCall;
 import io.socket.nativeclient.SocketClient;
 import io.socket.nativeclient.SocketIOException;
-import io.socket.nativeclient.IO.Options;
 import net.mwplay.nativefont.NativeButton;
 
 /**
@@ -68,7 +71,7 @@ public class TestScreen extends BaseTestScreen {
 				socket = IO.socket(host, port, new Options(), new OnSocketCall() {
 					@Override
 					public void onMessage(byte[] data) {
-						System.err.println("== " + data.length);
+						System.err.println(JSON.toJSONString(PacketBuffer.decode(data), true));
 					}
 
 					@Override
@@ -94,7 +97,13 @@ public class TestScreen extends BaseTestScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				socket.sendData("sssss".getBytes());
+
+				StringBuffer temp = new StringBuffer("ping");
+				for (int i = 0; i < 5000; i++) {
+					temp.append("mm" + i);
+				}
+
+				socket.sendData(PacketBuffer.encode(temp.toString(), new JSONObject()));
 			}
 		});
 
