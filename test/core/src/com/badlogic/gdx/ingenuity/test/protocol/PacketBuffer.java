@@ -1,6 +1,8 @@
 package com.badlogic.gdx.ingenuity.test.protocol;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.fastjson.JSONObject;
@@ -20,13 +22,24 @@ public class PacketBuffer {
 	 * </pre>
 	 **/
 
-	// 固定消息需要的字节长度
-	private static final int FIXED_MSG_LEN = 1 + 1 + 4 + 2;
+	// 标识消息长度占用的字节数
+	private static final byte FIXED_MSG_LEN = 4;
+	// 标识协议版本占用的字节数
+	private static final byte FIXED_PROTOCOL_VERSION_LEN = 1;
+	// 标识异常状态占用的字节数
+	private static final byte FIXED_EX_LEN = 1;
+	// 标识消息序列占用的字节数
+	private static final byte FIXED_RI_LEN = 4;
+	// 标识接口名字占用的字节数
+	private static final byte FIXED_SI_NAME_LEN = 2;
+
+	// 已明确数量的字节数量，不包含 msgLen 占用的字节数
+	private static final byte FIXED_FULL_BODY_LEN_FILLER_MSG_LEN = FIXED_PROTOCOL_VERSION_LEN + FIXED_EX_LEN + FIXED_RI_LEN + FIXED_SI_NAME_LEN;
+	// 已明确数量的字节数量
+	private static final byte FIXED_FULL_BODY_LEN = FIXED_MSG_LEN + FIXED_FULL_BODY_LEN_FILLER_MSG_LEN;
 
 	private static final AtomicInteger RI = new AtomicInteger(0);
-
-	private PacketBuffer() {
-	}
+	private static ByteBuffer DECODE_BYTE_BUFFER;
 
 	/** 编码 */
 	public static byte[] encode(String si, JSONObject body) {
@@ -36,9 +49,9 @@ public class PacketBuffer {
 		int siLen = bytesSi.length;
 		int bodyLen = bytesBody.length;
 		// 消息的总长度
-		int msgLen = FIXED_MSG_LEN + siLen + bodyLen;
+		int msgLen = FIXED_FULL_BODY_LEN_FILLER_MSG_LEN + siLen + bodyLen;
 
-		ByteBuffer byteBuffer = ByteBuffer.allocate(msgLen + 4);// 加 4 是因为标识消息长度的需要 4 个字节
+		ByteBuffer byteBuffer = ByteBuffer.allocate(msgLen + FIXED_MSG_LEN);
 		// 消息的长度 4 个字节，int
 		byteBuffer.putInt(msgLen);
 		// 协议的版本 1 个字节，byte
@@ -61,31 +74,59 @@ public class PacketBuffer {
 	}
 
 	/** 解码 */
-	public static JeffData decode(byte[] bs) {
-		ByteBuffer byteBuffer = ByteBuffer.wrap(bs);
+	public static List<JeffData> decode(byte[] bs) {
+		List<JeffData> result = new ArrayList<>();
 
-		// 该消息的长度
-		int msgLen = byteBuffer.getInt();
-		// 协议版本
-		byte protocolVersion = byteBuffer.get();
-		// 状态码
-		byte ex = byteBuffer.get();
-		// 消息 id
-		int ri = byteBuffer.getInt();
+		if (DECODE_BYTE_BUFFER == null) {
+			// 第一帧
+			DECODE_BYTE_BUFFER = ByteBuffer.wrap(bs);
+		} else {
+			// 不是第一帧
+			ByteBuffer temp = ByteBuffer.allocate(DECODE_BYTE_BUFFER.capacity() + bs.length);
+			DECODE_BYTE_BUFFER.clear();
+			temp.put(DECODE_BYTE_BUFFER);
+			temp.put(bs);
+			DECODE_BYTE_BUFFER = temp;
+			DECODE_BYTE_BUFFER.flip();
+		}
 
-		// 接口名字占用字节数
-		short siLen = byteBuffer.getShort();
-		// 接口的名字
-		byte[] siNameBytes = new byte[siLen];
-		byteBuffer.get(siNameBytes);
+		while (DECODE_BYTE_BUFFER.remaining() >= FIXED_FULL_BODY_LEN) {
+			// 该消息的长度
+			int msgLen = DECODE_BYTE_BUFFER.getInt();
+			// 协议版本
+			byte protocolVersion = DECODE_BYTE_BUFFER.get();
+			// 状态码
+			byte ex = DECODE_BYTE_BUFFER.get();
+			// 消息 id
+			int ri = DECODE_BYTE_BUFFER.getInt();
+			// 接口名字占用字节数
+			short siLen = DECODE_BYTE_BUFFER.getShort();
+			if (DECODE_BYTE_BUFFER.remaining() < siLen) {
+				break;
+			}
 
-		// 消息体占用字节数
-		int bodyLen = msgLen - FIXED_MSG_LEN - siLen;
-		// 消息体
-		byte[] bodyBytes = new byte[bodyLen];
-		byteBuffer.get(bodyBytes);
+			// 接口的名字
+			byte[] siNameBytes = new byte[siLen];
+			DECODE_BYTE_BUFFER.get(siNameBytes);
 
-		return new JeffData(protocolVersion, ri, ex, new String(siNameBytes), new String(bodyBytes));
+			// 消息体占用字节数。剩下的就是 body 的消息长度
+			int bodyLen = msgLen - FIXED_FULL_BODY_LEN_FILLER_MSG_LEN - siLen;
+			if (DECODE_BYTE_BUFFER.remaining() < bodyLen) {
+				break;
+			}
+
+			// 消息体
+			byte[] bodyBytes = new byte[bodyLen];
+			DECODE_BYTE_BUFFER.get(bodyBytes);
+
+			result.add(new JeffData(protocolVersion, ri, ex, new String(siNameBytes), new String(bodyBytes)));
+		}
+
+		// 该次数据是完整的已读完
+		if (!DECODE_BYTE_BUFFER.hasRemaining()) {
+			DECODE_BYTE_BUFFER = null;
+		}
+		return result;
 	}
 
 	public static final class JeffData {

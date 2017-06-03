@@ -98,12 +98,13 @@ public class TestScreen extends BaseTestScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 
-				StringBuffer temp = new StringBuffer("ping");
-				for (int i = 0; i < 5000; i++) {
-					temp.append("mm" + i);
-				}
+				StringBuffer temp = new StringBuffer("PushService.pi0ng");
 
-				socket.sendData(PacketBuffer.encode(temp.toString(), new JSONObject()));
+				JSONObject body = new JSONObject();
+				for (int i = 0; i < 5000; i++) {
+					body.put(""+i, "mm" + i);
+				}
+				socket.sendData(PacketBuffer.encode(temp.toString(), body));
 			}
 		});
 
