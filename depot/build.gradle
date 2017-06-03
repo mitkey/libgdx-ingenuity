@@ -8,5 +8,5 @@ sourceSets.main.resources.srcDirs = ["src/"]
 
 
 eclipse.project {
-    name = appName + "-core"
+    name = appName + "-depot"
 }
