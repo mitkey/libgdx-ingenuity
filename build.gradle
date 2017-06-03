@@ -55,11 +55,6 @@ project(":depot") {
 		// 基于 java.net.socket 的 socket client
 		compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
 		
-		// android sdk jar 依赖
-		// provided "com.google.android:android:4.1.1.4"
-		compile group: 'com.google.android', name: 'android', version: '4.1.1.4'
-		
-        // 依赖本地的 jar
 		compile fileTree(include:['*.jar'], dir:'libs')
     }
 }
@@ -121,7 +116,7 @@ project(":test:core") {
     dependencies {
     	compile(project(":depot")){
 			// 为本依赖关闭依赖传递特性
-    		transitive = false
+    		// transitive = false
     	}
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
