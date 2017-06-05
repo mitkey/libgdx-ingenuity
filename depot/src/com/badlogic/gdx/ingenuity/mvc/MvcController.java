@@ -23,7 +23,7 @@ public class MvcController {
 	private static final Map<Integer, List<ICmdHandler>> cmdMapHandlers = new HashMap<Integer, List<ICmdHandler>>();
 
 	/** 预处理指令动作列表 */
-	private static final Vector<CmdAction> cmdActions = new Vector<CmdAction>();
+	private static final Vector<CmdAction<?>> cmdActions = new Vector<CmdAction<?>>();
 
 	/** 锁状态。若为 true 则不处理 cmdActions 列表，直到状态为 false */
 	private static boolean locked = false;
@@ -78,12 +78,12 @@ public class MvcController {
 			return;
 		}
 		if (!cmdActions.isEmpty()) {
-			CmdAction cmdAction = cmdActions.remove(0);
+			CmdAction<?> cmdAction = cmdActions.remove(0);
 			handleCmds(cmdAction);
 		}
 	}
 
-	public static void publishCmdAction(CmdAction cmdAction) {
+	public static void publishCmdAction(CmdAction<?> cmdAction) {
 		cmdActions.add(cmdAction);
 	}
 
@@ -115,12 +115,12 @@ public class MvcController {
 		return true;
 	}
 
-	private static void handleCmds(CmdAction cmdAction) {
+	private static void handleCmds(CmdAction<?> cmdAction) {
 		if (cmdMapHandlers.containsKey(cmdAction.getCmd())) {
 			for (ICmdHandler cmdHandler : cmdMapHandlers.get(cmdAction.getCmd())) {
 				String formatStr = " %s 处理 %s 指令%s -->  %s";
 				try {
-					cmdHandler.handle(cmdAction.getCmd(), cmdAction.getMsg());
+					cmdHandler.handle(cmdAction);
 					Gdx.app.log(tag, String.format(formatStr, cmdHandler.getClass().getSimpleName(), Cmd.cmd2Name(cmdAction.getCmd()), "成功", cmdAction));
 				} catch (Exception e) {
 					Gdx.app.error(tag, String.format(formatStr, cmdHandler.getClass().getSimpleName(), Cmd.cmd2Name(cmdAction.getCmd()), "失败", cmdAction), e);

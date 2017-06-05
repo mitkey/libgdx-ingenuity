@@ -1,7 +1,5 @@
 package com.badlogic.gdx.ingenuity.mvc;
 
-import com.alibaba.fastjson.JSONArray;
-
 /**
  * @作者 mitkey
  * @时间 2017年5月27日 上午10:37:05
@@ -10,6 +8,6 @@ import com.alibaba.fastjson.JSONArray;
  */
 public interface ICmdHandler {
 
-	void handle(int cmd, JSONArray msg) throws Exception;
+	void handle(CmdAction<?> cmdAction) throws Exception;
 
 }
