@@ -2,7 +2,7 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -38,7 +38,7 @@ public class SimpleToast implements Disposable {
 		// 背景
 		Image imgContentBg = new Image(PixmapHelper.getInstance().newRectangleDrawable(Color.BLACK, 10, 10));
 		imgContentBg.setSize(labContent.getWidth() + 100, labContent.getHeight() + 20);
-		GdxUtil.center(imgContentBg, labContent);
+		GdxUtilities.center(imgContentBg, labContent);
 
 		// window 层显示的
 		final Window window = new Window("", new WindowStyle(nativeFont, Color.WHITE, null));
@@ -48,7 +48,7 @@ public class SimpleToast implements Disposable {
 		window.setMovable(false);
 		window.setResizable(false);
 		window.setY(GdxData.HEIGHT + window.getHeight() * 2);
-		GdxUtil.center(window, true);
+		GdxUtilities.center(window, true);
 		// 该 window(包括子 actor) 忽略所有监听
 		window.setTouchable(Touchable.disabled);
 		simpleScreen.stage().unfocus(window);

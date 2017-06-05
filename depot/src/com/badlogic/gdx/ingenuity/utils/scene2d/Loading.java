@@ -2,7 +2,7 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,8 +36,8 @@ public class Loading implements Disposable {
 		imgInner = new Image(PixmapHelper.getInstance().newCircleDrawable(Color.RED, 18));
 		imgInner.setOrigin(Align.center);
 
-		GdxUtil.center(imgOut);
-		GdxUtil.center(imgInner);
+		GdxUtilities.center(imgOut);
+		GdxUtilities.center(imgInner);
 		root.addActor(imgOut);
 		root.addActor(imgInner);
 	}

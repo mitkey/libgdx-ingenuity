@@ -1,20 +1,35 @@
 package com.badlogic.gdx.ingenuity.utils;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
-public enum GdxUtil {
+public enum GdxUtilities {
 	;
 
-	@SuppressWarnings("unchecked")
-	public static <T extends ApplicationListener> T getAppGame() {
-		return (T) Gdx.app.getApplicationListener();
+	public static void clearScreen() {
+		Gdx.gl20.glClearColor(.5f, .5f, .2f, 1);
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+
+	public static Vector2 getCursorPosition() {
+		return new Vector2(Gdx.input.getX(), Gdx.input.getY());
+	}
+
+	public static void clearInputProcessor() {
+		Gdx.input.setInputProcessor(null);
+	}
+
+	public static void setMultipleInputProcessors(final InputProcessor... processors) {
+		Gdx.input.setInputProcessor(new InputMultiplexer(processors));
 	}
 
 	public static Rectangle getTextBounds(String text, BitmapFont bitmapFont) {
