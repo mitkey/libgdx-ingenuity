@@ -90,6 +90,7 @@ public class PacketBuffer {
 			DECODE_BYTE_BUFFER.flip();
 		}
 
+		// 剩余可读有效字节数
 		while (DECODE_BYTE_BUFFER.remaining() >= FIXED_FULL_BODY_LEN) {
 			// 该消息的长度
 			int msgLen = DECODE_BYTE_BUFFER.getInt();
