@@ -111,6 +111,9 @@ project(":test:core") {
         // fastjson 包依赖
 		compile "com.alibaba:fastjson:1.2.6"
 		
+		// libgdx 跨平台多语言本地字体
+		compile 'com.github.tianqiujie:nativefont:2.5.1'
+		
         //compile 'com.github.mitkey:libgdx-ingenuity:1.0.3'
         compile 'com.github.mitkey:libgdx-ingenuity:+'
         
