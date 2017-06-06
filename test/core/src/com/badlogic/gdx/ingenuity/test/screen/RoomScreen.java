@@ -1,8 +1,6 @@
 package com.badlogic.gdx.ingenuity.test.screen;
 
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-
-import net.mwplay.nativefont.NativeLabel;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 
 /**
  * @作者 Mitkey
@@ -16,9 +14,7 @@ public class RoomScreen extends BaseTestScreen {
 	public void show() {
 		super.show();
 
-		NativeLabel label = newNativeLabel("我是房间界面", 30);
-		GdxUtil.center(label);
-		stage().addActor(label);
+		stage().addActor(GdxUtilities.center(newNativeLabel("我是房间界面", 30)));
 	}
 
 	@Override

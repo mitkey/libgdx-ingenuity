@@ -4,15 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.test.GdxR;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-
-import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -34,9 +32,7 @@ public class LoginScreen extends BaseTestScreen {
 		image.addListener(new MoveListener(image));
 		stage().addActor(image);
 
-		NativeLabel label = newNativeLabel("我是登录界面", 30, Color.YELLOW);
-		GdxUtil.center(label);
-		stage().addActor(label);
+		stage().addActor(GdxUtilities.center(newNativeLabel("我是登录界面", 30, Color.YELLOW)));
 
 		// 滤镜 image 测试
 		VerticalGroup verticalGroup = new VerticalGroup();

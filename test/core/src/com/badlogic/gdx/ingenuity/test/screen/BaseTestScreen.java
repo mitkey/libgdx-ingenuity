@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.screen.SimpleLoadingScreen.ILoadingComplete;
 import com.badlogic.gdx.ingenuity.test.Asset;
 import com.badlogic.gdx.ingenuity.test.GdxGame;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -91,10 +91,10 @@ public abstract class BaseTestScreen extends SimpleScreen {
 		super.dispose();
 	}
 
-	public GdxGame game(){
-		return GdxUtil.getAppGame();
+	public GdxGame game() {
+		return (GdxGame) Gdx.app.getApplicationListener();
 	}
-	
+
 	public Class<? extends SimpleScreen> getCurScreenClazz() {
 		return getClass();
 	}

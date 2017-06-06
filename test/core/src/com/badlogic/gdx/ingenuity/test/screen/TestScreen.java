@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.test.protocol.PacketBuffer;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -127,7 +127,7 @@ public class TestScreen extends BaseTestScreen {
 		verticalGroup.addActor(btnDisconnect);
 		verticalGroup.space(20);
 		verticalGroup.pack();
-		GdxUtil.center(verticalGroup);
+		GdxUtilities.center(verticalGroup);
 		stage().addActor(verticalGroup);
 	}
 

@@ -1,9 +1,7 @@
 package com.badlogic.gdx.ingenuity.test.screen;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
-
-import net.mwplay.nativefont.NativeLabel;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 
 /**
  * @作者 Mitkey
@@ -16,10 +14,7 @@ public class HallScreen extends BaseTestScreen {
 	@Override
 	public void show() {
 		super.show();
-
-		NativeLabel nativeLabel = newNativeLabel("我是大厅界面", 30, Color.WHITE);
-		GdxUtil.center(nativeLabel);
-		stage().addActor(nativeLabel);
+		stage().addActor(GdxUtilities.center(newNativeLabel("我是大厅界面", 30, Color.WHITE)));
 	}
 
 	@Override

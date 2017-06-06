@@ -6,12 +6,10 @@ import java.util.Set;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.screen.SimpleLoadingScreen;
 import com.badlogic.gdx.ingenuity.test.Asset;
-import com.badlogic.gdx.ingenuity.utils.GdxUtil;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
-
-import net.mwplay.nativefont.NativeLabel;
 
 /**
  * @作者 Mitkey
@@ -33,9 +31,7 @@ public class LoadingScreen extends SimpleLoadingScreen {
 	public void show() {
 		super.show();
 		// 文字标识
-		NativeLabel label = newNativeLabel("我是加载界面", 35, Color.WHITE);
-		GdxUtil.center(label);
-		stage().addActor(label);
+		stage().addActor(GdxUtilities.center(newNativeLabel("我是加载界面", 35, Color.WHITE)));
 
 		// 进度条样式
 		ProgressBarStyle style = new ProgressBarStyle();
@@ -44,7 +40,7 @@ public class LoadingScreen extends SimpleLoadingScreen {
 		// 进度条
 		progressBar = new ProgressBar(0, 1000, 5f, false, style);
 		progressBar.setSize(600, 20);
-		GdxUtil.center(progressBar);
+		GdxUtilities.center(progressBar);
 		progressBar.setY(120);
 		stage().addActor(progressBar);
 	}
