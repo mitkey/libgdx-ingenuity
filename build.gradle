@@ -114,8 +114,7 @@ project(":test:core") {
 		// libgdx 跨平台多语言本地字体
 		compile 'com.github.tianqiujie:nativefont:2.5.1'
 		
-        //compile 'com.github.mitkey:libgdx-ingenuity:1.0.3'
-        compile 'com.github.mitkey:libgdx-ingenuity:+'
+        compile 'com.github.mitkey:libgdx-ingenuity:1.0.4'
         
 		// 基于 java.net.socket 的 socket client
 		compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
