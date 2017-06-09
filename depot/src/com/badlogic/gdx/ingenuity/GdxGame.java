@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.ingenuity.extend.desktop.DesktopCoreHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.DebugHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
@@ -23,6 +24,10 @@ public abstract class GdxGame extends Game {
 
 	@Override
 	public final void create() {
+		if (Gdx.app.getType() == ApplicationType.Desktop) {
+			GdxData.getInstance().initRuntime(new DesktopCoreHelper());
+		}
+
 		SimpleScreen.initContext();
 		Texture.setAssetManager(SimpleScreen.assetManager().getManager());
 		if (Gdx.app.getType() == ApplicationType.Desktop) {

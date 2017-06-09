@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
-import com.badlogic.gdx.ingenuity.extend.desktop.DesktopCoreHelper;
 
 import net.mwplay.nativefont.NativeFont;
 import net.mwplay.nativefont.NativeFontPaint;
@@ -38,9 +36,6 @@ public class GdxData {
 	private Map<Integer, NativeFont> defaultFonts = new HashMap<Integer, NativeFont>();
 
 	private GdxData() {
-		if (Gdx.app.getType() == ApplicationType.Desktop && this.coreHelper == null) {
-			initRuntime(new DesktopCoreHelper());
-		}
 	}
 
 	public static GdxData getInstance() {
