@@ -18,13 +18,12 @@ import com.badlogic.gdx.net.HttpStatus;
  */
 public final class HttpHelper {
 	private static final HttpRequestBuilder Builder = new HttpRequestBuilder();
-	private static final String URL = "http://127.0.0.1:9090/bill";
 	private static final String TAG = HttpHelper.class.getSimpleName();
 
-	public static HttpRequest post(final Object content, final OnHttpCall onCall) {
+	public static HttpRequest post(String url, final Object content, final OnHttpCall onCall) {
 		Gdx.app.log("发送网络请求", content.toString());
 
-		HttpRequest httpRequest = Builder.newRequest().url(URL).method(POST).timeout(5000).content(content.toString()).build();
+		HttpRequest httpRequest = Builder.newRequest().url(url).method(POST).timeout(5000).content(content.toString()).build();
 		Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
 			@Override
 			public void handleHttpResponse(HttpResponse httpResponse) {
@@ -41,11 +40,13 @@ public final class HttpHelper {
 					onCall.failed();
 				}
 			}
+
 			@Override
 			public void failed(Throwable t) {
 				Gdx.app.error(TAG, "网络请求失败：" + content.toString(), t);
 				onCall.failed();
 			}
+
 			@Override
 			public void cancelled() {
 				Gdx.app.debug(TAG, "取消网络请求");
@@ -57,7 +58,9 @@ public final class HttpHelper {
 
 	public static abstract class OnHttpCall {
 		public abstract void response(String data);
+
 		public abstract void failed();
+
 		public void cancelled() {
 		}
 	}
