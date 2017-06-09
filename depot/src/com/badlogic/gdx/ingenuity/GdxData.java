@@ -22,8 +22,8 @@ public class GdxData {
 
 	private static final String tag = GdxData.class.getName();
 
-	/** 开启调试已加载纹理 */
-	public static boolean DEBUG_MANAGED_TEXTURES = true;
+	/** 是否为发布版本 */
+	public static boolean RELEASE_VERSION = true;
 
 	/** 素材宽比例 */
 	public static final int WIDTH = 1280;

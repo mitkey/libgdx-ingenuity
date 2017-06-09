@@ -22,6 +22,10 @@ public class DebugHelper {
 	private static Table root;
 
 	public static void showDebugOnOff() {
+		if (GdxData.RELEASE_VERSION) {
+			return;
+		}
+
 		generateRoot();
 		if (root.getUserObject() == null) {
 			// 首次默认为显示
@@ -34,6 +38,10 @@ public class DebugHelper {
 
 	/** 渲染绘制 */
 	public static void renderDebug() {
+		if (GdxData.RELEASE_VERSION) {
+			return;
+		}
+
 		if (root != null && root.getUserObject() == root) {
 			SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
 			if (spriteBatch != null) {
