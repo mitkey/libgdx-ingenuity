@@ -1,5 +1,6 @@
 package com.badlogic.gdx.ingenuity.test.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.GdxData;
@@ -8,8 +9,12 @@ import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+
+import net.mwplay.nativefont.NativeFont;
 
 /**
  * @作者 Mitkey
@@ -49,6 +54,30 @@ public class LoginScreen extends BaseTestScreen {
 		scrollPane.setSize(image.getWidth() + 50, GdxData.HEIGHT);
 		scrollPane.setX(GdxData.WIDTH - scrollPane.getWidth());
 		stage().addActor(scrollPane);
+
+		List<String> list = new List<String>(new ListStyle(newNativeFont(25), Color.RED, Color.BLACK, dabDown)) {
+			@Override
+			public void setItems(String... newItems) {
+				super.setItems(newItems);
+				NativeFont font = (NativeFont) getStyle().font;
+				StringBuffer characters = new StringBuffer();
+				for (String string : newItems) {
+					characters.append(string);
+				}
+				font.appendText(characters.toString());
+			}
+		};
+		list.setItems("Gdx.files.getLocalStoragePath -->" + Gdx.files.getLocalStoragePath(), //
+				"Gdx.files.getExternalStoragePath -->" + Gdx.files.getExternalStoragePath(), //
+				"Gdx.files.local -->" + Gdx.files.local("local").toString(), //
+				"Gdx.files.absolute -->" + Gdx.files.absolute("absolute").toString(), //
+				"Gdx.files.classpath -->" + Gdx.files.classpath("classpath").toString(), //
+				"Gdx.files.external -->" + Gdx.files.external("external").toString(), //
+				"Gdx.files.internal -->" + Gdx.files.internal("internal").toString());
+		list.layout();
+		list.pack();
+		list.setPosition(20, 20);
+		stage().addActor(list);
 	}
 
 	@Override
