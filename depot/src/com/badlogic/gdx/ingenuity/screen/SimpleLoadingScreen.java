@@ -61,12 +61,12 @@ public abstract class SimpleLoadingScreen extends SimpleScreen {
 	}
 
 	/** 资源是否加载完 */
-	public boolean isloaded() {
+	public final boolean isloaded() {
 		return loaded;
 	}
 
 	/** 真实加载进度值为 0 到 1 */
-	public float getRealProgress() {
+	public final float getRealProgress() {
 		return assetManager().getManager().getProgress();
 	}
 

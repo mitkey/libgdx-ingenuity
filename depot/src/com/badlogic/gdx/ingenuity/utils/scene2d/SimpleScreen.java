@@ -40,7 +40,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	Loading loading;
 	SimpleToast simpleToast;
 
-	static {
+	public static void initContext() {
 		if (SPRITE_BATCH == null) {
 			SPRITE_BATCH = new SpriteBatch();
 		}
