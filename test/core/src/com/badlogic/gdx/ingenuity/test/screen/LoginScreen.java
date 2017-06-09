@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.test.GdxR;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
-import com.badlogic.gdx.ingenuity.utils.MoveListener;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage;
 import com.badlogic.gdx.ingenuity.utils.scene2d.FilterImage.FilterType;
 import com.badlogic.gdx.ingenuity.utils.scene2d.RemoteImage;
@@ -29,7 +28,6 @@ public class LoginScreen extends BaseTestScreen {
 
 		image = new RemoteImage(texture, "http://img.lanrentuku.com/img/allimg/1605/14647058959840.jpg");
 		image.setPosition(250, 256);
-		image.addListener(new MoveListener(image));
 		stage().addActor(image);
 
 		stage().addActor(GdxUtilities.center(newNativeLabel("我是登录界面", 30, Color.YELLOW)));
