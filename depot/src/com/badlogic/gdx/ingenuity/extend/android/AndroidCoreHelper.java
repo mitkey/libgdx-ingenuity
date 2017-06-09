@@ -13,7 +13,7 @@ import android.content.Context;
  * @类说明:
  * @版本 xx
  */
-public class AndroidCoreHelper implements ICoreHelper {
+class AndroidCoreHelper implements ICoreHelper {
 
 	private Context ctx;
 
