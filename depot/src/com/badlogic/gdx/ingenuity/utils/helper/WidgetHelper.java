@@ -190,10 +190,9 @@ public final class WidgetHelper {
 
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
-			// 若当前焦点不是自己
-			Stage stage = actor.getStage();
-			if (stage == null || stage.getKeyboardFocus() != actor)
-				return false;
+			if (!hasFocus()) {
+				return true;
+			}
 
 			actor.setDebug(true);
 			boolean repeatMove = false;
@@ -277,12 +276,24 @@ public final class WidgetHelper {
 			return true;
 		}
 
-		protected void scheduleKeyRepeatTask(int keycode) {
+		private void scheduleKeyRepeatTask(int keycode) {
 			keyRepeatTask.keycodes.add(keycode);
 			// 该任务未调度过
 			if (!keyRepeatTask.isScheduled()) {
 				Timer.schedule(keyRepeatTask, KEY_REPEAT_INITIAL_TIME, KEY_REPEAT_TIME);
 			}
+		}
+
+		/** 若当前焦点是不是自己 */
+		private boolean hasFocus() {
+			Stage stage = actor.getStage();
+			if (stage == null) {
+				return false;
+			}
+			if (stage.getKeyboardFocus() != actor) {
+				return false;
+			}
+			return true;
 		}
 	}
 
