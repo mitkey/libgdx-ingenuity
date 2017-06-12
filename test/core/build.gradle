@@ -6,6 +6,27 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["src/"]
 
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.3"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.3"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.0.0"
+    
+    // fastjson 包依赖
+	compile "com.alibaba:fastjson:1.2.6"
+	// libgdx 跨平台多语言本地字体
+	compile 'com.github.tianqiujie:nativefont:2.5.1'
+	
+	// 当前 ingenuity 的库
+    compile 'com.github.mitkey:libgdx-ingenuity:master-SNAPSHOT'
+	// 基于 java.net.socket 的 socket client
+	compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
+}
 
 eclipse.project {
     name = appName + "-test-core"

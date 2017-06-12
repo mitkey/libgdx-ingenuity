@@ -9,6 +9,16 @@ sourceSets.main.resources.srcDirs = ["src/"]
 project.ext.mainClassName = "com.badlogic.gdx.ingenuity.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
+dependencies {
+    compile project(":test:core")
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.0.0"
+}
+
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
