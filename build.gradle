@@ -110,12 +110,11 @@ project(":test:core") {
         
         // fastjson 包依赖
 		compile "com.alibaba:fastjson:1.2.6"
-		
 		// libgdx 跨平台多语言本地字体
 		compile 'com.github.tianqiujie:nativefont:2.5.1'
 		
-        compile 'com.github.mitkey:libgdx-ingenuity:1.0.5'
-        
+		// 当前 ingenuity 的库
+        compile 'com.github.mitkey:libgdx-ingenuity:master-SNAPSHOT'
 		// 基于 java.net.socket 的 socket client
 		compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
     }
@@ -142,3 +141,9 @@ artifacts {
     archives packJar
 }
 // =============== packJar ============ end
+
+
+configurations.all {
+	// 确保Gradle始终选择构建的“最新”版本
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
