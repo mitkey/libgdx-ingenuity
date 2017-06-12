@@ -29,7 +29,11 @@ public class RemoteImage extends Image implements Disposable {
 	private static final String tag = RemoteImage.class.getSimpleName();
 	private static final int ReCount = 5;
 
-	public static final String saveRemoteImage2lDir = "abcsResource";
+	/**
+	 * android ---> data/user/0/apk_pack_name/files/local/image desktop ---> data/user/0/apk_pack_name/files/local/image <br/>
+	 * desktop ---> project_path/image
+	 */
+	public static final String LOCAL_FOLDER_NAME = "image";
 
 	String url;
 	Texture texture;
@@ -93,10 +97,12 @@ public class RemoteImage extends Image implements Disposable {
 					}
 				});
 			}
+
 			@Override
 			public void failed(Throwable t) {
 				Gdx.app.error(tag, "download remote image failed:" + url, t);
 			}
+
 			@Override
 			public void cancelled() {
 				Gdx.app.debug(tag, "cancel download remote image:" + url);
@@ -123,7 +129,7 @@ public class RemoteImage extends Image implements Disposable {
 	}
 
 	FileHandle generalImageFileHandle(String md5FileName) {
-		FileHandle external = Gdx.files.external(saveRemoteImage2lDir);
+		FileHandle external = Gdx.files.local(LOCAL_FOLDER_NAME);
 		if (!external.exists()) {
 			external.mkdirs();
 		}

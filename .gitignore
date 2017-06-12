@@ -78,3 +78,4 @@ build/
 ## OS Specific
 .DS_Store
 
+/test/desktop/image
