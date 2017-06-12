@@ -79,3 +79,4 @@ build/
 .DS_Store
 
 /test/desktop/image
+/test/desktop/screenshot
