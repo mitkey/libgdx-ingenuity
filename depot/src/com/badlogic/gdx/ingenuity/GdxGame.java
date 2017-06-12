@@ -9,6 +9,7 @@ import com.badlogic.gdx.ingenuity.extend.desktop.DesktopCoreHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.DebugHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
+import com.badlogic.gdx.ingenuity.utils.helper.ScreenShotsHelper;
 import com.badlogic.gdx.ingenuity.utils.helper.WidgetHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
@@ -55,11 +56,18 @@ public abstract class GdxGame extends Game {
 	public final void render() {
 		super.render();
 
+		// 截屏
+		if (Gdx.input.isKeyJustPressed(Keys.F10)) {
+			ScreenShotsHelper.saveScreenShot();
+		}
+
+		// 显示 debug 监控指标消息
 		if (Gdx.input.isKeyJustPressed(Keys.F11)) {
 			DebugHelper.showDebugOnOff();
 		}
 		DebugHelper.renderDebug();
 
+		// 显示 widget 调试的帮助消息
 		if (Gdx.input.isKeyJustPressed(Keys.F12)) {
 			WidgetHelper.showHelpOnOff();
 		}

@@ -20,27 +20,29 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 public class ScreenShotsHelper {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS");
-	private static final AtomicInteger Atommic_Counter = new AtomicInteger(0);
-	private static final String File_Name_Format = "screenshot-%s-%s.png";
+	private static final String tag = ScreenShotsHelper.class.getSimpleName();
 
-	public static void saveScreenShot(String fileName, int x, int y, int w, int h) {
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS");
+
+	private static final AtomicInteger ATOMMIC_COUNTER = new AtomicInteger(0);
+
+	private static final String FILE_NAME_FORMAT = "screenshot/%s-%s.png";
+
+	public static boolean saveScreenShot(FileHandle fileHandle, int x, int y, int w, int h) {
 		try {
-			FileHandle fh;
-			do {
-				fh = new FileHandle(fileName);
-			} while (fh.exists());
 			Pixmap pixmap = getScreenshot(x, y, w, h, true);
-			PixmapIO.writePNG(fh, pixmap);
+			PixmapIO.writePNG(fileHandle, pixmap);
 			pixmap.dispose();
+			return true;
 		} catch (Exception e) {
-			Gdx.app.error("screenshot", e.getLocalizedMessage());
+			Gdx.app.error(tag, "截屏失败", e);
+			return false;
 		}
 	}
 
-	public static void saveScreenShot() {
-		String fileName = String.format(File_Name_Format, DATE_FORMAT.format(new Date()), Atommic_Counter.getAndIncrement());
-		saveScreenShot(fileName, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	public static boolean saveScreenShot() {
+		String fileName = String.format(FILE_NAME_FORMAT, DATE_FORMAT.format(new Date()), ATOMMIC_COUNTER.getAndIncrement());
+		return saveScreenShot(Gdx.files.local(fileName), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	private static Pixmap getScreenshot(int x, int y, int w, int h, boolean yDown) {
