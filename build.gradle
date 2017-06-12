@@ -42,6 +42,7 @@ project(":depot") {
 
 
 // =============== test project ============ start
+/**
 apply plugin: "java"
 apply plugin: "maven"
 
@@ -119,6 +120,7 @@ project(":test:core") {
 		compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
     }
 }
+*/
 // =============== test project ============ end
 
 
