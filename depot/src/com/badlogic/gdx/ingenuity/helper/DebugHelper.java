@@ -84,13 +84,6 @@ public class DebugHelper {
 				return Texture.getNumManagedTextures();
 			}
 		}).row();
-		root.add(new NumberLabel<Integer>("RenderCalls:", -1, labelStyle) {
-			@Override
-			public Integer getValue() {
-				SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
-				return spriteBatch == null ? -1 : spriteBatch.renderCalls;
-			}
-		}).row();
 
 		root.layout();
 		root.pack();
