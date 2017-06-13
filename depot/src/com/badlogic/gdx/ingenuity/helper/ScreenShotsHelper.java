@@ -22,11 +22,12 @@ public class ScreenShotsHelper {
 
 	private static final String tag = ScreenShotsHelper.class.getSimpleName();
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS");
+	private static final SimpleDateFormat DATE_FORMAT1 = new SimpleDateFormat("yyyy.MM.dd-HH");
+	private static final SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("HH.mm.ss.SSS");
 
 	private static final AtomicInteger ATOMMIC_COUNTER = new AtomicInteger(0);
 
-	private static final String FILE_NAME_FORMAT = "screenshot/%s-%s.png";
+	private static final String FILE_NAME_FORMAT = "screenshot/%s/%s-%s.png";
 
 	public static boolean saveScreenShot(FileHandle fileHandle, int x, int y, int w, int h) {
 		try {
@@ -41,7 +42,8 @@ public class ScreenShotsHelper {
 	}
 
 	public static boolean saveScreenShot() {
-		String fileName = String.format(FILE_NAME_FORMAT, DATE_FORMAT.format(new Date()), ATOMMIC_COUNTER.getAndIncrement());
+		Date date = new Date();
+		String fileName = String.format(FILE_NAME_FORMAT, DATE_FORMAT1.format(date), DATE_FORMAT2.format(date), ATOMMIC_COUNTER.getAndIncrement());
 		return saveScreenShot(Gdx.files.local(fileName), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
