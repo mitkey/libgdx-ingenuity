@@ -29,7 +29,7 @@ public class LoginScreen extends BaseTestScreen {
 	@Override
 	public void show() {
 		super.show();
-		Texture texture = assetManager().getTexture(GdxR.def_badlogic_jpg);
+		Texture texture = onlyAssetManager().getTexture(GdxR.def_badlogic_jpg);
 
 		image = new RemoteImage(texture, "http://img.lanrentuku.com/img/allimg/1605/14647058959840.jpg");
 		image.setPosition(250, 256);
