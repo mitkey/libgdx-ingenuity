@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.utils.Utils;
+import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 /**
@@ -49,7 +49,7 @@ public abstract class SimpleLoadingScreen extends SimpleScreen {
 					Gdx.app.log(tag, "已加载的资源数量：" + onlyAssetManager().getManager().getLoadedAssets());
 					Gdx.app.log(tag, "已加载的资源列表：" + onlyAssetManager().getManager().getAssetNames());
 					Gdx.app.log(tag, "资源依赖：" + onlyAssetManager().getManager().getDiagnostics());
-					Utils.printManagedTextures();
+					GdxUtilities.printManagedTextures();
 				}
 				System.gc();
 			}
