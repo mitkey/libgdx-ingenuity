@@ -32,13 +32,13 @@ import com.badlogic.gdx.utils.Logger;
  * @类说明:基于文件名的 assets 管理
  * @版本 xx
  */
-public final class FnAssetManager implements Disposable {
+public final class OnlyAssetManager implements Disposable {
 
-	private static final String tag = FnAssetManager.class.getSimpleName();
+	private static final String tag = OnlyAssetManager.class.getSimpleName();
 
 	AssetManager manager;
 
-	public FnAssetManager() {
+	public OnlyAssetManager() {
 		this.manager = new AssetManager();
 		// 添加 TiledMap Loader
 		this.manager.setLoader(TiledMap.class, new TmxMapLoader());

@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
+import com.badlogic.gdx.ingenuity.utils.OnlyAssetManager;
 import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,7 +33,7 @@ import net.mwplay.nativefont.NativeTextField;
  */
 public abstract class SimpleScreen extends ScreenAdapter implements InputProcessor {
 
-	private static FnAssetManager ASSET_MANAGER;
+	private static OnlyAssetManager ONLY_ASSET_MANAGER;
 	private static SpriteBatch SPRITE_BATCH;
 
 	Stage stage;
@@ -44,8 +44,8 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		if (SPRITE_BATCH == null) {
 			SPRITE_BATCH = new SpriteBatch();
 		}
-		if (ASSET_MANAGER == null) {
-			ASSET_MANAGER = new FnAssetManager();
+		if (ONLY_ASSET_MANAGER == null) {
+			ONLY_ASSET_MANAGER = new OnlyAssetManager();
 		}
 	}
 
@@ -125,8 +125,8 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return SPRITE_BATCH;
 	}
 
-	public static FnAssetManager assetManager() {
-		return ASSET_MANAGER;
+	public static OnlyAssetManager onlyAssetManager() {
+		return ONLY_ASSET_MANAGER;
 	}
 
 	public static void disposeStatic() {
@@ -134,9 +134,9 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 			SPRITE_BATCH.dispose();
 			SPRITE_BATCH = null;
 		}
-		if (ASSET_MANAGER != null) {
-			ASSET_MANAGER.dispose();
-			ASSET_MANAGER = null;
+		if (ONLY_ASSET_MANAGER != null) {
+			ONLY_ASSET_MANAGER.dispose();
+			ONLY_ASSET_MANAGER = null;
 		}
 	}
 
@@ -241,7 +241,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	}
 
 	public Drawable newDrawable(String fileName) {
-		return assetManager().newDrawable(fileName);
+		return onlyAssetManager().newDrawable(fileName);
 	}
 
 	// other ============== end

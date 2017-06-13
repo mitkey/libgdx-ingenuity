@@ -30,7 +30,7 @@ public abstract class GdxGame extends Game {
 		}
 
 		SimpleScreen.initContext();
-		Texture.setAssetManager(SimpleScreen.assetManager().getManager());
+		Texture.setAssetManager(SimpleScreen.onlyAssetManager().getManager());
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			RHelper.generated(getClass());
 		}
