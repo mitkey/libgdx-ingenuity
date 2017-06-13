@@ -17,7 +17,7 @@ android {
         instrumentTest.setRoot('tests')
     }
     defaultConfig {
-        applicationId "com.badlogic.gdx.ingenuity"
+        applicationId "com.badlogic.gdx.ingenuity.test"
         minSdkVersion 8
         targetSdkVersion 25
     }
@@ -109,7 +109,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.badlogic.gdx.ingenuity/com.badlogic.gdx.ingenuity.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.badlogic.gdx.ingenuity.test/com.badlogic.gdx.ingenuity.test.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

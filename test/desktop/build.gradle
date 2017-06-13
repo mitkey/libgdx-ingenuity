@@ -6,7 +6,7 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["src/"]
 
-project.ext.mainClassName = "com.badlogic.gdx.ingenuity.desktop.DesktopLauncher"
+project.ext.mainClassName = "com.badlogic.gdx.ingenuity.desktop.test.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 dependencies {
