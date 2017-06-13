@@ -4,8 +4,8 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
-import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 /**
  * @作者 mitkey

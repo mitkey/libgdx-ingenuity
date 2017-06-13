@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.scene2d.utils;
+package com.badlogic.gdx.ingenuity.scene2d.utils;
 
 import java.util.Objects;
 

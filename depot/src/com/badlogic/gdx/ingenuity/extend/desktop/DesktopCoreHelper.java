@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ingenuity.extend.ICoreHelper;
+import com.badlogic.gdx.ingenuity.utils.Storage;
 import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
-import com.badlogic.gdx.ingenuity.utils.config.Storage;
 
 /**
  * @作者 Mitkey

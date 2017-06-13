@@ -11,7 +11,7 @@ import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.helper.RHelper;
 import com.badlogic.gdx.ingenuity.helper.ScreenShotsHelper;
 import com.badlogic.gdx.ingenuity.helper.WidgetHelper;
-import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
+import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
 
 /**
  * @作者 mitkey

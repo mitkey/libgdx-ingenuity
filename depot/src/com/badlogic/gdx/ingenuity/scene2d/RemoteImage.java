@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.scene2d;
+package com.badlogic.gdx.ingenuity.scene2d;
 
 import java.security.MessageDigest;
 

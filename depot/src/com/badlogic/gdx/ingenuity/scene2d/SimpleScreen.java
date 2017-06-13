@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.scene2d;
+package com.badlogic.gdx.ingenuity.scene2d;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.config;
+package com.badlogic.gdx.ingenuity.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
