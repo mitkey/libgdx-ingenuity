@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.screen.SimpleLoadingScreen;
 import com.badlogic.gdx.ingenuity.test.Asset;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
-import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
 

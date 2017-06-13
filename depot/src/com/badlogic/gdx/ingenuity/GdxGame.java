@@ -6,11 +6,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.ingenuity.extend.desktop.DesktopCoreHelper;
-import com.badlogic.gdx.ingenuity.utils.helper.DebugHelper;
-import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
-import com.badlogic.gdx.ingenuity.utils.helper.RHelper;
-import com.badlogic.gdx.ingenuity.utils.helper.ScreenShotsHelper;
-import com.badlogic.gdx.ingenuity.utils.helper.WidgetHelper;
+import com.badlogic.gdx.ingenuity.helper.DebugHelper;
+import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
+import com.badlogic.gdx.ingenuity.helper.RHelper;
+import com.badlogic.gdx.ingenuity.helper.ScreenShotsHelper;
+import com.badlogic.gdx.ingenuity.helper.WidgetHelper;
 import com.badlogic.gdx.ingenuity.utils.scene2d.SimpleScreen;
 
 /**

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.helper;
+package com.badlogic.gdx.ingenuity.helper;
 
 import static com.badlogic.gdx.Input.Keys.DOWN;
 import static com.badlogic.gdx.Input.Keys.LEFT;

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.helper;
+package com.badlogic.gdx.ingenuity.helper;
 
 import static com.badlogic.gdx.Net.HttpMethods.POST;
 import static com.badlogic.gdx.net.HttpStatus.SC_OK;
@@ -17,8 +17,10 @@ import com.badlogic.gdx.net.HttpStatus;
  * @版本 xx
  */
 public final class HttpHelper {
-	private static final HttpRequestBuilder Builder = new HttpRequestBuilder();
+
 	private static final String TAG = HttpHelper.class.getSimpleName();
+
+	private static final HttpRequestBuilder Builder = new HttpRequestBuilder();
 
 	public static HttpRequest post(String url, final Object content, final OnHttpCall onCall) {
 		Gdx.app.log("发送网络请求", content.toString());

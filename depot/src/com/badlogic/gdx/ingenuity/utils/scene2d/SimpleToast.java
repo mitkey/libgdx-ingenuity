@@ -2,8 +2,8 @@ package com.badlogic.gdx.ingenuity.utils.scene2d;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
-import com.badlogic.gdx.ingenuity.utils.helper.PixmapHelper;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

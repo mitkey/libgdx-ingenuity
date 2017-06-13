@@ -1,4 +1,4 @@
-package com.badlogic.gdx.ingenuity.utils.helper;
+package com.badlogic.gdx.ingenuity.helper;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;

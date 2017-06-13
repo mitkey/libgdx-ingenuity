@@ -1,5 +1,5 @@
 
-package com.badlogic.gdx.ingenuity.utils.helper;
+package com.badlogic.gdx.ingenuity.helper;
 
 import java.io.File;
 import java.util.Iterator;

@@ -1,5 +1,5 @@
 
-package com.badlogic.gdx.ingenuity.utils.helper;
+package com.badlogic.gdx.ingenuity.helper;
 
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
