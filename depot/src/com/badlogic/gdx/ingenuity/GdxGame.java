@@ -12,6 +12,8 @@ import com.badlogic.gdx.ingenuity.helper.RHelper;
 import com.badlogic.gdx.ingenuity.helper.ScreenShotsHelper;
 import com.badlogic.gdx.ingenuity.helper.WidgetHelper;
 import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * @作者 mitkey
@@ -55,6 +57,15 @@ public abstract class GdxGame extends Game {
 	@Override
 	public final void render() {
 		super.render();
+
+		// 开启当前所有的 Actor
+		if (Gdx.input.isKeyJustPressed(Keys.F9) && currentScreen != null) {
+			WidgetHelper.clearInvalids();
+			Array<Actor> actors = currentScreen.stage().getActors();
+			for (Actor actor : actors) {
+				WidgetHelper.register(actor);
+			}
+		}
 
 		// 截屏
 		if (Gdx.input.isKeyJustPressed(Keys.F10)) {

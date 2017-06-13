@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,7 +48,8 @@ public final class WidgetHelper {
 	private static final int DEFAULT_STEP_XY = 1;
 
 	/** 日志格式:初始x、初始y、当前x、当前y、步长 */
-	private static final String LOG_FORMAT = "x[%s] -- y[%s] -- curX[%s] -- curY[%s] -- step[%s]";
+	private static final String LOG_FORMAT = "x[%s] -- y[%s] -- zindex[%s] \n" //
+			+ "\t curX[%s] -- curY[%s] -- step[%s]";
 
 	/** 重复任务初始间隔时间，单位秒 */
 	private static final float KEY_REPEAT_INITIAL_TIME = 0.4f;
@@ -59,6 +59,7 @@ public final class WidgetHelper {
 
 	private static Set<Actor> widgets = new HashSet<>();
 	private static Table root;
+	private static boolean needShow;
 
 	private WidgetHelper() {
 	}
@@ -66,10 +67,7 @@ public final class WidgetHelper {
 	/** 注册 input 监听 */
 	public static <T extends Actor> T register(T actor) {
 		Objects.requireNonNull(actor, "register actor must not be null");
-		if (Gdx.app.getType() != ApplicationType.Desktop) {
-			return actor;
-		}
-		if (actor.isTouchable()) {
+		if (!widgets.contains(actor) && actor.isTouchable()) {
 			actor.addListener(new InputListenerExtension(actor));
 			widgets.add(actor);
 		}
@@ -78,27 +76,13 @@ public final class WidgetHelper {
 
 	/** 显示帮助面板 ---> 如按了 F12 显示 */
 	public static void showHelpOnOff() {
-		if (Gdx.app.getType() != ApplicationType.Desktop) {
-			return;
-		}
-
 		generateRoot();
-		if (root.getUserObject() == null) {
-			// 首次默认为显示
-			root.setUserObject(root);
-		} else if (root.getUserObject() == root) {
-			// 后续为不显示
-			root.setUserObject(null);
-		}
+		needShow = !needShow;
 	}
 
 	/** 渲染绘制 */
 	public static void renderHelp() {
-		if (Gdx.app.getType() != ApplicationType.Desktop) {
-			return;
-		}
-
-		if (root != null && root.getUserObject() == root) {
+		if (root != null && needShow) {
 			SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
 			if (spriteBatch != null) {
 				spriteBatch.begin();
@@ -119,6 +103,12 @@ public final class WidgetHelper {
 			}
 		}
 	}
+
+	// ====================
+	// ====================
+	// ====== 分割线 =======
+	// ====================
+	// ====================
 
 	private static void generateRoot() {
 		if (root != null) {
@@ -223,7 +213,8 @@ public final class WidgetHelper {
 
 				case P:
 					// 打印位置和步长
-					Gdx.app.log(tag, String.format(LOG_FORMAT, x, y, actor.getX(), actor.getY(), stepXy));
+					Gdx.app.log(tag, String.format(LOG_FORMAT, x, y, actor.getZIndex(), //
+							actor.getX(), actor.getY(), stepXy));
 					break;
 				case PERIOD:
 					// . 符号重置步长
