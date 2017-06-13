@@ -22,6 +22,8 @@ public class GdxData {
 
 	/** 是否为发布版本 */
 	public static boolean RELEASE_VERSION = true;
+	/** 是否监控追踪资源管理 */
+	public static boolean TRACE_ASSET_MANAGER = false;
 
 	/** 素材宽比例 */
 	public static final int WIDTH = 1280;

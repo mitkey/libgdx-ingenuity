@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.ingenuity.test.TestGdxGame;
-import com.badlogic.gdx.ingenuity.utils.FnAssetManager;
 
 public class DesktopLauncher {
 
@@ -15,8 +14,10 @@ public class DesktopLauncher {
 	private static final float SCALE = 1.02f;
 
 	public static void main(String[] arg) {
+		// 不是发布的
 		GdxData.RELEASE_VERSION = false;
-		FnAssetManager.enableAssetMonitorLog = true;// 桌面版开启资源监控日志
+		// 监控追踪资源管理
+		GdxData.TRACE_ASSET_MANAGER = true;
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Math.round(WIDTH / SCALE);

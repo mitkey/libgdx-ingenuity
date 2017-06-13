@@ -3,21 +3,28 @@ package com.badlogic.gdx.ingenuity.utils;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Logger;
 
 /**
  * @作者 Mitkey
@@ -29,29 +36,22 @@ public final class FnAssetManager implements Disposable {
 
 	private static final String tag = FnAssetManager.class.getSimpleName();
 
-	/** 是否开启资源监控日志 */
-	public static boolean enableAssetMonitorLog = false;
-
 	AssetManager manager;
 
 	public FnAssetManager() {
-		this.manager = new AssetManager() {
+		this.manager = new AssetManager();
+		// 添加 TiledMap Loader
+		this.manager.setLoader(TiledMap.class, new TmxMapLoader());
+		// 加载资源日志
+		this.manager.setLogger(new Logger(tag, GdxData.TRACE_ASSET_MANAGER ? Logger.DEBUG : Logger.ERROR));
+		// 错误加载监听
+		this.manager.setErrorListener(new AssetErrorListener() {
+			@SuppressWarnings("rawtypes")
 			@Override
-			public synchronized <T> void load(String fileName, Class<T> type, AssetLoaderParameters<T> parameter) {
-				super.load(fileName, type, parameter);
-				if (enableAssetMonitorLog) {
-					Gdx.app.log(tag, type.getSimpleName() + " 加载资源 " + fileName);
-				}
+			public void error(AssetDescriptor asset, Throwable throwable) {
+				throw new RuntimeException("error loading " + asset.fileName + " " + asset.type, throwable);
 			}
-
-			@Override
-			public synchronized void unload(String fileName) {
-				super.unload(fileName);
-				if (enableAssetMonitorLog) {
-					Gdx.app.log(tag, "卸载资源 " + fileName);
-				}
-			}
-		};
+		});
 	}
 
 	public AssetManager getManager() {
@@ -66,12 +66,18 @@ public final class FnAssetManager implements Disposable {
 				manager.load(fileName, Skin.class);
 			} else if (fileName.endsWith(".ogg")) {
 				manager.load(fileName, Sound.class);
+			} else if (fileName.endsWith(".tmx")) {
+				manager.load(fileName, TiledMap.class);
+			} else if (fileName.endsWith(".p")) {
+				manager.load(fileName, ParticleEffect.class);
 			} else if (fileName.endsWith(".mp3")) {
 				manager.load(fileName, Music.class);
-			} else if (fileName.endsWith(".atlas") || fileName.endsWith("pack")) {
+			} else if (fileName.endsWith(".atlas") || fileName.endsWith("pack") || fileName.endsWith("plist")) {
 				manager.load(fileName, TextureAtlas.class);
+			} else if (fileName.endsWith(".fnt")) {
+				manager.load(fileName, BitmapFont.class);
 			} else {
-				Gdx.app.log(tag, fileName + " 无法判断加载资源类型");
+				Gdx.app.error(tag, fileName + " 无法判断加载资源类型");
 			}
 		}
 	}
@@ -82,6 +88,17 @@ public final class FnAssetManager implements Disposable {
 				manager.unload(fileName);
 			}
 		}
+	}
+
+	// ========================
+	// ========================
+	// ===== getAssets start===
+	// ========================
+	// ========================
+	public BitmapFont getBitmapFont(String fileName) {
+		BitmapFont bitmapFont = getAssets(fileName, BitmapFont.class);
+		bitmapFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		return bitmapFont;
 	}
 
 	public Sound getSound(String fileName) {
@@ -106,13 +123,23 @@ public final class FnAssetManager implements Disposable {
 	public TextureAtlas getAtlas(String fileName) {
 		return getAssets(fileName, TextureAtlas.class);
 	}
+	// ========================
+	// ========================
+	// ===== getAssets end===
+	// ========================
+	// ========================
 
-	public TextureRegion getRegion(String fileName) {
+	// ========================
+	// ========================
+	// ===== wrap start===
+	// ========================
+	// ========================
+	public TextureRegion newRegion(String fileName) {
 		return new TextureRegion(getTexture(fileName));
 	}
 
 	public Drawable newDrawable(String fileName) {
-		return new TextureRegionDrawable(getRegion(fileName));
+		return new TextureRegionDrawable(newRegion(fileName));
 	}
 
 	public NinePatchDrawable new9Drawable(String fileName, int left, int right, int top, int bottom) {
@@ -122,6 +149,11 @@ public final class FnAssetManager implements Disposable {
 	public NinePatchDrawable new9Drawable(Texture texture, int left, int right, int top, int bottom) {
 		return new NinePatchDrawable(new NinePatch(texture, left, right, top, bottom));
 	}
+	// ========================
+	// ========================
+	// ===== wrap end===
+	// ========================
+	// ========================
 
 	<T extends Disposable> T getAssets(String fileName, Class<T> clazz) {
 		if (!manager.isLoaded(fileName, clazz)) {
