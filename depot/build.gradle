@@ -7,6 +7,32 @@ targetCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["src/"]
 
+dependencies {
+	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+	// libgdx 跨平台多语言本地字体
+	compile 'com.github.tianqiujie:nativefont:2.5.1'
+	compile fileTree(include:['*.jar'], dir:'libs')
+}
+
+// =============== packJar ============ end
+task packJar(type: Jar) {
+    doFirst {
+        from files(project(":depot").sourceSets.main.output.classesDir)
+        from files(project(":depot").sourceSets.main.output.resourcesDir)
+    }
+}
+def preCompile = [":depot:classes"];
+packJar.dependsOn preCompile
+
+artifacts {
+    archives packJar
+}
+// =============== packJar ============ end
+
+configurations.all {
+	// 确保Gradle始终选择构建的“最新”版本
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 eclipse.project {
     name = appName + "-depot"
