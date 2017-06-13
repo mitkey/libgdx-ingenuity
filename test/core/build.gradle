@@ -24,6 +24,8 @@ dependencies {
 	
 	// 当前 ingenuity 的库
     compile 'com.github.mitkey:libgdx-ingenuity:master-SNAPSHOT'
+    compile fileTree(include:['*.jar'], dir:'libs')
+    
 	// 基于 java.net.socket 的 socket client
 	compile 'com.github.mitkey:native-socket.io-client-java:0.0.2'
 }

@@ -1,5 +1,5 @@
 include 'depot'
 
-//include ":test:android"
-//include ":test:core"
-//include ":test:desktop"
+include ":test:android"
+include ":test:core"
+include ":test:desktop"
