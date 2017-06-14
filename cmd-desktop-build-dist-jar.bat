@@ -1,0 +1,1 @@
+gradlew test:desktop:clean & gradlew test:desktop:dist --daemon & pause
