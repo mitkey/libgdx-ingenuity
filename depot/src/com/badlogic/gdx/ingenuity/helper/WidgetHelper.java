@@ -22,7 +22,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -96,7 +95,7 @@ public final class WidgetHelper {
 	/** 渲染绘制 */
 	public void renderHelp() {
 		if (root != null && needShow) {
-			SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
+			SpriteBatch spriteBatch = GdxData.getInstance().getAppGame().getSpriteBatch();
 			if (spriteBatch != null) {
 				spriteBatch.begin();
 				root.draw(spriteBatch, 1);
@@ -127,7 +126,7 @@ public final class WidgetHelper {
 		if (root != null) {
 			return;
 		}
-		NativeFont font = GdxData.getInstance().getFont(20);
+		NativeFont font = GdxData.getInstance().getAppGame().getFont(20);
 		root = new Table();
 		root.setBackground(PixmapHelper.getInstance().newRectangleDrawable(Color.valueOf("343434"), 10, 10));
 		root.pad(15).defaults().left().space(10);

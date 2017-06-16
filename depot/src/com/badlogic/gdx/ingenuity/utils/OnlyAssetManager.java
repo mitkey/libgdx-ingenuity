@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Logger;
  * @作者 Mitkey
  * @时间 2016年5月17日 下午7:25:39
  * @类说明:基于文件名的 assets 管理
+ * @see https://github.com/libgdx/libgdx/wiki/Managing-your-assets
  * @版本 xx
  */
 public final class OnlyAssetManager implements Disposable {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.GdxData;
+import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.utils.GdxUtilities;
 import com.badlogic.gdx.ingenuity.utils.OnlyAssetManager;
 import com.badlogic.gdx.ingenuity.utils.common.StrUtil;
@@ -33,26 +34,14 @@ import net.mwplay.nativefont.NativeTextField;
  */
 public abstract class SimpleScreen extends ScreenAdapter implements InputProcessor {
 
-	private static OnlyAssetManager ONLY_ASSET_MANAGER;
-	private static SpriteBatch SPRITE_BATCH;
-
 	Stage stage;
 	Loading loading;
 	SimpleToast simpleToast;
 
-	public static void initContext() {
-		if (SPRITE_BATCH == null) {
-			SPRITE_BATCH = new SpriteBatch();
-		}
-		if (ONLY_ASSET_MANAGER == null) {
-			ONLY_ASSET_MANAGER = new OnlyAssetManager();
-		}
-	}
-
 	@Override
 	public void show() {
 		super.show();
-		this.stage = new Stage(new StretchViewport(GdxData.WIDTH, GdxData.HEIGHT), SPRITE_BATCH);
+		this.stage = new Stage(new StretchViewport(GdxData.WIDTH, GdxData.HEIGHT), spriteBatch());
 		this.loading = new Loading();
 		this.simpleToast = new SimpleToast();
 
@@ -121,25 +110,6 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 		return false;
 	}
 
-	public static SpriteBatch spriteBatch() {
-		return SPRITE_BATCH;
-	}
-
-	public static OnlyAssetManager onlyAssetManager() {
-		return ONLY_ASSET_MANAGER;
-	}
-
-	public static void disposeStatic() {
-		if (SPRITE_BATCH != null) {
-			SPRITE_BATCH.dispose();
-			SPRITE_BATCH = null;
-		}
-		if (ONLY_ASSET_MANAGER != null) {
-			ONLY_ASSET_MANAGER.dispose();
-			ONLY_ASSET_MANAGER = null;
-		}
-	}
-
 	// utils =============== start
 	public void showLoading() {
 		loading.show(stage);
@@ -164,7 +134,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 
 	// native ============== start
 	public NativeFont newNativeFont(int size) {
-		return GdxData.getInstance().getFont(size);
+		return getAppGame().getFont(size);
 	}
 
 	public NativeLabel newNativeLabel(CharSequence text, int fontSize) {
@@ -245,6 +215,18 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	}
 
 	// other ============== end
+
+	public OnlyAssetManager onlyAssetManager() {
+		return getAppGame().getOnlyAssetManager();
+	}
+
+	public SpriteBatch spriteBatch() {
+		return getAppGame().getSpriteBatch();
+	}
+
+	public <T extends GdxGame> T getAppGame() {
+		return GdxData.getInstance().getAppGame();
+	}
 
 	public final Stage stage() {
 		return stage;

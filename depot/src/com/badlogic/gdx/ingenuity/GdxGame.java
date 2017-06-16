@@ -1,10 +1,15 @@
 package com.badlogic.gdx.ingenuity;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ingenuity.extend.desktop.DesktopCoreHelper;
 import com.badlogic.gdx.ingenuity.helper.DebugHelper;
 import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
@@ -12,8 +17,13 @@ import com.badlogic.gdx.ingenuity.helper.RHelper;
 import com.badlogic.gdx.ingenuity.helper.ScreenShotsHelper;
 import com.badlogic.gdx.ingenuity.helper.WidgetHelper;
 import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
+import com.badlogic.gdx.ingenuity.utils.OnlyAssetManager;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+
+import net.mwplay.nativefont.NativeFont;
+import net.mwplay.nativefont.NativeFontPaint;
 
 /**
  * @作者 mitkey
@@ -23,19 +33,26 @@ import com.badlogic.gdx.utils.Array;
  */
 public abstract class GdxGame extends Game {
 
+	/** 默认的字体 */
+	private Map<Integer, NativeFont> defaultFonts = new HashMap<Integer, NativeFont>();
+
 	private SimpleScreen currentScreen;
+
+	private OnlyAssetManager onlyAssetManager;
+
+	private SpriteBatch spriteBatch;
 
 	@Override
 	public final void create() {
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			GdxData.getInstance().initRuntime(new DesktopCoreHelper());
-		}
-
-		SimpleScreen.initContext();
-		Texture.setAssetManager(SimpleScreen.onlyAssetManager().getManager());
-		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			RHelper.generated(getClass());
 		}
+
+		onlyAssetManager = new OnlyAssetManager();
+		spriteBatch = new SpriteBatch();
+
+		Texture.setAssetManager(onlyAssetManager.getManager());
 
 		onCreate();
 	}
@@ -47,8 +64,23 @@ public abstract class GdxGame extends Game {
 			currentScreen.dispose();
 			currentScreen = null;
 		}
-		SimpleScreen.disposeStatic();
-		GdxData.getInstance().disposeFont();
+		if (onlyAssetManager != null) {
+			onlyAssetManager.dispose();
+			onlyAssetManager = null;
+		}
+		if (spriteBatch != null) {
+			spriteBatch.dispose();
+			spriteBatch = null;
+		}
+
+		defaultFonts.values().forEach(new Consumer<Disposable>() {
+			@Override
+			public void accept(Disposable t) {
+				t.dispose();
+			}
+		});
+		defaultFonts.clear();
+
 		PixmapHelper.getInstance().dispose();
 
 		onDispose();
@@ -93,12 +125,30 @@ public abstract class GdxGame extends Game {
 
 	public abstract void onRender();
 
+	public final NativeFont getFont(int size) {
+		if (defaultFonts.containsKey(size)) {
+			return defaultFonts.get(size);
+		} else {
+			NativeFont nativeFont = new NativeFont(new NativeFontPaint(size));
+			defaultFonts.put(size, nativeFont);
+			return nativeFont;
+		}
+	}
+
 	public final void updateScreen(SimpleScreen simpleScreen) {
 		if (currentScreen != null) {
 			currentScreen.dispose();
 			currentScreen = null;
 		}
 		setScreen(currentScreen = simpleScreen);
+	}
+
+	public final OnlyAssetManager getOnlyAssetManager() {
+		return onlyAssetManager;
+	}
+
+	public final SpriteBatch getSpriteBatch() {
+		return spriteBatch;
 	}
 
 }
