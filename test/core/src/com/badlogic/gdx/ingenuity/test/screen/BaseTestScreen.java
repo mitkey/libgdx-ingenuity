@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ingenuity.GdxData;
-import com.badlogic.gdx.ingenuity.GdxGame;
 import com.badlogic.gdx.ingenuity.helper.PixmapHelper;
 import com.badlogic.gdx.ingenuity.scene2d.SimpleScreen;
 import com.badlogic.gdx.ingenuity.screen.SimpleLoadingScreen.ILoadingComplete;
@@ -59,11 +57,11 @@ public abstract class BaseTestScreen extends SimpleScreen {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
-					game().updateScreen(new LoadingScreen(new ILoadingComplete() {
+					getAppGame().updateScreen(new LoadingScreen(new ILoadingComplete() {
 						@Override
 						public boolean complete() {
 							try {
-								game().updateScreen(clazz.newInstance());
+								getAppGame().updateScreen(clazz.newInstance());
 							} catch (InstantiationException | IllegalAccessException e) {
 								e.printStackTrace();
 							}
@@ -89,10 +87,6 @@ public abstract class BaseTestScreen extends SimpleScreen {
 	@Override
 	public void dispose() {
 		super.dispose();
-	}
-
-	public GdxGame game() {
-		return (GdxGame) Gdx.app.getApplicationListener();
 	}
 
 	public Class<? extends SimpleScreen> getCurScreenClazz() {
