@@ -57,15 +57,28 @@ public final class WidgetHelper {
 	/** 重复任务间隔时间，单位秒 */
 	private static final float KEY_REPEAT_TIME = 0.1f;
 
-	private static Set<Actor> widgets = new HashSet<>();
-	private static Table root;
-	private static boolean needShow;
+	private static WidgetHelper ourInstance;
+
+	private Set<Actor> widgets = new HashSet<>();
+	private Table root;
+	private boolean needShow;
 
 	private WidgetHelper() {
 	}
 
+	public static WidgetHelper getInstance() {
+		if (ourInstance == null) {
+			synchronized (WidgetHelper.class) {
+				if (ourInstance == null) {
+					ourInstance = new WidgetHelper();
+				}
+			}
+		}
+		return ourInstance;
+	}
+
 	/** 注册 input 监听 */
-	public static <T extends Actor> T register(T actor) {
+	public <T extends Actor> T register(T actor) {
 		Objects.requireNonNull(actor, "register actor must not be null");
 		if (!widgets.contains(actor) && actor.isTouchable()) {
 			actor.addListener(new InputListenerExtension(actor));
@@ -75,13 +88,13 @@ public final class WidgetHelper {
 	}
 
 	/** 显示帮助面板 ---> 如按了 F12 显示 */
-	public static void showHelpOnOff() {
+	public void showHelpOnOff() {
 		generateRoot();
 		needShow = !needShow;
 	}
 
 	/** 渲染绘制 */
-	public static void renderHelp() {
+	public void renderHelp() {
 		if (root != null && needShow) {
 			SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
 			if (spriteBatch != null) {
@@ -94,7 +107,7 @@ public final class WidgetHelper {
 	}
 
 	/** 清理无效的 */
-	public static void clearInvalids() {
+	public void clearInvalids() {
 		Iterator<Actor> iterator = widgets.iterator();
 		while (iterator.hasNext()) {
 			Actor actor = iterator.next();
@@ -110,7 +123,7 @@ public final class WidgetHelper {
 	// ====================
 	// ====================
 
-	private static void generateRoot() {
+	private void generateRoot() {
 		if (root != null) {
 			return;
 		}

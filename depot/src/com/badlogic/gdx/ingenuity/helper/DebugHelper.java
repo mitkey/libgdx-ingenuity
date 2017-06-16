@@ -19,30 +19,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  */
 public class DebugHelper {
 
-	private static Table root;
+	private static DebugHelper ourInstance;
 
-	public static void showDebugOnOff() {
-		if (GdxData.RELEASE_VERSION) {
-			return;
+	private Table root;
+
+	private boolean needShow;
+
+	private DebugHelper() {
+	}
+
+	public static DebugHelper getInstance() {
+		if (ourInstance == null) {
+			synchronized (DebugHelper.class) {
+				if (ourInstance == null) {
+					ourInstance = new DebugHelper();
+				}
+			}
 		}
+		return ourInstance;
+	}
 
+	public void showDebugOnOff() {
 		generateRoot();
-		if (root.getUserObject() == null) {
-			// 首次默认为显示
-			root.setUserObject(root);
-		} else if (root.getUserObject() == root) {
-			// 后续为不显示
-			root.setUserObject(null);
-		}
+		needShow = !needShow;
 	}
 
 	/** 渲染绘制 */
-	public static void renderDebug() {
-		if (GdxData.RELEASE_VERSION) {
-			return;
-		}
-
-		if (root != null && root.getUserObject() == root) {
+	public void renderDebug() {
+		if (root != null && needShow) {
 			SpriteBatch spriteBatch = SimpleScreen.spriteBatch();
 			if (spriteBatch != null) {
 				spriteBatch.begin();
@@ -53,7 +57,13 @@ public class DebugHelper {
 		}
 	}
 
-	private static void generateRoot() {
+	// ====================
+	// ====================
+	// ====== 分割线 =======
+	// ====================
+	// ====================
+
+	private void generateRoot() {
 		if (root != null) {
 			return;
 		}
@@ -84,7 +94,6 @@ public class DebugHelper {
 				return Texture.getNumManagedTextures();
 			}
 		}).row();
-
 		root.layout();
 		root.pack();
 		root.setPosition(10, 10);
