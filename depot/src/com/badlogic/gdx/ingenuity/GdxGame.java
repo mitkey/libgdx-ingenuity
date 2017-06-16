@@ -60,10 +60,10 @@ public abstract class GdxGame extends Game {
 
 		// 开启当前所有的 Actor
 		if (Gdx.input.isKeyJustPressed(Keys.F9) && currentScreen != null) {
-			WidgetHelper.clearInvalids();
+			WidgetHelper.getInstance().clearInvalids();
 			Array<Actor> actors = currentScreen.stage().getActors();
 			for (Actor actor : actors) {
-				WidgetHelper.register(actor);
+				WidgetHelper.getInstance().register(actor);
 			}
 		}
 
@@ -74,15 +74,15 @@ public abstract class GdxGame extends Game {
 
 		// 显示 debug 监控指标消息
 		if (Gdx.input.isKeyJustPressed(Keys.F11)) {
-			DebugHelper.showDebugOnOff();
+			DebugHelper.getInstance().showDebugOnOff();
 		}
-		DebugHelper.renderDebug();
+		DebugHelper.getInstance().renderDebug();
 
 		// 显示 widget 调试的帮助消息
 		if (Gdx.input.isKeyJustPressed(Keys.F12)) {
-			WidgetHelper.showHelpOnOff();
+			WidgetHelper.getInstance().showHelpOnOff();
 		}
-		WidgetHelper.renderHelp();
+		WidgetHelper.getInstance().renderHelp();
 
 		onRender();
 	}
