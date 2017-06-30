@@ -1,5 +1,6 @@
 package com.badlogic.gdx.ingenuity.scene2d;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -112,23 +113,43 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 
 	// utils =============== start
 	public void showLoading() {
-		loading.show(stage);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				loading.show(stage);
+			}
+		});
 	}
 
 	public void hideLoading() {
-		loading.hide();
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				loading.hide();
+			}
+		});
 	}
 
-	public void showMesssage(String content) {
-		simpleToast.showToast(this, content);
+	public void showMesssage(final String content) {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				simpleToast.showToast(SimpleScreen.this, content);
+			}
+		});
 	}
 
-	public void showDialog(Group group) {
-		stage.addActor(group);
-		group.addAction(Actions.alpha(0));
-		group.addAction(Actions.scaleTo(.8f, .8f));
-		group.addAction(Actions.alpha(1, .2f));
-		group.addAction(Actions.scaleTo(1f, 1f, .2f));
+	public void showDialog(final Group group) {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				stage.addActor(group);
+				group.addAction(Actions.alpha(0));
+				group.addAction(Actions.scaleTo(.8f, .8f));
+				group.addAction(Actions.alpha(1, .2f));
+				group.addAction(Actions.scaleTo(1f, 1f, .2f));
+			}
+		});
 	}
 	// utils =============== end
 
