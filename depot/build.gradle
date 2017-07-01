@@ -9,6 +9,8 @@ sourceSets.main.resources.srcDirs = ["src/"]
 
 dependencies {
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+	
 	// libgdx 跨平台多语言本地字体
 	compile 'com.github.tianqiujie:nativefont:2.5.1'
 	compile fileTree(include:['*.jar'], dir:'libs')
