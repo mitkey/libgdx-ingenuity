@@ -13,6 +13,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
@@ -40,6 +41,9 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 public enum GdxUtilities {
 	;
 	private static final String tag = GdxUtilities.class.getSimpleName();
+
+	private static final Color COLOR_BACKGROUND_BLACK = new Color(0x25252AFF);
+	private static final Color COLOR_BACKGROUND_BROWN = new Color(0x7f7f33FF);
 
 	/** 尝试播放次数 */
 	private static final int TRY_PLAY_COUNT = 5;
@@ -118,8 +122,13 @@ public enum GdxUtilities {
 		}
 	}
 
-	public static void clearScreen() {
-		Gdx.gl20.glClearColor(.5f, .5f, .2f, 1);
+	public static void clearScreen2Black() {
+		Gdx.gl20.glClearColor(COLOR_BACKGROUND_BLACK.r, COLOR_BACKGROUND_BLACK.g, COLOR_BACKGROUND_BLACK.b, COLOR_BACKGROUND_BLACK.a);
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+
+	public static void clearScreen2Brown() {
+		Gdx.gl20.glClearColor(COLOR_BACKGROUND_BROWN.r, COLOR_BACKGROUND_BROWN.g, COLOR_BACKGROUND_BROWN.b, COLOR_BACKGROUND_BROWN.a);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 

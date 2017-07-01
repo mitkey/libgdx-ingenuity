@@ -52,7 +52,7 @@ public abstract class SimpleScreen extends ScreenAdapter implements InputProcess
 	@Override
 	public void render(float delta) {
 		super.render(delta = Math.min(delta, 1.0f / 30.0f));
-		GdxUtilities.clearScreen();
+		GdxUtilities.clearScreen2Black();
 		stage.draw();
 		stage.act(delta);
 	}
