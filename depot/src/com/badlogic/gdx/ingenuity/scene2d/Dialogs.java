@@ -1,6 +1,7 @@
 package com.badlogic.gdx.ingenuity.scene2d;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.ingenuity.GdxData;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -16,27 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
  */
 public class Dialogs {
 
-	public static Dialog showOkDialog(Stage stage, String title, String text, Skin skin) {
-		Dialog dialog = new SimpleDialog(title, skin);
-		dialog.text(text).button("confirm", true).key(Keys.ENTER, true).key(Keys.ESCAPE, true);
-		dialog.getButtonTable().pad(20);
-		return dialog.show(stage);
-	}
-
-	public static Dialog showOkCancelDialog(Stage stage, String title, String text, Skin skin, final OkCancelDialogListener listener) {
-		Dialog dialog = new SimpleDialog(title, skin) {
-			@Override
-			protected void result(Object object) {
-				super.result(object);
-				if ((Boolean) object) {
-					listener.ok();
-				}
-			}
-		};
-		dialog.text(text).button("confirm", true).key(Keys.ENTER, true).button("cancel", false).key(Keys.ESCAPE, false);
-		dialog.getButtonTable().pad(20);
-		return dialog.show(stage);
-	}
+	private static final char[] charArray = FreeTypeFontGenerator.DEFAULT_CHARS.toCharArray();
 
 	public static Dialog showInputDialog(Stage stage, String title, String fieldName, String fieldValue, Skin skin, InputDialogListener inputDialogListener) {
 		return showInputDialog(stage, title, fieldName, fieldValue, skin, null, inputDialogListener);
@@ -67,46 +48,51 @@ public class Dialogs {
 		return dialog.show(stage);
 	}
 
-	private static class SimpleDialog extends Dialog {
-		public SimpleDialog(String title, Skin skin) {
-			super(title, skin);
-			getColor().a = 0;
-			getButtonTable().defaults().pad(10).height(35).space(10).minWidth(120);
-		}
-
-		@Override
-		public float getPrefWidth() {
-			return GdxData.WIDTH / 3;
-		}
-
-		@Override
-		public float getPrefHeight() {
-			return GdxData.HEIGHT / 3;
-		}
+	public static Dialog showOkCancelDialog(Stage stage, String title, String text, Skin skin, final OkCancelDialogListener listener) {
+		Dialog dialog = new SimpleDialog(title, skin) {
+			@Override
+			protected void result(Object object) {
+				super.result(object);
+				if ((Boolean) object) {
+					listener.ok();
+				}
+			}
+		};
+		dialog.text(text).button("confirm", true).key(Keys.ENTER, true).button("cancel", false).key(Keys.ESCAPE, false);
+		dialog.getButtonTable().pad(20);
+		return dialog.show(stage);
 	}
 
-	public interface InputDialogListener {
-		void finished(String input);
+	public static Dialog showOkDialog(Stage stage, String title, String text, Skin skin) {
+		Dialog dialog = new SimpleDialog(title, skin);
+		dialog.text(text).button("confirm", true).key(Keys.ENTER, true).key(Keys.ESCAPE, true);
+		dialog.getButtonTable().pad(20);
+		return dialog.show(stage);
 	}
 
-	public interface OkCancelDialogListener {
-		void ok();
+	private static boolean checkHasChar(char c) {
+		for (char temp : charArray) {
+			if (temp == c) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	/** 字母、数字、 _ 过滤 --> 不能出现中文和特色符号 */
-	public static class InputDialogLetterOrDigitFilter implements TextFieldFilter {
+	/** 过滤默认的字符 @see {@link FreeTypeFontGenerator} */
+	public static class InputDialogDefaultCharsFilter implements TextFieldFilter {
 		@Override
 		public boolean acceptChar(TextField textField, char c) {
+			return checkHasChar(c);
+		}
+	}
+
+	/** 文件名规范过滤 --> 不能出现中文和特色符号 */
+	public static class InputDialogFileNameSpecificationFilter implements TextFieldFilter {
+		@Override
+		public boolean acceptChar(TextField textField, char c) {
+			// 字母或数字
 			return Character.isLetterOrDigit(c) || '_' == c;
-		}
-	}
-
-	/** json 格式数据过滤 --> 不能出现中文和特色符号 */
-	public static class InputDialogJsonFilter implements TextFieldFilter {
-		@Override
-		public boolean acceptChar(TextField textField, char c) {
-			return Character.isLetterOrDigit(c) || '_' == c || ':' == c || ',' == c //
-					|| '[' == c || ']' == c || '\'' == c || '\"' == c;
 		}
 	}
 
@@ -126,12 +112,46 @@ public class Dialogs {
 		}
 	}
 
-	/** 文件名规范过滤 --> 不能出现中文和特色符号 */
-	public static class InputDialogFileNameSpecificationFilter implements TextFieldFilter {
+	/** json 格式数据过滤 --> 不能出现中文和特色符号 */
+	public static class InputDialogJsonFilter implements TextFieldFilter {
 		@Override
 		public boolean acceptChar(TextField textField, char c) {
-			// 字母或数字
+			return checkHasChar(c) || '_' == c || ':' == c || ',' == c //
+					|| '[' == c || ']' == c || '\'' == c || '\"' == c;
+		}
+	}
+
+	/** 字母、数字、 _ 过滤 --> 不能出现中文和特色符号 */
+	public static class InputDialogLetterOrDigitFilter implements TextFieldFilter {
+		@Override
+		public boolean acceptChar(TextField textField, char c) {
 			return Character.isLetterOrDigit(c) || '_' == c;
+		}
+	}
+
+	public interface InputDialogListener {
+		void finished(String input);
+	}
+
+	public interface OkCancelDialogListener {
+		void ok();
+	}
+
+	private static class SimpleDialog extends Dialog {
+		public SimpleDialog(String title, Skin skin) {
+			super(title, skin);
+			getColor().a = 0;
+			getButtonTable().defaults().pad(10).height(35).space(10).minWidth(120);
+		}
+
+		@Override
+		public float getPrefHeight() {
+			return GdxData.HEIGHT / 3;
+		}
+
+		@Override
+		public float getPrefWidth() {
+			return GdxData.WIDTH / 3;
 		}
 	}
 
