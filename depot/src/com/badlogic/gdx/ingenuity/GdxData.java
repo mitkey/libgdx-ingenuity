@@ -17,9 +17,9 @@ public class GdxData {
 	public static boolean TRACE_ASSET_MANAGER = false;
 
 	/** 素材宽比例 */
-	public static final int WIDTH = 1280;
+	public static int WIDTH = 1280;
 	/** 素材高比例 */
-	public static final int HEIGHT = 720;
+	public static int HEIGHT = 720;
 
 	private static GdxData ourInstance = new GdxData();
 
